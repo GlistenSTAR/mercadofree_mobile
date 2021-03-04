@@ -1,57 +1,80 @@
-Symfony Standard Edition
+Plataforma de marketplace MercadoFree
 ========================
 
-Welcome to the Symfony Standard Edition - a fully-functional Symfony
-application that you can use as the skeleton for your new applications.
+Bienvenidos al repositorio de código de la plataforma marketplace MercadoFree. Esta plataforma está desarrollada sobre Symfony 2.8.52, utilizando casi todos los componentes principales de Symfony en su versión estándar (Symfony Standard Edition).
 
-For details on how to download and get started with Symfony, see the
-[Installation][1] chapter of the Symfony Documentation.
-
-What's inside?
+Instalación en local con Windows10
 --------------
 
-The Symfony Standard Edition is configured with the following defaults:
+Para instalar la aplicación en local para su desarrollo, con sistema operativo Windows 10, se deberán seguir los siguientes pasos:
 
-  * An AppBundle you can use to start coding;
+  * Instalar XAMPP 7.2.27 (No otra, solo esta, para obtener la versión PHP 7.2)
 
-  * Twig as the only configured template engine;
+  * Una vez instalado XAMPP y arrancado Apache y MySQL, abrir el terminal y posicionarse en el directorio C:\xampp\htdocs, y ejecutar el siguiente comando:
 
-  * Doctrine ORM/DBAL;
+  <pre>
+  git clone https://github.com/necobm/mercadofree.git mercadofree
+  </pre>
+  
+  Esto nos descarga el repositorio y lo copia en el directorio C:\xampp\htdocs\mercadofree.
+  
+Acciones a realizar antes de instalar los vendors
+--------------  
 
-  * Swiftmailer;
+Antes de instalar los vendors con composer hay que modificar las siguientes configuraciones en el fichero "C:\xampp\php\php.ini"
 
-  * Annotations enabled for everything.
+1- memory_limit = -1
 
-It comes pre-configured with the following bundles:
+2- max_execution_time=120
 
-  * **FrameworkBundle** - The core Symfony framework bundle
+Reiniciar el Apache mediante el Panel de Control de XAMPP
 
-  * [**SensioFrameworkExtraBundle**][6] - Adds several enhancements, including
-    template and routing annotation capability
+Carga de la base de datos en local
+--------------  
 
-  * [**DoctrineBundle**][7] - Adds support for the Doctrine ORM
+Primeramente es necesario crear una base de datos para la aplicación. Para ello, entra a la base de datos mediante phpMyAdmin (http://localhost/phpmyadmin/) o desde tu cliente de base de datos preferido.
 
-  * [**TwigBundle**][8] - Adds support for the Twig templating engine
+Una vez creada la base de datos y el usuario asociado a dicha base de datos, podrías cargar en dicha base de datos el script correspondiente a un backup reciente con todos los datos y estructura de tablas de MercadoFree, o dejarla en blanco para generar la estructura de tablas más adelante.
 
-  * [**SecurityBundle**][9] - Adds security by integrating Symfony's security
-    component
+Instalación de vendors con Composer
+--------------  
+  
+El próximo paso sería instalar los vendors de Symfony necesarios para el proyecto, para ello nos posicionamos en el directorio C:\xampp\htdocs\mercadofree y ejecutamos el siguiente comando:
 
-  * [**SwiftmailerBundle**][10] - Adds support for Swiftmailer, a library for
-    sending emails
+  <pre>
+  composer install
+  </pre> 
+  
+  Esto nos descarga e instala todos los vendors, y al final, nos pedirá los siguientes parámetros de configuración, para el fichero parameters.yml:
+  
+  1- database_host: localhost
+  
+  2- database_port: (Enter, para tomar valor por defecto)
+  
+  3- database_name: (Nombre de la base de datos que has creado en MySQL en los pasos anteriores)
+  
+  4- database_user: (Usuario que has creado en la base de datos, por defecto es root)
+  
+  5- database_password: (Contraseña del usuario creado en la base de datos, por defecto es null)
+  
+  Todos los demás parámetros siguientes hasta "directorio_styles_public", oprimir Enter para tomar valores por defecto.
+ 
+  6- site_url: localhost
+  
+  7- help_url: localhost
+  
+  Todos los demás parámetros siguientes, oprimir Enter para tomar valores por defecto.
+  
+Una vez terminada la instalación, si en el apartado anterior de configuración, no haz cargado un backup de la base de datos de MercadoFree, entonces es necesario generar la estructura de tablas, para ello, ejecutamos el siguiente comando en la terminal:
 
-  * [**MonologBundle**][11] - Adds support for Monolog, a logging library
+<pre>
+php app/console doctrine:schema:create
+</pre>
 
-  * **WebProfilerBundle** (in dev/test env) - Adds profiling functionality and
-    the web debug toolbar
+Una vez terminado, accedemos a la aplicación, mediante la siguiente URL en el navegador: http://localhost/mercadofree/web/app_dev.php
 
-  * **SensioDistributionBundle** (in dev/test env) - Adds functionality for
-    configuring and working with Symfony distributions
+Debería aparecer la página de inicio de la web.
 
-  * [**SensioGeneratorBundle**][13] (in dev/test env) - Adds code generation
-    capabilities
-
-  * **DebugBundle** (in dev/test env) - Adds Debug and VarDumper component
-    integration
 
 All libraries and bundles included in the Symfony Standard Edition are
 released under the MIT or BSD license.
