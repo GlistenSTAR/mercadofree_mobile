@@ -1,0 +1,80 @@
+<div class="modal fade" id="modalEditarDireccion" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="loginLabel"><i class="fa fa-plus-circle"></i> Editar dirección</h4>
+            </div>
+            <div class="modal-body" id="containerDireccion">
+                <form action="{{ path('public_direccion_modificar') }}" id="formDireccionEditar" role="form" method="post">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Calle <span class="required">*</span></label>
+                                <input required="required" class="form-control" type="text" name="calle" id="calleEditar" value="">
+                            </div>
+                            <div class="form-group">
+                                <label for="numero">Número</label>
+                                <input  class="form-control" type="number" name="numero" id="numeroEditar" value="" }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="datosAdicionales">Datos adicionales</label>
+                                <input  class="form-control" type="text" placeholder="Ejemplo: Piso 2, departamento 3" name="datosAdicionales" id="datosAdicionalesEditar" value="">
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Entre calles</label>
+                                <input  class="form-control" type="text" name="entreCalles" id="entreCallesEditar" value="">
+                            </div>
+                            <div class="form-group">
+                                <label for="provinciaEditar">Provincia <span class="required">*</span></label>
+                                <select required="required" class="form-control" required="required" name="provincia" id="provinciaEditar">
+                                    <option value="">Seleccione Provincia</option>
+                                    {% for provincia in provincias %}
+                                          <option value="{{ provincia.id }}">{{ provincia.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ciudadEditar">Ciudad <span class="required">*</span></label>
+
+                                <select required="required" class="form-control" required="required" name="ciudad" id="ciudadEditar">
+
+                                </select>
+
+                            </div>
+                        </div>
+                    </div>
+                    {% if (source is defined and source != 'confEnvioPublicar') or source is not defined  %}
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="checkbox">
+                                    <input style="margin-left: 0;" type="checkbox" name="venta" id="ventaEditar" />
+                                    <label for="ventaEditar"><b>Dirección de Venta</b></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="alert alert-warning" role="alert">
+                                    <p><strong>Si tiene otra dirección de venta, se eliminará.</strong></p>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <input type="hidden" id="idDireccionEditar" name="idDireccion" />
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a id="btnSubmitEditarDireccion" class="btn btn-rw btn-primary">Aceptar <img id="submitEditLoading" style="display: none;" class="img-responsive" src=""></a>
+                <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
+
+            </div>
+        </div><!-- /modal content -->
+    </div><!-- /modal dialog -->
+</div><!-- /modal holder -->

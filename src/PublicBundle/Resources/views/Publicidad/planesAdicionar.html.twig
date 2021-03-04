@@ -1,0 +1,174 @@
+{% extends '::publicTemplate.html.twig' %}
+
+{% block breadcrumbs %}
+    <!-- Begin Page Header -->
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <!-- Breadcrumbs -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li><span class="ion-home breadcrumb-home"></span><a href="{{ path('public_homepage') }}">Inicio</a></li>
+                        <li><a href="{{ path('public_anuncio_publicar') }}">Publicar anuncio</a></li>
+                        <li>Planes de publicidad</li>
+                    </ol>
+                </div><!-- /column -->
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </div><!-- /page header -->
+{% endblock %}
+
+{% block generalContent %}
+    <!-- Begin Content -->
+    <div class="content-40mg">
+        <div class="container">
+            <div class="row mb30">
+                <div class="col-xs-12 white-bg-shadow">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="heading mt30">
+                                <h3>Comprar Plan de Publicidad</h3>
+                            </div>
+                        </div>
+                        <div class="col-xs-12">
+                            <div class="alert alert-info" role="alert">
+                                <p>
+                                    Ahora, puedes seleccionar alguno de nuestros planes de publicidad para <b>ontener mas visitas, y
+                                    vender más rapido</b>
+                                </p>
+                                <p>
+                                    Al seleccionar un plan, se creará una campaña para tu anuncio, y solo <b>pagarás al final</b>, cuando hayas
+                                    alcanzado el presupuesto del plan seleccionado, mientras, <b>tu anuncio estará super visible para ayudarte
+                                    a vender más y más rápido.</b>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt30" >
+                        <div class="col-sm-4">
+                            <div class="panel panel-default text-center no-margin panel-plan-publicidad">
+                                <div class="panel-heading p15">
+                                    <h3 class="no-margin">{{ planes[0].nombre }}</h3>
+                                </div>
+                                <div class="panel-body">
+                                <span class="bordered-icon-lg price">
+                                    ${{ planes[0].presupuesto }}
+                                </span>
+                                <p>Presupuesto máximo</p>
+                                </div>
+                                <ul class="list-group">
+                                    <li class="list-group-item"><b>Mostramos tu anuncio de primero en:</b></li>
+                                    <li class="list-group-item">Los resultados de búsqueda y listados</li>
+                                    <li class="list-group-item">Productos relacionados en el detalle de anuncios relacionados</li>
+                                    <li class="list-group-item"><b>${{ planes[0].costoVisita }} x visita</b></li>
+                                </ul>
+                                <div class="panel-footer">
+                                    <a href="{{ path('public_panel_usuario_publicidad') }}" style="color: #000;" class="btn btn-rw btn-default btn-royal adicionarPlan" id="1" {{ uno!=0?'disabled="disabled"':"" }}>Contratar plan</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="panel panel-primary text-center no-margin mt20-xs panel-plan-publicidad">
+                                <div class="panel-heading p15">
+                                    <h3 class="no-margin text-white">{{ planes[1].nombre }}</h3>
+                                </div>
+                                <div class="panel-body">
+                                <span class="bordered-icon-color bordered-icon-lg price">
+                                    ${{ planes[1].presupuesto }}
+                                </span>
+                                <p>Presupuesto máximo</p>
+                                </div>
+                                <ul class="list-group">
+                                    <li class="list-group-item"><b>Mismas caracteristicas que el plan Básico, y además:</b></li>
+                                    <li class="list-group-item"><b>Mostramos tu anuncio de primero en:</b></li>
+                                    <li class="list-group-item">Ofertas de la semana en la Home *</li>
+                                    <li class="list-group-item">Historial de anuncios en la Home **</li>
+                                    <li class="list-group-item"><b>${{ planes[1].costoVisita }} x visita</b></li>
+                                </ul>
+                                <div class="panel-footer">
+                                    <a href="{{ path('public_panel_usuario_publicidad') }}" class="btn btn-rw btn-primary adicionarPlan" id="2" {{ dos!=0?'disabled="disabled"':"" }}>Contratar plan</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="panel panel-default text-center no-margin mt20-xs panel-plan-publicidad">
+                                <div class="panel-heading p15">
+                                    <h3 class="no-margin">{{ planes[2].nombre }}</h3>
+                                </div>
+                                <div class="panel-body">
+                                <span class="bordered-icon-lg price">
+                                    ${{ planes[2].presupuesto }}
+                                </span>
+                                <p>Presupuesto máximo</p>
+                                </div>
+                                <ul class="list-group">
+                                    <li class="list-group-item"><b>Mismas caracteristicas que los planes Básico y Profesional, y además:</b></li>
+                                    <li class="list-group-item">Mostramos tu anuncio en un banner bien vistozo en la Home</li>
+                                    <li class="list-group-item">Aparece en la sección <b>Te puede interesar</b> de la Home</li>
+                                    <li class="list-group-item">Aparece de primero en las colecciones ***</li>
+                                    <li class="list-group-item"><b>${{ planes[2].costoVisita }} x visita</b></li>
+                                </ul>
+                                <div class="panel-footer">
+                                    <a href="{{ path('public_panel_usuario_publicidad') }}" style="color: #000;" class="btn btn-rw btn-default btn-royal adicionarPlan" id="3" {{ tres!=0?'disabled="disabled"':"" }}>Contratar plan</a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="row mb30">
+                        <div class="col-sm-12 text-right mt30">
+                            <a href="{{ path('public_panel_usuario_publicidad') }}">No gracias, ahora no.</a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div><!-- /container -->
+    </div><!-- /content -->
+    <!-- End Content -->
+    <input type="hidden" id="idCampanna" name="idCampanna" value="">
+    <input type="hidden" id="urlAdicionarCampanna" name="urlAdicionarCampanna" value="{{ path('public_publicidad_planes') }}">
+{% endblock %}
+{% block javascripts %}
+    <!-- jQuery Files -->
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery-2.1.4.min.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/public/js/waitMe/waitMe.min.js') }}"></script>
+
+    <!-- Royal Preloader -->
+    <script type="text/javascript" src="{{ asset('bundles/public/js/royal_preloader.min.js') }}"></script>
+
+    <!-- Javascript Files -->
+    <script type="text/javascript" src="{{ asset('bundles/public/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.easing.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.mixitup.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/scrollReveal.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/owl.carousel.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.magnific-popup.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.snippet.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.fitvids.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/activate-snippet.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/skrollr.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/bootstrap-select.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/public/js/main.js') }}"></script>
+
+    <script src="{{ asset('bundles/public/js/publicPanelUsuarioDetallesPublicidad.js') }}"></script>
+
+    <!-- On Scroll Animations - scrollReveal.js -->
+    <script>
+        var config = {
+            easing: 'hustle',
+            mobile:  true,
+            delay:  'onload'
+        }
+        window.sr = new scrollReveal( config );
+
+    </script>
+
+{% endblock %}

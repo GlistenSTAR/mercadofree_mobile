@@ -1,0 +1,70 @@
+{% extends '::publicPanelUsuario.html.twig' %}
+
+{% block breadcrumbPanelUsuario %}
+    <li>Configuración de Emails</li>
+{% endblock %}
+
+{% block menuPanelUsuario %}
+    {% include 'PublicBundle:Templates:menuPanelUsuario.html.twig' with {'page':'emails'} %}
+{% endblock %}
+
+{% block headerCenterContent %}
+    <h4>Configuración de Emails</h4>
+{% endblock %}
+
+{% block centerContent %}
+    <div class="col-xs-12 mt10 mb30">
+        <h4>Marca los emails que quieras recibir</h4>
+        <div class="content-box content-box-bordered text-left">
+            <form id="formEmails" role="form" method="post" action="{{ path('public_panel_usuario_emails') }}">
+                <div class="form-group">
+                    <div class="checkbox">
+                        <input type="checkbox" name="1" {{ cliente.isAlertProductoVendido?'checked':"" }}>
+                        <label style="padding-left: 0;">Vendiste un producto</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox" >
+                        <input type="checkbox" name="2" {{ cliente.isAlertPreguntaPublicacion?'checked':"" }}>
+                        <label style="padding-left: 0;">Hicieron una pregunta en tu publicación</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <input type="checkbox" name="3" {{ cliente.isAlertFinalizoPublicacion?'checked':"" }}>
+                        <label style="padding-left: 0;">Finalizó tu publicación</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <input type="checkbox" name="4" {{ cliente.isAlertCompraProducto?'checked':"" }}>
+                        <label style="padding-left: 0;">Compraste un producto</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <input type="checkbox" name="5" {{ cliente.isAlertProximoFinPublicacion?'checked':"" }}>
+                        <label style="padding-left: 0;">Tu publicación está por finalizar</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="checkbox">
+                        <input type="checkbox" name="6" {{ cliente.isAlertLogin?'checked':"" }}>
+                        <label style="padding-left: 0;">Login en tu cuenta</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="col-xs-12">
+        <button id="btnGuardarEmails" class="btn btn-primary" type="button"><i class="fa fa-save"></i> Guardar cambios</button>
+    </div>
+{% endblock %}
+
+
+{% block customScriptsPanelUsuario %}
+    <script type="text/javascript" src="{{ asset('bundles/public/js/publicPanelUsuarioEmails.js') }}"></script>
+{% endblock %}
+
+

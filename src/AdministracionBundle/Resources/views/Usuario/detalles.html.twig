@@ -1,0 +1,604 @@
+{% extends '::adminTemplate.html.twig' %}
+
+{% block mainMenu %}
+    {% include 'AdministracionBundle:Templates:mainMenu.html.twig' with {'page':'usuarios'} %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% include 'AdministracionBundle:Templates:breadcrumbs.html.twig' with {'items':[
+    {'raiz':false,'title':'Usuario','href':'#'},
+    {'raiz':true,'title':'Detalles del Usuario'}
+    ]} %}
+{% endblock %}
+
+{% block titulo %}Detalles del Usuario{% endblock %}
+{% block subTitulo %}Detalles del usuario seleccionado.{% endblock %}
+{% block generalContent %}
+    <div class="content animate-panel">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="hpanel">
+                    <div class="panel-body">
+                        <input type="button" id="volverUsuario" value="Volver Atras" class="buttonDataTable"  style="padding: 5px; margin-bottom: 10px;"/>
+                        {% if usuario.rolid.id!=1 %}
+                            <div class="row" >
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="nombreUsuarioDetalles">{{ usuario.rolid.id==2?"Nombre":"CUIT"}}<span class="required">*</span></label>
+                                        <input required="required" disabled class="form-control" type="text" name="nombreUsuarioDetalles" id="nombreUsuarioDetalles" value="{{ usuario.clienteid!=null?usuario.clienteid.nombre:usuario.empresaid!=null?usuario.empresaid.cuit:"" }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="apellidosUsuarioDetalles">{{ usuario.rolid.id==2?"Apellidos":"Razon Social"}}<span class="required">*</span></label>
+                                        <input required="required" disabled class="form-control" type="text" name="apellidosUsuarioDetalles" id="apellidosUsuarioDetalles" value="{{ usuario.clienteid!=null?usuario.clienteid.apellidos:usuario.empresaid!=null?usuario.empresaid.razonSocial:""  }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="emailUsuarioDetalles">Email<span class="required">*</span></label>
+                                        <input required="required" disabled class="form-control" type="text" name="emailUsuarioDetalles" id="emailUsuarioDetalles" value="{{ usuario.email }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" >
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="estadoTiendaDetalles">Estado<span class="required">*</span></label>
+                                        <input required="required" disabled class="form-control" type="text" name="estadoTiendaDetalles" id="estadoTiendaDetalles" value="{{ usuario.estadoUsuarioid.nombre }}">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="fechaRegistroUsuarioDetalles">Fecha Registro<span class="required">*</span></label>
+                                        <input required="required" disabled class="form-control" type="text" name="fechaRegistroUsuarioDetalles" id="fechaRegistroUsuarioDetalles" value="{{ usuario.fechaRegistro | date('m/d/Y') }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="rolUsuarioDetalles">Rol<span class="required">*</span></label>
+                                        <input required="required" disabled class="form-control" type="text" name="rolUsuarioDetalles" id="rolUsuarioDetalles" value="{{ usuario.rolid.nombre }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" >
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="dniUsuarioDetalles">DNI</label>
+                                        <input required="required" disabled class="form-control" type="text" name="dniUsuarioDetalles" id="dniUsuarioDetalles" value="{{ usuario.clienteid!=null?usuario.clienteid.dni:"" }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="telefonoUsuarioDetalles">Telefono</label>
+                                        <input required="required" disabled class="form-control" type="text" name="telefonoUsuarioDetalles" id="telefonoUsuarioDetalles" value="{{ usuario.telefono  }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="ibanUsuarioDetalles">IBAN<span class="required">*</span></label>
+                                        <input required="required" disabled class="form-control" type="text" name="ibanUsuarioDetalles" id="ibanUsuarioDetalles" value="{{ usuario.iban }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" >
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="emailPaypalUsuarioDetalles">Cuenta PayPal</label>
+                                        <input required="required" disabled class="form-control" type="text" name="emailPaypalUsuarioDetalles" id="emailPaypalUsuarioDetalles" value="{{ usuario.emailPaypal }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="form-group">
+                                        <label for="saldoUsuarioDetalles">Saldo</label>
+                                        <input required="required" disabled class="form-control" type="text" name="saldoUsuarioDetalles" id="saldoUsuarioDetalles" value="{{ usuario.saldo  }}">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <ul  class="nav nav-tabs">
+                                        <li class="active">
+                                            <a href="#1a" data-toggle="tab">Productos</a>
+                                        </li>
+                                        <li><a href="#2a" data-toggle="tab">Tienda</a>
+                                        </li>
+                                        <li><a href="#3a" data-toggle="tab">Pedidos</a>
+                                        </li>
+                                        <li><a href="#4a" data-toggle="tab">Finanzas</a>
+                                        </li>
+                                        <li><a href="#5a" data-toggle="tab">Envio y Garantía de productos</a>
+                                        </li>
+                                        <li><a href="#6a" data-toggle="tab">Direcciones</a>
+                                        </li>
+                                    </ul>
+
+                                    <div class="tab-content clearfix  m-t-lg">
+                                        <div class="tab-pane active" id="1a">
+                                            <div class="tab-content tab-default">
+                                                <div class="tab-pane in active">
+                                                    <div class="col-lg-12">
+                                                        <table id="tableDetalles" class="display table table-bordered">
+                                                            <thead>
+                                                            <tr>
+                                                                <th style="width:50px;">Imagen</th>
+                                                                <th style="width:150px;">Nombre</th>
+                                                                <th style="width:40px;">Precio</th>
+                                                                <th style="width:40px;">Cantidad</th>
+                                                                <th style="width:80px;">Categoria</th>
+                                                                <th style="width:20px;">Estado</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tfoot>
+
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="2a">
+                                            {% include 'AdministracionBundle:Usuario:_detallesTienda.html.twig' with {'usuario':usuario} %}
+                                        </div>
+                                        <div class="tab-pane" id="3a">
+                                            <ul  class="nav nav-tabs">
+                                                <li class="active">
+                                                    <a href="#compras" data-toggle="tab">Compras</a>
+                                                </li>
+                                                <li>
+                                                    <a href="#ventas" data-toggle="tab">Ventas</a>
+                                                </li>
+                                            </ul>
+                                            <div class="tab-content clearfix  m-t-lg">
+                                                <div class="tab-pane active" id="compras">
+                                                    <div class="tab-content tab-default">
+                                                        <div class="tab-pane in active">
+                                                            <div class="col-lg-12">
+                                                                <table id="tableCompras" class="display table table-bordered">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>Código</th>
+                                                                        <th>Fecha</th>
+                                                                        <th>Monto</th>
+                                                                        <th>Estado</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tfoot>
+
+                                                                    </tfoot>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane" id="ventas">
+                                                    <div class="tab-content tab-default">
+                                                        <div class="tab-pane in active">
+                                                            <div class="col-lg-12">
+                                                                <table id="tableVentas" class="display table table-bordered">
+                                                                    <thead>
+                                                                    <tr>
+                                                                        <th>Código</th>
+                                                                        <th>Fecha</th>
+                                                                        <th>Monto</th>
+                                                                        <th>Estado</th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tfoot>
+
+                                                                    </tfoot>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="4a">
+                                            <div class="tab-content tab-default">
+                                                <div class="tab-pane in active">
+                                                    <div class="col-lg-12">
+                                                        <table id="tableFinanzas" class="display table table-bordered">
+                                                            <thead>
+                                                            <tr>
+                                                                <th>Referencia</th>
+                                                                <th>Fecha</th>
+                                                                <th>Monto</th>
+                                                                <th>Tipo</th>
+                                                                <th>Concepto</th>
+                                                                <th></th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tfoot>
+
+                                                            </tfoot>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane" id="5a">
+                                            {% include 'AdministracionBundle:Usuario:_detallesEnvio.html.twig' with {'usuario':usuario} %}
+                                        </div>
+                                        <div class="tab-pane" id="6a">
+                                            {% include 'AdministracionBundle:Usuario:_detallesDireccion.html.twig' with {'usuario':usuario} %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% else %}
+
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label for="emailUsuarioDetalles">Email<span class="required">*</span></label>
+                                        <input required="required" disabled class="form-control" type="text" name="emailUsuarioDetalles" id="emailUsuarioDetalles" value="{{ usuario.email }}">
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label for="estadoTiendaDetalles">Estado<span class="required">*</span></label>
+                                        <input required="required" disabled class="form-control" type="text" name="estadoTiendaDetalles" id="estadoTiendaDetalles" value="{{ usuario.estadoUsuarioid.nombre }}">
+
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="fechaRegistroUsuarioDetalles">Fecha Registro<span class="required">*</span></label>
+                                        <input required="required" disabled class="form-control" type="text" name="fechaRegistroUsuarioDetalles" id="fechaRegistroUsuarioDetalles" value="{{ usuario.fechaRegistro | date('m/d/Y') }}">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label for="rolUsuarioDetalles">Rol<span class="required">*</span></label>
+                                        <input required="required" disabled class="form-control" type="text" name="rolUsuarioDetalles" id="rolUsuarioDetalles" value="{{ usuario.rolid.nombre }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% endif %}
+
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    </div>
+
+
+    <input type="hidden" value="{{ path('administracion_oferta_producto_detalles') }}" id="urlProductos">
+    <input type="hidden" value="{{ path('administracion_usuario_listar') }}" id="urlListar">
+    <input type="hidden" value="{{usuario.id}}" id="idUsuario">
+    <input type="hidden" value="{{ asset(uploads_images_productos) }}" id="urlImagen">
+    
+    <a id="aModalDetallePedido" style="visibility: hidden" href="#modalDetallePedido" data-toggle="modal" ><i class="fa fa-edit"></i> DDD</a>
+    <a id="aModalCambiarEstadoPedido"  style="visibility: hidden"  class="" href="#modalCambiarEstadoPedido"  data-toggle="modal" ><i class="fa fa-edit"></i>DDDDD</a>
+    {% include 'AdministracionBundle:Pedido:modalDetalle.html.twig'%}
+    {% include 'AdministracionBundle:Pedido:modalCambiarEstadoPedido.html.twig' %}
+
+
+{% endblock  %}
+
+{% block customScripts %}
+
+    <!-- Vendor scripts -->
+
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery-ui.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.slimscroll.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/metisMenu.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/metisMenu.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/icheck.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/sparkline/index.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/index.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/dataTables.bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap.min.js') }}"></script>
+
+    <!-- App scripts -->
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/homer.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/vue.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/vue-resource.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/administracionUsuario.js') }}"></script>
+
+    <script>
+        $('#fechaRegistroAdicionarUsuario').datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true
+        });
+    </script>
+    
+    <script>
+        $(document).ready(function () {
+            $('#tableFinanzas').dataTable( {
+                "language":{
+                    "decimal": "",
+                    "emptyTable":"No hay datos",
+                    "info":           "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                    "infoEmpty":      "Mostrando 0 a 0 de 0 registros",
+                    "infoFiltered":   "(Filtro de _MAX_ total registros)",
+                    "infoPostFix":    "",
+                    "thousands":      ",",
+                    "lengthMenu":     "Mostrar _MENU_ registros",
+                    "loadingRecords": "Cargando...",
+                    "processing":     "Procesando...",
+                    "search":         "Buscar:",
+                    "zeroRecords":    "No se encontraron coincidencias",
+                    "paginate": {
+                        "first":      "Primero",
+                        "last":       "Ultimo",
+                        "next":       "Próximo",
+                        "previous":   "Anterior"
+                    },
+                    "aria": {
+                        "sortAscending":  ": Activar orden de columna ascendente",
+                        "sortDescending": ": Activar orden de columna desendente"
+                    }
+                },
+                "bProcessing":true,
+                "serverSide":true,
+                "ajax": {
+                    "url": "{{ path('administracion_usuario_finanzas') }}",
+                    "data":{
+                        'idUsuario': {{ usuario.id }},
+                        'procedencia':'usuario'
+                    },
+                    "type":"post",
+                    "error":function(){
+
+                       alertify.error('Lo sentimos ha ocurrido un error.');
+                    }
+
+                },
+
+                'columnDefs': [{
+                    'targets': 5,
+                    'searchable': false,
+                    'orderable': false,
+                    'className': 'dt-body-centerImage',
+                    'render': function (data, type, full, meta){
+
+                        return '<a href="'+data+'" class="btn btn-rw btn-primary" type="button" target="_blank">Ver Detalles</a>';
+                    }}
+
+                ]
+            });
+            
+            $('#tableCompras').dataTable( {
+                "language":{
+                    "decimal": "",
+                    "emptyTable":"No hay datos",
+                    "info":           "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                    "infoEmpty":      "Mostrando 0 a 0 de 0 registros",
+                    "infoFiltered":   "(Filtro de _MAX_ total registros)",
+                    "infoPostFix":    "",
+                    "thousands":      ",",
+                    "lengthMenu":     "Mostrar _MENU_ registros",
+                    "loadingRecords": "Cargando...",
+                    "processing":     "Procesando...",
+                    "search":         "Buscar:",
+                    "zeroRecords":    "No se encontraron coincidencias",
+                    "paginate": {
+                        "first":      "Primero",
+                        "last":       "Ultimo",
+                        "next":       "Próximo",
+                        "previous":   "Anterior"
+                    },
+                    "aria": {
+                        "sortAscending":  ": Activar orden de columna ascendente",
+                        "sortDescending": ": Activar orden de columna desendente"
+                    }
+                },
+                "bProcessing":true,
+                "serverSide":true,
+                "ajax": {
+                    "url": "{{ path('administracion_usuario_compras') }}",
+                    "data":{
+                        'idComprador': {{ usuario.id }},
+                        'procedencia':'usuario'
+                    },
+                    "type":"post",
+                    "error":function(){
+
+                       alertify.error('Lo sentimos ha ocurrido un error.');
+                    }
+
+                },
+
+                'columnDefs': [{
+                    'targets': 0,
+                    'searchable': false,
+                    'orderable': false,
+                    'className': 'dt-body-centerImage',
+                    'render': function (data, type, full, meta){
+                        return data;
+                    }}
+
+                ]
+            });
+
+            $('#tableVentas').dataTable( {
+                "language":{
+                    "decimal": "",
+                    "emptyTable":"No hay datos",
+                    "info":           "Mostrando _START_ a _END_ de _TOTAL_ registros",
+                    "infoEmpty":      "Mostrando 0 a 0 de 0 registros",
+                    "infoFiltered":   "(Filtro de _MAX_ total registros)",
+                    "infoPostFix":    "",
+                    "thousands":      ",",
+                    "lengthMenu":     "Mostrar _MENU_ registros",
+                    "loadingRecords": "Cargando...",
+                    "processing":     "Procesando...",
+                    "search":         "Buscar:",
+                    "zeroRecords":    "No se encontraron coincidencias",
+                    "paginate": {
+                        "first":      "Primero",
+                        "last":       "Ultimo",
+                        "next":       "Próximo",
+                        "previous":   "Anterior"
+                    },
+                    "aria": {
+                        "sortAscending":  ": Activar orden de columna ascendente",
+                        "sortDescending": ": Activar orden de columna desendente"
+                    }
+                },
+                "bProcessing":true,
+                "serverSide":true,
+                "ajax": {
+                    "url": "{{ path('administracion_usuario_ventas') }}",
+                    "data":{
+                        'idVendedor': {{ usuario.id }},
+                        'procedencia':'usuario'
+                    },
+                    "type":"post",
+                    "error":function(){
+
+                        alertify.error('Lo sentimos ha ocurrido un error.');
+                    }
+
+                },
+
+                'columnDefs': [{
+                    'targets': 0,
+                    'searchable': false,
+                    'orderable': false,
+                    'className': 'dt-body-centerImage',
+                    'render': function (data, type, full, meta){
+                        return data;
+                    }}
+
+                ]
+            });
+        });
+        
+        function asignarFuncionalidadesAPedidos() {
+            $('.detallePedido').click(function() {
+                var url = $(this).data('url');
+
+                $.ajax(url, {
+                    type: 'post',
+                    dataType: 'json',
+                    async: false,
+                    data:{
+                        'idPedido': pedidosSeleccionados[0]
+                    }
+                }).done(function (response) {
+
+                    $('#codigoDetalle').text(response.codigo);
+                    $('#estadoDetalle').text(response.estado);
+                    $('#compradorDetalle').text(response.comprador);
+                    $('#fechaDetalle').text(response.fecha);
+                    $('#vendedorDetalle').text(response.vendedor);
+                    $('#metodoPagoDetalle').text(response.metodoPago);
+                    $('.htmlDireccionEnvio').html(response.htmlDireccionEnvio);
+                    $('.tableBodyProducto').html(response.tableBodyProducto);
+                    $('.tableBodySeguimiento').html(response.tableBodySeguimiento);
+                    $('#detalleValoracion').html(response.tableValoracion);
+
+                    $('#aModalDetallePedido').click();
+                });
+            });
+
+            $('.cambiarEstadoPedido').click(function() {
+
+                var urlCambiarEstado=$(this).data('url');
+
+                $.ajax(urlCambiarEstado,{
+                    'type':'get',
+                    'dataType':'json',
+                    'data':{
+                        'idPedido':pedidosSeleccionados[0]
+                    }
+                }).done(function (response) {
+                    if(!response[0]){
+                        alert(response[1]);
+                    }
+                    else{
+                        var estadoActual=response.estadoActual;
+                        var next=response.next;
+
+                        $('#estadoActualPedido').val(estadoActual.nombre);
+
+                        $('#idPedidoModalEstados').val(pedidosSeleccionados[0]);
+
+                        $('#nuevoEstadoPedido').empty();
+
+                        $('#nuevoEstadoPedido').append($('<option value="">Seleccione el nuevo estado</option>'));
+
+                        for(var i=0; i<next.length; i++){
+                            var opt='<option value="'+next[i].slug+'">'+next[i].nombre+'</option>';
+
+                            $('#nuevoEstadoPedido').append($(opt));
+                        }
+
+                        $('#aModalCambiarEstadoPedido').click();
+                    }
+                });
+
+            });
+
+            $('#btnOkCambiarEstadoPedido').on('click',function () {
+                var $form=$('#cambiarEstadoPedidoForm');
+                $('#cambiarEstadoPedidoForm div#error').hide();
+
+                if($('#nuevoEstadoPedido').val()==""){
+                    $('#cambiarEstadoPedidoForm div#error').show();
+                }
+                else{
+                    $.ajax($form.attr('action'),{
+                        type:$form.attr('method'),
+                        dataType:'json',
+                        data:$form.serialize()
+                    }).done(function (response) {
+                        if(!response[0]){
+                            alert(response[1]);
+                        }
+                        else{
+                            table.DataTable().ajax.reload();
+                        }
+
+                        $('#modalCambiarEstadoPedido').modal('hide');
+
+                        checkRefreshModalDetal();
+                    });
+                }
+            });
+
+            $('.liberarFondosPedido').click(function() {
+                if(confirm('Esta seguro de liberar los fondos para los pedidos seleccionados?')) {
+                    var url = $(this).data('url');
+
+                    $.ajax(url, {
+                        type: 'post',
+                        dataType: 'json',
+                        async: false,
+                        data:{
+                            'pedidosSeleccionados': pedidosSeleccionados
+                        }
+                    }).done(function (response) {
+                        table.DataTable().ajax.reload();
+
+                        checkRefreshModalDetal();
+                    });
+                }
+            });
+        }
+        
+        function checkRefreshModalDetal() {
+            if($('#modalDetallePedido').hasClass('in')) {
+                $('button.close').click();
+                $('#detallesPedido').click();
+            }
+        }
+    </script>
+{% endblock %}

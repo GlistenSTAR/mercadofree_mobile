@@ -1,0 +1,74 @@
+{% extends '::publicPanelUsuario.html.twig' %}
+
+{% block breadcrumbPanelUsuario %}
+    <li>Resumen</li>
+{% endblock %}
+
+{% block menuPanelUsuario %}
+    {% include 'PublicBundle:Templates:menuPanelUsuario.html.twig' with {'page':'resumen'} %}
+{% endblock %}
+
+{% block headerCenterContent %}
+    <h4>Resumen</h4>
+{% endblock %}
+
+{% block centerContent %}
+    {#<div class="col-sm-6 text-center">
+        <div class="content-box content-box-bordered">
+            <span class="ion-card bordered-icon-lg"></span>
+            {% if facturaAPagar %}
+                <h4 class="pt15">Factura a pagar</h4>
+                <p class="no-margin"><b>$24.00</b> | Venció el 20/2/2018</p>
+                <p class="mt20"><a href="#" class="btn btn-primary">Ver detalles</a></p>
+            {% else %}
+                <h4 class="pt15">No hay facturas a pagar</h4>
+            {% endif %}
+        </div>
+    </div>#}
+
+    <div class="col-sm-12 text-center">
+        <div class="content-box content-box-bordered">
+            <span class="ion-ios7-compose bordered-icon-lg"></span>
+            <h4 class="pt15">Publicaciones</h4>
+            <h3 style="text-align:left;"><span class="label label-success">{{ activas }}</span> <span style="font-size:20px;">Activas</span></h3>
+
+            <h3 style="text-align:left;"><span class="label label-default">{{ pausadas }}</span> <span style="font-size:20px;">Pausadas</span></h3>
+
+            <h3 style="text-align:left;"><span class="label label-default">{{ finalizadas }}</span> <span style="font-size:20px;">Finalizadas</span></h3>
+        </div>
+    </div>
+
+    <div class="col-sm-6 text-center">
+        <div class="content-box content-box-bordered">
+            <span class="ion-ios7-chatboxes bordered-icon-lg"></span>
+            <h4 class="pt15">Preguntas</h4>
+            <p class="no-margin">{{ preguntas>0?(preguntas>1?'Tienes '~preguntas~' preguntas sin responder,':'Tiene una pregunta sin responder,'):'No tienes ninguna pregunta sin responder por el momento' }} <a {{ preguntas>0?'':'hidden' }} href="{{ path('public_panel_usuario_preguntas_vendedor') }}" >{{ preguntas>0?(preguntas>1?'respondelas cuanto antes.':'respondela cuanto antes'):'' }}</a></p>
+        </div>
+    </div>
+
+    <div class="col-sm-6 text-center">
+        <div class="content-box content-box-bordered">
+            <span class="ion-ios7-cart bordered-icon-lg"></span>
+            <h4 class="pt15">Operaciones</h4>
+            {% if operacionesPendientes %}
+                <p class="no-margin">Tienes <b>{{ operacionesPendientes }} pedidos pendientes para enviar ó entregar</b></p>
+            {% else %}
+                <p class="no-margin">Por el momento no tienes envíos pendientes</p>
+            {% endif %}
+        </div>
+    </div>
+
+    {#<div class="col-sm-12 text-center">
+        <div class="content-box content-box-bordered">
+            <span class="ion-speakerphone bordered-icon-lg"></span>
+            <h4 class="pt15">Campañas de publicidad</h4>
+            <p class="no-margin">{{ campannas>0?(campannas>1?'Actualmente tienes '~campannas~' campañas de publicidad creadas':'Actualmente tienes una campaña de publicidad creada'):'Promociona tus publicaciones para atraer a más compradores'}}</p>
+            <p class="mt20"><a href="{{ path('public_panel_usuario_publicidad') }}" class="btn btn-primary">{{ campannas>0?'Ver campaña':'Crear campaña'}}</a></p>
+        </div>
+    </div>#}
+{% endblock %}
+
+{% block customScriptsPanelUsuario %}
+    <script src="{{ asset('bundles/public/js/publicAnuncioAdicionar.js') }}"></script>
+{% endblock %}
+

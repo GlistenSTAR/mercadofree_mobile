@@ -1,0 +1,45 @@
+{% extends '::emails.html.twig' %}
+
+{%  block body %}
+    <tr>
+        <td valign="top">
+            <h2 class="h2" style="color:#444444;
+			display:block;
+			font-family:Open Sans;
+			font-size:30px;
+			font-weight: 400;
+			line-height:100%;
+			margin-top:2%;
+			margin-right:0;
+			margin-bottom:1%;
+			margin-left:0;
+			text-align:left;">Pedido Calificado</h2>
+            <br />
+            <div class="textdark" style="color: #444444;
+			font-family: Open Sans;
+			font-size: 17px;
+			line-height: 150%;
+			text-align: left;">
+                Felicitaciones, tu pedido <b>{{ pedido.codigo }}</b> ha sido calificado por el comprador<br/><br/>
+                Los fondos han sido acreditados a tu cuenta de MercadoFree.
+            </div>
+        </td>
+    </tr>
+    <tr style="background-color: #e0e0e0;">
+        <td valign="top">
+            <div class="textdark" style="color: #444444;
+			font-family: Open Sans;
+			font-size: 17px;
+			line-height: 150%;
+			text-align: left;">
+                <b>Código pedido: </b>{{ pedido.codigo }} <br/>
+                {% set detallePedido = pedido.detalle %}
+                {% if detallePedido %}
+                <b>Producto:</b> {{ detallePedido.nombre }} - {{ detallePedido.descripcion }}<br/>
+                {% endif %}
+            </div>
+        </td>
+    </tr>
+
+{% endblock %}
+

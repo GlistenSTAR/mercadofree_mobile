@@ -1,0 +1,154 @@
+{% extends '::publicPanelUsuario.html.twig' %}
+
+{% block breadcrumbPanelUsuario %}
+    <li>Editar Perfil</li>
+{% endblock %}
+
+{% block menuPanelUsuario %}
+    {% include 'PublicBundle:Templates:menuPanelUsuario.html.twig' with {'page':'editarPerfil'} %}
+{% endblock %}
+
+{% block headerCenterContent %}
+    <h4>Mis Datos</h4>
+{% endblock %}
+
+{% block centerContent %}
+
+
+        <div class="col-xs-8">
+            <h4>Datos de cuenta</h4>
+        </div>
+        <div class="col-xs-4">
+            <a class="btn btn-primary pull-right" href="#modalEditarDatosCuentaCliente" data-toggle="modal"><i class="fa fa-edit"></i> Modificar</a>
+        </div>
+        <div class="col-xs-12 mt10 mb30">
+            <div class="content-box content-box-bordered text-left">
+                <div class="form-group">
+                    <label>Correo electrónico: </label>
+                        <span id="emailP">{{ usuario.email }}</span>
+                </div>
+                <div class="form-group">
+                    <label>Clave: </label>
+                    ******
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-8">
+            <h4>Datos personales</h4>
+        </div>
+        <div class="col-xs-4">
+            <a class="btn btn-primary pull-right" href="#modalEditarDatosPersonales" data-toggle="modal"><i class="fa fa-edit"></i> Modificar</a>
+        </div>
+        <div class="col-xs-12 mt10 mb30">
+            <div class="content-box content-box-bordered text-left">
+                <div class="form-group">
+                    <label>Nombre y apellido: </label>
+                    <span id="nombreP">{{ (usuario.clienteid.nombre?usuario.clienteid.nombre:"")~" "~(usuario.clienteid.apellidos?usuario.clienteid.apellidos:"") }}</span>
+                </div>
+                <div class="form-group">
+                    <label>DNI: </label>
+                    <span id="dniP">{{ usuario.clienteid.dni }}</span>
+                </div>
+                <div class="form-group">
+                    <label>Teléfono: </label>
+                    <span id="telefonoP">{{ usuario.telefono }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-8">
+            <h4>Cuenta bancaria <i class="fa fa-question-circle" title="Cuenta bancaria donde recibiras los pagos de tus ventas" data-toggle="tooltip"></i> </h4>
+        </div>
+        <div class="col-xs-4">
+            <a class="btn btn-primary pull-right" href="#modalEditarCuenta" data-toggle="modal"><i class="fa fa-edit"></i> Modificar</a>
+        </div>
+        <div class="col-xs-12 mt10 mb30">
+            <div class="content-box content-box-bordered text-left">
+                <div class="form-group">
+                    <label>IBAN: </label>
+                    <span id="ibanP">{{ (usuario.iban?usuario.iban:"--") }}</span>
+                </div>
+            </div>
+        </div>
+                
+        <div class="col-xs-8">
+            <h4>Cuenta PayPal <i class="fa fa-question-circle" title="Cuenta de PayPal donde recibiras los pagos de tus ventas" data-toggle="tooltip"></i> </h4>
+        </div>
+        <div class="col-xs-4">
+            <a class="btn btn-primary pull-right" href="#modalEditarCuentaPaypal" data-toggle="modal"><i class="fa fa-edit"></i> Modificar</a>
+        </div>
+        <div class="col-xs-12 mt10 mb30">
+            <div class="content-box content-box-bordered text-left">
+                <div class="form-group">
+                    <label>Email PayPal: </label>
+                    <span id="emailPaypalP">{{ usuario.emailPaypal?usuario.emailPaypal:"--" }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-8">
+            <h4>Domicilios</h4>
+        </div>
+
+        <div class="col-xs-12 mt10">
+            {% include 'PublicBundle:Templates:gestionarDireccion.html.twig' with {
+                'usuario':usuario,
+                'ciudades':null,
+                'provincias':provincias} %}
+        </div>
+
+
+
+{% endblock %}
+    {% block includes %}
+        <div class="row">
+            <div class="col-xs-12">
+                {% include 'PublicBundle:PanelUsuario:modalEditarDireccion.html.twig' with {
+                'usuario':usuario,
+                'ciudades':null,
+                'provincias':provincias} %}
+
+                {% include 'PublicBundle:PanelUsuario:modalAdicionarDireccion.html.twig' with {
+                'usuario':usuario,
+                'provincias':provincias} %}
+
+                {% include 'PublicBundle:PanelUsuario:modalEditarDatosCuentaCliente.html.twig' with {
+                'usuario':usuario} %}
+
+                {% include 'PublicBundle:PanelUsuario:modalEditarDatosPersonalesCliente.html.twig' with {
+                'usuario':usuario} %}
+
+                {% include 'PublicBundle:PanelUsuario:modalEditarCuenta.html.twig' with {
+                'usuario':usuario
+                } %}
+                
+                {% include 'PublicBundle:PanelUsuario:modalEditarCuentaPaypal.html.twig' with {
+                'usuario':usuario
+                } %}
+
+
+                {% include 'PublicBundle:Templates:dangerMessage.html.twig' with {
+                'id':'eliminarDireccion',
+                'title':'¿Está seguro de eliminar esta dirección?',
+                'message':'Se eliminará la dirección, de forma permanente.'
+                } %}
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block hiddensPanelUsuario %}
+        <input type="hidden" value="{{ path('public_ciudad_obtenerCiudades') }}" id="urlObtenerCiudades" />
+        <input type="hidden" value="{{ path('public_direccion_obtener') }}" id="urlObtenerDireccion" />
+        <input type="hidden" value="{{ path('public_direccion_obtenerid') }}" id="urlObtenerDireccionId" />
+        <input type="hidden" value="{{ path('public_direccion_eliminar') }}" id="urlEliminarDireccion" />
+        <input type="hidden" id="idDireccion" />
+
+    {% endblock %}
+
+    {% block customScriptsPanelUsuario %}
+        <script type="text/javascript" src="{{ asset('bundles/public/js/publicPanelUsuarioEditarPerfilCliente.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/public/js/publicGestionarDireccion.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/public/js/Validators/validatorUsuario.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/public/js/Validators/validatorGestionarDireccion.js') }}"></script>
+    {% endblock %}

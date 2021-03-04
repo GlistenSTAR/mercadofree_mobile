@@ -1,0 +1,50 @@
+<div class="modal fade" id="modalEditarColeccion" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="loginLabel"><i class="fa fa-edit"></i> Editar Colección</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="formEditarColeccion" action="{{ path('administracion_coleccion_editar') }}" method="post">
+                    <div class="row">
+                        <div class="col-md-12" >
+                            <div class="hpanel">
+                                <div class="panel-body">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <img id="imgColeccionContainerEditar"  class="img-responsive" src="{{ asset(uploads_images_colecciones) }}no_image.jpg">
+                                            <p id="msgBoxColeccionEditar" style="color: red;"></p>
+                                            <a id="uploadColeccionImgEditar" class="mt10 btn btn-primary"><i class="fa fa-upload"></i> Cambiar imagen de la Colección</a>
+                                            <div id="progressOuterColeccionEditar" class="progress progress-striped active" style="display:none;">
+                                                <div id="progressBarColeccionEditar" class="progress-bar progress-bar-primary"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                                                </div>
+                                            </div>
+                                            <input type="hidden" name="imgColeccionEditar" id="imgColeccionEditar">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="nombreColeccionEditar">Nombre<span class="required">*</span></label>
+                                <input required="required" class="form-control" type="text" name="nombreColeccionEditar" id="nombreColeccionEditar">
+                                <input class="form-control" type="hidden" name="editarColeccion" id="editarColeccion" value="true">
+                                <input class="form-control" type="hidden" name="idColeccion" id="idColeccion" value="">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a id="btnSubmitColeccionEditar" class="btn btn-rw btn-primary">Aceptar <img id="submitEditLoading" style="display: none;" class="img-responsive" src="spinner.gif"></a>
+                <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
+
+            </div>
+        </div><!-- /modal content -->
+    </div><!-- /modal dialog -->
+</div><!-- /modal holder -->
+<!-- End Register -->

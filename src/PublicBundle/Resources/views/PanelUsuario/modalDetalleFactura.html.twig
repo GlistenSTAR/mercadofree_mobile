@@ -1,0 +1,71 @@
+<div class="modal fade" id="modalDetalleFactura" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="loginLabel"><i class="fa fa-plus-circle"></i> Factura {{ pedido.factura.ref }}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h4><b>Ref. {{ pedido.factura.ref }}</b></h4>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <div class="heading mb30">
+                            <h5>Datos comprador</h5>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="content-box content-box-bordered" style="padding: 20px 10px;">
+                            <div class="row">
+                                <div class="col-xs-12" style="text-align: left">
+                                    <p>Nombre: <b>{{ pedido.factura.nombre }}</b></p>
+                                    <p>Apellidos: <b>{{ pedido.factura.apellidos }}</b></p>
+                                    <p>DNI: <b>{{ pedido.factura.dni }}</b></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="heading mb30">
+                            <h5>Dirección de Facturación</h5>
+                        </div>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="content-box content-box-bordered" style="padding: 20px 10px;">
+                            <div class="row">
+                                <div class="col-xs-4" style="text-align: left">
+                                    <p>Calle: <b>{{ pedido.factura.calle }}</b></p>
+                                </div>
+                                <div class="col-xs-4" style="text-align: left">
+                                    <p>Número: <b>{{ pedido.factura.numero }}</b></p>
+                                </div>
+                                <div class="col-xs-4" style="text-align: left">
+                                    <p>Piso / Apto: <b>{{ pedido.factura.pisoApto }}</b></p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-4" style="text-align: left">
+                                    <p>Código postal: <b>{{ pedido.factura.codPostal }}</b></p>
+                                </div>
+                                <div class="col-xs-4" style="text-align: left">
+                                    <p>Localidad: <b>{{ pedido.factura.localidad }}</b></p>
+                                </div>
+                                <div class="col-xs-4" style="text-align: left">
+                                    <p>Provincia: <b>{{ pedido.factura.provincia.nombre }}</b></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn btn-default" data-dismiss="modal">Cerrar</a>
+            </div>
+        </div><!-- /modal content -->
+    </div><!-- /modal dialog -->
+</div><!-- /modal holder -->

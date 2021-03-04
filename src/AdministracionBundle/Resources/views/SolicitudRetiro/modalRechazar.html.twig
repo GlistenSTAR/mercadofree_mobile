@@ -1,0 +1,44 @@
+<div class="modal fade" id="modalRechazarSolicitudRetiro" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="loginLabel"><i class="fa fa-minus-circle"></i> Motivo de rechazo de Solicitud de Retiro de Fondos</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="formRechazarModalSolicitudRetiro" action="{{ path('administracion_solicitudretiro_rechazar') }}" method="post">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="hpanel">
+                                <div class="panel-body" id="RechazarModalSolicitudRetiroTemplate">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="form-group">
+                                                <label for="motivoRechazoModal">Explica el motivo del rechazo de la solicitud</label>
+                                                <textarea required="required" 
+                                                            name="motivoRechazoModal" 
+                                                            id="motivoRechazoModal" 
+                                                            class="form-control"
+                                                            rows="5"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+            </form>
+            </div>
+            <div class="modal-footer">
+                <a id="btnSubmitSolicitudRetiroRechazar" class="btn btn-rw btn-primary">Aceptar <img id="submitEditLoading" style="display: none;" class="img-responsive" src="spinner.gif"></a>
+                <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
+
+            </div>
+        </div><!-- /modal content -->
+    </div><!-- /modal dialog -->
+</div><!-- /modal holder -->

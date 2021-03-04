@@ -1,0 +1,148 @@
+{% extends '::publicPanelUsuario.html.twig' %}
+
+{% block breadcrumbPanelUsuario %}
+    <li>Mi Tienda</li>
+{% endblock %}
+
+{% block menuPanelUsuario %}
+    {% include 'PublicBundle:Templates:menuPanelUsuario.html.twig' with {'page':'tienda'} %}
+{% endblock %}
+
+{% block headerCenterContent %}
+    <h4>Mi Tienda</h4>
+{% endblock %}
+
+{% block centerContent %}
+    <div class="col-xs-12 mt10">
+        {% if tienda == null %}
+            <div class="alert alert-warning" role="alert">
+                <p>Todavía no has creado tu tienda.</p>
+            </div>
+            <p>Si tienes una tienda, puedes mostrar tus productos de una manera mas profesional, permitiendo a los
+                compradores que te recuerden y te identifiquen por tu marca, y que te encuentren más fácil en
+                MercadoFree</p>
+        {% endif %}
+
+        <div class="alert alert-info" role="alert">
+            <p><b>Todos los campos son obligatorios.</b></p>
+            <p><b>Debes tener un mínimo de {{ configuracion.cantidadMinimaProductos }} productos para crear tu tienda y mantenerla activa.</b></p>
+        </div>
+
+        <form id="formPanelUsuarioTienda" action="{{ path('public_panel_usuario_tienda') }}" method="post" role="form">
+
+            <div class="form-group">
+                <label for="nombre">Entra el nombre de tu tienda o marca</label>
+                <input required name="nombre" id="nombre" type="text" class="form-control"
+                       value="{{ tienda!=null?tienda.nombre:"" }}">
+            </div>
+
+            {#Cargar logo#}
+            <div class="form-group">
+                <label for="logo"></label>
+                <p class="help-block">Sube el logo de la marca o imagen que quieres que identifique a tu tienda</p>
+
+
+                <div style=" width: 25%">
+
+                    <a href="#" class="thumbnail">
+                        <img id="imgLogo" class="img-responsive"
+                             src="{{ asset(uploads_images_tiendas)~(tienda!=null?tienda.getImagenLogo:"") }}" alt="">
+                    </a>
+                    <input required class="imagenes-name" type="hidden" name="logo" id="logo"
+                           value="{{ tienda!=null?tienda.getImagenLogo:"" }}">
+                </div>
+
+                <p id="msgBox2" style="color: red;padding-left: 16px;font-weight: bold;"></p>
+
+                <div id="progressOuterImg" class="progress progress-striped active" style="display:none;">
+                    <div id="progressBarImg" class="progress-bar progress-bar-primary" role="progressbar"
+                         aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                    </div>
+                </div>
+
+                <a id="btnUploadImg" class="btn btn-primary"><i
+                            class="fa fa-upload"></i> {{ (tienda!=null and tienda.getImagenLogo!=null and tienda.getImagenLogo!="")?"Cambiar imagen":"Cargar Imagen" }}
+                </a>
+            </div>
+
+            {#Cargar imagen portada#}
+            <div class="form-group">
+                <label for="banner"></label>
+                <p class="help-block">Sube una foto para el encabezado de tu tienda <b>(dimensiones mínimas: 1600 x 200
+                        px)</b></p>
+
+                <div style=" width: 100%">
+                    <a href="#" class="thumbnail">
+                        <img id="imgBanner" class="img-responsive"
+                             src="{{ asset(uploads_images_tiendas)~(tienda!=null?tienda.getImagenPortada:"" ) }}"
+                             alt="">
+                    </a>
+                    <input required id="banner" class="imagenes-name" type="hidden" name="banner"
+                           value="{{ tienda!=null?tienda.getImagenPortada:"" }}">
+                </div>
+
+                <p id="msgBox3" style="color: red;padding-left: 16px;font-weight: bold;"></p>
+
+                <div id="progressOuterImg2" class="progress progress-striped active" style="display:none;">
+                    <div id="progressBarImg2" class="progress-bar progress-bar-primary" role="progressbar"
+                         aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                    </div>
+                </div>
+
+                <a id="btnUploadImg2" class="btn btn-primary"><i
+                            class="fa fa-upload"></i> {{ (tienda!=null and tienda.getImagenPortada!=null and tienda.getImagenPortada!="")?"Cambiar imagen":"Cargar Imagen" }}
+                </a>
+            </div>
+
+            <div class="form-group">
+                <label for="eslogan">Slogan</label>
+                <span class="help-block">Una frase corta que identifique únicamente a tu tienda</span>
+                <input required type="text" name="eslogan" id="eslogan" class="form-control"
+                       value="{{ tienda!=null?tienda.slogan:"" }}">
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <label class="checkbox" style="padding-left: 18px">
+                        <input  type="checkbox" value="" id="visible" name="visible" {{ tienda!=null and tienda.visible==1 ?"checked":"" }}/> Visible
+                        {% if configuracion.cantidadMinimaProductos<= cantProductos %}
+                            <i data-toggle="tooltip"
+                               title="Marca o desmarca esta opción para mostrar u ocultar tu tienda al público"
+                               class="fa fa-question-circle"></i>
+                        {% else %}
+                            <i data-toggle="tooltip"
+                               title="Para activar esta opción debe tener más de {{ configuracion.cantidadMinimaProductos }} productos en oferta"
+                               class="fa fa-question-circle"></i>
+                        {% endif %}
+                    </label>
+
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+    <div class="col-xs-12">
+        <button id="guardar"  class="btn btn-primary gd"><i class="fa fa-save"></i> Guardar cambios</button>
+        <button id="guardarVer"  class="btn btn-default gd"><i class="fa fa-save"></i> Guardar cambios y ver tienda
+        </button>
+        <a id="ver" {% if tienda is null %}disabled{% endif %} class="btn btn-default"
+           href="{{ tienda!=null?(path('public_tienda_detalle',{'slug':(tienda!=null?tienda.slug:"0")})):"#" }}"><i
+                    class="fa fa-eye"></i> Ver tienda</a>
+
+    </div>
+
+{% endblock %}
+{% block hiddensPanelUsuario %}
+    <input type="hidden" name="img-upload-path" id="img-upload-path" value="{{ path('public_imagen_adicionar') }}">
+    <input type="hidden" name="img-route" id="img-route" value="{{ asset(uploads_images_temp) }}">
+    <input type="hidden" id="urlDetalles" value="{{ tienda!=null?(path('public_tienda_detalle',{'slug':(tienda!=null?tienda.slug:"0")})):"#" }}">
+
+{% endblock %}
+
+{% block customScriptsPanelUsuario %}
+    <script type="text/javascript"
+            src="{{ asset('bundles/public/js/simpleAjaxUploader/SimpleAjaxUploader.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/Validators/validatorTienda.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/publicPanelUsuarioTienda.js') }}"></script>
+
+{% endblock %}

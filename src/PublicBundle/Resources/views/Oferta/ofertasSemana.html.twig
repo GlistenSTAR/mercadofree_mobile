@@ -1,0 +1,243 @@
+{% extends '::publicTemplate.html.twig' %}
+
+{% block breadcrumbs %}
+    <div id="header-tienda" class="header-parallax header-oferta-semana"
+         style="background-position: center;background-image:url('{{ asset(directorio_imagenes_public)~"ofertas.jpg" }}'); background-color: #272727; height: 240px;"
+         data-top-bottom="background-position: 50% 0px;" data-bottom-top="background-position: 50% -200px;">
+        <div class="container">
+            <div class="row">
+                <!--=== Page Title ===-->
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    <img src="" class="img-responsive">
+                </div>
+                <div class="col-xs-10" style="text-align: center; padding-top: 60px;">
+                    <h2 style="color:#fff;"></h2>
+                </div>
+
+                <!--=== Breadcrumbs ===-->
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </div><!-- /page header -->
+
+    <!-- Begin Page Header -->
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <!-- Breadcrumbs -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb" id="containerBreadCrumb">
+                        <li><span class="ion-home breadcrumb-home"></span><a
+                                    href="{{ path('public_homepage') }}">Inicio</a></li>
+                        <li><span class="breadcrumb"></span><a>Ofertas de la semana</a></li>
+
+                    </ol>
+                </div><!-- /column -->
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </div><!-- /page header -->
+{% endblock %}
+
+{% block generalContent %}
+    <section class="pt30 mb30" id="wait">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="heading mb30">
+                        <h4 class="hidden-xs hidden-sm hidden-md"><i class="fa fa-filter"></i> Filtrar resultados</h4>
+                        <h5 class="visible-xs visible-sm visible-md"><i class="fa fa-filter"></i> Filtrar resultados <a id="btn-toggle-filter" href="#" class="pull-right"><i class="fa fa-bars"></i></a></h5>
+                        <div class="owl-controls">
+                            <div id="customNav" class="owl-nav"></div>
+                        </div>
+                    </div>
+                    <div class="row filter-container">
+                        <div class="col-xs-12">
+                            <h4>Categorías</h4>
+                            <div id="containerCategoriaListado">
+                                {% for cath in listaCategoriasFiltro %}
+
+                                    <p class="catFiltro"><a class="categoria" id="{{ cath.id }}"
+                                                            href="#">{{ cath.nombre }}</a></p>
+
+                                {% endfor %}
+
+
+
+                                {% if listaCategoriasFiltro|length ==0 %}
+                                    <p>No contiene subcategorias.</p>
+                                {% endif %}
+                            </div>
+
+                        </div>
+                        <div class="col-xs-12 mt30">
+                            <h4>Condición
+                                <small><a href="#" id="cleanCondicion">Limpiar</a></small>
+                            </h4>
+                            {#<p id="condicionNueva"><a href="#">Nuevo <small id="condicionNuevaSpam" >({{ nuevo!=0?nuevo[0][1]:(0) }})</small></a></p>
+                            <p id="condicionUso"><a  href="#">Usado <small id="condicionUsoSpam">({{ uso!=0?uso[0][1]:(0) }})</small></a></p>#}
+
+                            <p><input type="radio" name="c" id="condicionNueva" class="condicion"> Nuevo</p>
+                            <p><input type="radio" name="c" id="condicionUso" class="condicion"> Usado </p>
+
+                        </div>
+                        <div class="col-xs-12 mt30">
+                            <h4>Ubicación</h4>
+                            <div id="containerUbicacionesListado">
+                                {% for cp in ciudadesProduct %}
+                                    <p class="city"><input type="checkbox" class="ubicacion"
+                                                           id="{{ cp.id }}"> {{ cp.ciudadNombre }}</p>
+                                {% endfor %}
+                            </div>
+
+                        </div>
+                        <div class="col-xs-12 mt30">
+                            <h4>Porciento descuento</h4>
+                            <div id="containerPorcientoListado">
+                                {% for o in ofertas %}
+                                    <p class="city"><input type="checkbox" class="porciento" id="{{ o.id }}">
+                                        Desde {{ o.porcientodescuento }}%</p>
+                                {% endfor %}
+                            </div>
+
+                        </div>
+
+                        <div class="col-xs-12 mt30">
+                            <h4>Precio
+                                <small><a href="#" id="cleanPrecio">Limpiar</a></small>
+                            </h4>
+
+{#                            <p><input type="radio" name="p" class="precioFijo" id="precio1"> $1.000 a $3.000 </p>#}
+{#                            <p><input type="radio" name="p" class="precioFijo" id="precio2"> Hasta $1.000 </p>#}
+{#                            <p><input type="radio" name="p" class="precioFijo" id="precio3"> Más de $3.000</p>#}
+
+                            <p>
+                            <div class="form-group inline filtro-precio-container">
+                                <input type="number" class="form-control" placeholder="Mínimo" id="precioMin">
+                                <input type="number" class="form-control" placeholder="Máximo" id="precioMax">
+                                <button class="btn btn-primary mt10" id="btnFiltrarProductos">Filtrar</button>
+                            </div>
+                            </p>
+                        </div>
+
+                        {#<div class="col-xs-12 mt30">
+                            <h4>Envío</h4>
+                            <div id="containerTipoEnviosListado">
+                                {% for te in tipoenvio %}
+                                    <p class="tipoenvio"  ><input type="checkbox" class="te" id="{{ te.id }}"> {{ te.nombre }}</p>
+                                {% endfor %}
+
+                            </div>
+
+                        </div>#}
+                    </div>
+                </div>
+
+                <div class="col-lg-9">
+                    <div class="heading mb30">
+
+
+                        <h4><span id="categoriaName"></span>
+                            {% if total > 1 %}
+                            <small id="headSmall">{{ total }} resultados</small>
+                            {% else %}
+                                <small id="headSmall">{{ total }} resultado</small>
+                            {% endif %}
+                        </h4>
+
+                        <div class="owl-controls">
+                            <div id="customNav" class="owl-nav"></div>
+                        </div>
+                    </div>
+                    <div id="containerProducto">
+                        {% if productos|length > 0 %}
+                            {% for producto in productos %}
+                                <div class="col-lg-4 col-md-4 col-sm-6">
+                                    <div class="thumbnail">
+                                        <div class="view image-hover-1 no-margin">
+                                            <!-- Blog Thumb -->
+                                            <div class="product-container">
+                                                <img class="img-responsive full-width"
+                                                     src="{{ asset(uploads_images_productos)~producto.getImagenDestacada }}"
+                                                     alt="...">
+                                                <span class="badge home-badge">
+                                            {{ producto.ofertaid[0].porcientodescuento }}% OFF
+                                            {#</span>#}
+                                                {#<span class="badge home-badge transporte">#}
+                                                {#<i class="fa fa-truck"></i>#}
+                                            {#</span>#}
+                                            </div>
+                                            <div class="mask">
+                                                <div class="image-hover-content">
+                                                    <!-- Zoom + Blog Link -->
+                                                    <a href="{{ asset(uploads_images_productos)~producto.getImagenDestacada }}"
+                                                       class="info image-zoom-link">
+                                                        <div class="image-icon-holder"><span
+                                                                    class="ion-ios7-search image-icons"></span></div>
+                                                    </a>
+                                                    <a href="{{ path('public_anuncio_detalles',{'slug': producto.slug}) }}"
+                                                       class="info">
+                                                        <div class="image-icon-holder"><span
+                                                                    class="ion-link image-icons"></span></div>
+                                                    </a>
+                                                </div><!-- /image hover content -->
+                                            </div><!-- /mask-->
+                                        </div>
+                                        <div class="shop-product content-box-shadow">
+                                            <a class="product-title"
+                                               href="{{ path('public_anuncio_detalles',{'slug': producto.slug}) }}">
+                                                <h2 class="product-title">{{ producto.nombre }}</h2></a>
+                                            <div class="row">
+                                                <div class="col-md-5">
+                                                    <span class="pull-left label label-default shop-product-price"> $ {{ producto.precio-((producto.precio*producto.ofertaid[0].porcientodescuento)/100) }}</span>
+                                                </div>
+                                                <div class="col-md-6" style="text-align:right;">
+                                                    <span class="precio-anterior pull-right" style="text-decoration:line-through;">$ {{ producto.precio }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="alert alert-success" role="alertdialog"
+                                 style="margin-top: 20px;margin-bottom: 10%;">
+                                No existen ofertas para esta semana.
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <input type="hidden" value="{{ path('public_oferta_ofertasemana') }}" id="urlBuscarProductos">
+    <input type="hidden" value="{{ path('public_anuncio_listarPaginado') }}" id="urlBuscarProductosPaginado">
+    <input type="hidden" name="img-route" id="img-route" value="{{ asset(uploads_images_productos) }}">
+
+    <input type="hidden" id="categoriaid" value="">
+    <input type="hidden" id="condicionid" value="">
+    <input type="hidden" id="ciudadid" value="">
+    <input type="hidden" id="porcientoid" value="">
+    <input type="hidden" id="tipoenvioid" value="">
+    <input type="hidden" id="urlPublicHome" value="{{ path('public_homepage') }}">
+
+    <input type="hidden" id="urlAdicionarProductoFavorito" value="{{ path('public_anuncio_favorito') }}">
+
+    <input type="hidden" id="urlProductoDetalles" value="{{ path('public_anuncio_detalles',{'slug':"0"}) }}">
+
+    <input type="hidden" id="nuevo" value="">
+    <input type="hidden" id="uso" value="">
+
+    <input type="hidden" id="offset" value="15">
+    <input type="hidden" id="start" value="{{ start }}">
+    <input type="hidden" id="total" value="{{ total }}">
+
+    <input type="hidden" id="paginador" value="1">
+
+{% endblock %}
+{% block customScripts %}
+
+    <script type="text/javascript" src="{{ asset('bundles/public/js/publicOfertaSemana.js') }}"></script>
+
+{% endblock %}

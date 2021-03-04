@@ -1,0 +1,36 @@
+{% if usuario.tienda %}
+    <div class="tab-content tab-default">
+        <div class="tab-pane in active">
+            <div class="col-lg-12">
+                <table id="tableTienda" class="display table table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Logo</th>
+                        <th>Portada</th>
+                        <th>Nombre</th>
+                        <th>Slogan</th>
+                        <th>Visible</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <img id="imgLogo" class="img-responsive" 
+                                     src="{{ asset(uploads_images_tiendas)~usuario.tienda.getImagenLogo() }}">
+                            </td>
+                            <td>
+                                <img id="imgBanner" class="img-responsive"
+                                     src="{{ asset(uploads_images_tiendas)~usuario.tienda.getImagenPortada() }}">
+                            </td>
+                            <td>{{ usuario.tienda.nombre }}</td>
+                            <td>{{ usuario.tienda.slogan }}</td>
+                            <td>{% if usuario.tienda.visible %}Si{% else %}No{% endif %}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <h3>El usuario no dispone de una tienda</h3>
+{% endif %}

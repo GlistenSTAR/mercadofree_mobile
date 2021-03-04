@@ -1,0 +1,825 @@
+{% extends '::publicTemplate.html.twig' %}
+
+{% block customStyles %}
+    <link rel="stylesheet" href="{{ asset(directorio_styles_public) }}main-gallery-image-zoom.css">
+{% endblock %}
+
+{% block breadcrumbs %}
+    <!-- Begin Page Header -->
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <!-- Breadcrumbs -->
+                <div class="col-sm-6 col-xs-12">
+                    <ol class="breadcrumb" id="containerBreadCrumb">
+                        {% for catB in categoriasBread %}
+                            {% if not loop.last %}
+                                <li><a href="#">{{ catB.nombre }}</a></li>
+                            {% else %}
+                                <li><a href="#">{{ catB.nombre }}</a></li>
+                            {% endif %}
+
+                        {% endfor %}
+                    </ol>
+                </div><!-- /column -->
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </div><!-- /page header -->
+{% endblock %}
+
+{% block generalContent %}
+
+
+    <div class="container">
+
+        {% if app.user != null and app.user.id == producto.usuarioid.id %}
+            <div id="edit-product-btn-container" class="row mt40">
+                <div class="col-xs-12 without-padding-left">
+                    <div class="white-box">
+                        <a id="btn-edit-anuncio" href="{{ path('public_anuncio_modificar',{'step':1, 'idProducto':producto.id}) }}" class="btn btn-primary btn-bg"><i class="fa fa-edit"></i> Editar Anuncio</a>
+                        &nbsp;&nbsp;
+                        Edita rápidamente tu anuncio haciendo clic en este botón.
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div id="detalle-producto-container" class="row mt40 mb40">
+            <div class="col-sm-8 left-column-prod-detail col-xs-12 without-padding-left mt30-xs">
+                <div class="mb30 pr40 white-box">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="show" href="{{ asset(uploads_images_productos)~imagenes[0].url }}">
+                                <img src="{{ asset(uploads_images_productos)~imagenes[0].url }}" id="show-img">
+                            </div>
+                            <div class="small-img">
+                                <img src="{{ asset(directorio_imagenes_public) }}online_icon_right@2x.png" class="icon-left" alt="" id="prev-img">
+                                <div class="small-container">
+                                    <div id="small-img-roll">
+                                        {% for imagen in imagenes %}
+                                            <img src="{{ asset(uploads_images_productos)~imagen.url }}" class="show-small-img" alt="">
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <img src="{{ asset(directorio_imagenes_public) }}online_icon_right@2x.png" class="icon-right" alt="" id="next-img">
+                            </div>
+                            {#<div id="{{ imagenes|length==1?"":'owl-carousel-product' }}"
+                                 class="{{ imagenes|length==1?"":'owl-carousel' }} popup-gallery">
+                                {% for imagen in imagenes %}
+                                    <div class="thumbnail">
+                                        <div class="show" href="{{ asset(uploads_images_productos)~imagen.url }}" style="height: 360px;overflow-y: hidden;">
+                                            <img class="img-responsive" src="{{ asset(uploads_images_productos)~imagen.url }}" alt="Thumbnail" title="{{ imagen.destacada }}">
+                                        </div>
+                                    </div>
+                                {% endfor %}
+
+                            </div>#}<!-- /end owl product slider -->
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row white-box visible-xs mt30 mb30" style="margin-left: 0; margin-right: 0;">
+
+                    <div class="col-xs-12">
+                        <h1>{{ producto.nombre }} </h1>
+                    </div>
+
+                    {% if app.user != null and app.user.id == producto.usuarioid.id and producto.fechaExpiracion and not producto.estadoFinalizado %}
+	                    <div class="col-xs-12">
+	                            <p class="mb15">Finaliza el {{ producto.fechaExpiracion | date("d/m/Y") }}</p>    
+	                    </div>
+                    {% endif %}
+
+                    {# Valoraciones Mobile #}                    
+
+                    <div class="col-xs-12">
+                        <div class="media-body">
+                            <h4 class="media-heading">
+                                {% if producto.valoraciones|length > 0 %}
+                                    <span class="text-muted"><!-- stars -->
+                                        {% for i in 1..producto.getValoracionTotal() %}
+                                            <i class="fa fa-star"></i>
+                                        {% endfor %}
+                                        {% if producto.getValoracionTotal()!=5 %}
+                                            {% set n=5-producto.getValoracionTotal() %}
+                                            {% for i in 1..n %}
+                                                <i class="fa fa-star-o"></i>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </span>
+                                    <span class="text-muted" style="margin-left: 9px">
+                                        {% if producto.valoraciones|length > 1 %}
+                                            {{ producto.valoraciones|length }} valoraciones
+                                        {% else %}
+                                            {{ producto.valoraciones|length }} valoración
+                                        {% endif %}
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted">
+                                        Este producto no tiene valoraciones
+                                    </span>
+                                {% endif %}
+                            </h4>
+                        </div>
+                    </div>
+
+                    {# END Valoraciones Mobile #}
+
+
+                    <form role="form" id="formAddProdCesta" method="post"
+                          action="{{ path('public_cesta_adicionar_producto') }}">
+                        <div class="col-xs-12 mt20">
+                            {% if producto.ofertaActiva is not null %}
+                                <h1>
+                                    <span class="precio-anterior pull-left" style="text-decoration:line-through;margin-top: 10px;margin-bottom: 10px;">
+                                        $ {{ producto.precio | number_format(2,',','.') }}
+                                    </span>
+                                </h1>
+                                <p style="margin-top:45px;">{{ producto.ofertaActiva.porcientoDescuento }}% OFF</p>
+                                <h3 style="margin-bottom: 10px;">$ {{ producto.precioOferta | number_format(2,',','.') }}</h3>
+                            {% else %}
+                                <h2><span style="margin-bottom: 10px;margin-top: 10px;">$ {{ producto.precio | number_format(2,',','.') }}</span></h2>
+                            {% endif %}
+
+                        </div>
+                        <div class="col-xs-12 mt20">
+                            {% if producto.usuarioid.hasTipoEnvio('envio-gratis') %}
+                                <p style="color:#39b54a;"><i class="fa fa-truck"></i> Envío gratis</p>
+                            {% elseif producto.usuarioid.hasTipoEnvio('envio-domicilio-vendedor') %}
+                                {% if costoEnvio is defined and costoEnvio!=0 %}
+                                    <p><i class="fa fa-truck"></i> Envío ${{ costoEnvio|number_format(2,',','.') }}</p>
+                                {% else %}
+                                    <p><i class="fa fa-truck"></i> Envío por parte del vendedor</p>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        {% if (app.user != null and app.user.id != producto.usuarioid.id) or app.user == null %}
+                            <div class="col-xs-12 inline cantidad-container">
+                                <label style="margin-right:5px;font-weight:300;">Cantidad</label>
+                                <input name="cantidad" min="1" style="width:75px" type="number" value="1"
+                                       class="form-control cantidadProd" placeholder="Cantidad">
+                            </div>
+                            {#<div class="col-xs-12 mt30">#}
+                            {#<p><i class="ion-card"></i> Pagá en hasta {{ producto.cuotaspagar }} cuotas</p>#}
+                            {#</div>#}
+
+                            <div class="col-xs-12 mt10">
+                                <input type="hidden" value="{{ producto.id }}" id="idProducto" name="idProducto">
+                                {% if app.user!=null %}
+                                    <a href="#" style="width:100%;"
+                                       class="btn btn-custom-orange btn-lg comprar-producto-ahora">Comprar ahora</a>
+                                {% else %}
+                                    <a href="#modalLoginComprarAhora" style="width:100%;" data-toggle="modal"
+                                       class="btn btn-custom-orange btn-lg">Comprar ahora</a>
+                                {% endif %}
+{#                                {% if producto.usuarioid.hasTipoEnvio('envio-gratis') or  producto.usuarioid.hasTipoEnvio('envio-domicilio-mercadofree')%}#}
+{#                                <a id="adicionarACesta" style="margin-top:10px;width:100%;" class="btn btn-default btn-lg">Añadir al carrito</a>#}
+{#                                {% endif %}#}
+                            </div>
+                        {% endif %}
+                    </form>
+                </div>
+
+                <div class="mb30 pr40 white-box">
+                    <div class="heading mb20 mt30-xs">
+                        <h4><span class="fa fa-magic"></span> Características</h4>
+                    </div>
+                    <div class="row">
+
+                        {% if producto!=null %}
+                            {% if producto.categoriaid!=null and producto.categoriaid.caracteristicas|length!=0 %}
+                                {% for caracteristica in producto.categoriaid.caracteristicas %}
+                                    <div class="col-md-6 mb20">
+                                        <h4>{{ caracteristica.nombre }}</h4>
+                                        <h4>{{ (caraacteristicas|length!=0 and caraacteristicas!=null)?caraacteristicas[loop.index0].valor:"" }}</h4>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+
+                                <div class="alert alert-info-rw " role="alert" style="margin: 5px">
+                                    Este producto no tiene características definidas.
+                                </div>
+
+                            {% endif %}
+                        {% endif %}
+                    </div>
+
+                </div>
+
+                <div class="mb30 pr40 white-box">
+                    <div class="heading mb20 mt30-xs">
+                        <h4><span class="fa fa-edit"></span> Descripción</h4>
+                    </div>
+                    <p class="mb15">{{ producto.descripcion }}</p>
+
+                </div>
+
+                <div class="row white-box mt30 mb30 visible-xs mt30" style="margin-left: 0; margin-right: 0;">
+                    <div class="col-xs-12" style="padding-left: 0;padding-right: 0;">
+                        <div class="heading mb20 mt30-xs">
+                            <h4><span class="ion-ios7-contact-outline"></span> Información del vendedor</h4>
+                        </div>
+
+                        <p><b><i class="ion-android-location"></i> Ubicación</b></p>
+
+                        <p>{{ producto.usuarioid.getDireccionVenta().ciudad.ciudadNombre }}, {{ producto.usuarioid.getDireccionVenta().provincia.nombre }}</p>
+
+                        <p><b><i class="ion-ios7-star"></i> Nivel: {{ producto.usuarioid.nivel }}</b></p>
+
+                    </div>
+
+                    <div class="col-xs-12">
+                        {% if cantPedidos >= 50 %}
+                            <p style="text-align: center;font-size: 29px;margin-bottom: 0px;">{{ cantPedidos }}</p>
+                            <p style="text-align:center;">ventas en los ultimos 3 meses</p>
+                        {% endif %}
+                    </div>
+                    {#<div class="col-xs-12 col-md-4">#}
+                    {#<p style="text-align: center;font-size: 29px;margin-bottom: 0px;"><i#}
+                    {#class="ion-ios7-chatboxes-outline"></i></p>#}
+                    {#<p style="text-align:center;">Brinda buena atención</p>#}
+                    {#</div>#}
+                    {#<div class="col-xs-12 col-md-4">#}
+                    {#<p style="text-align: center;font-size: 29px;margin-bottom: 0px;"><i#}
+                    {#class="ion-ios7-stopwatch-outline"></i></p>#}
+                    {#<p style="text-align:center;">Entrega sus productos a tiempo</p>#}
+                    {#</div>#}
+                    {#<div class="col-xs-12">#}
+                    {#<a href="#">Ver más información sobre el vendedor</a>#}
+                    {#</div>#}
+                </div>
+
+                <div class="mb30 pr40 white-box">
+                    <div class="heading mb20 mt30-xs">
+                        <h4><span class="fa fa-comment"></span> Opiniones sobre el producto (<span
+                                    id="totalV">{{ total }}</span>)</h4>
+                    </div>
+
+                    <div id="containerValoracion">
+                        {% if comentarios!=null and comentarios|length>0 %}
+                            {% for comentario in comentarios %}
+                                <div>
+                                    <div class="media-body">
+                                        <h4 class="media-heading">
+                                                    <span class="text-muted"><!-- stars -->
+                                                        {% for i in 1..comentario.puntuacion %}
+                                                            <i class="fa fa-star"></i>
+                                                        {% endfor %}
+                                                        {% if comentario.puntuacion!=5 %}
+                                                            {% set n=5-comentario.puntuacion %}
+                                                            {% for i in 1..n %}
+                                                                <i class="fa fa-star-o"></i>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                    </span>
+                                            <p class="text-muted">{{ comentario.fecha|date('d/m/Y') }}</p>
+                                        </h4>
+                                        <p>{{ comentario.opinion }}</p>
+                                    </div>
+                                </div>
+                                <hr class="mt10 mb25">
+                            {% endfor %}
+                        {% else %}
+                            <div id="noComentario" class="alert alert-info alert-info-rw " role="alert"
+                                 style="margin: 5px">
+                                Todavía este producto no tiene valoraciones, valore el producto en el formulario de
+                                abajo.
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% if total>10 %}
+                        <a id="verMasOpiniones" href="#">Ver Mas</a>
+                    {% endif %}
+
+                    {% if (app.user != null and app.user.id != producto.usuarioid.id) or app.user == null %}
+
+                        <div class="panel panel-default mb5 mt20" id="waitValoracion">
+
+                            {% if user!=null %}
+                                <div class="panel-body">
+                                    <h3>Deje su Valoración</h3>
+                                    <div id="errorValoracion" class="alert alert-danger alert-danger-rw hidden" role="alert">
+                                        Hemos detectado que ha entrado datos de contacto o enlaces externos a nuestra web, en los datos del formulario, le rogamos corrija esta información para poder publicar su valoración, ya que está incumpliendo nuestras Políticas de Uso.
+                                    </div>
+                                    <form id="comentarioForm" action="{{ path('public_valoracion_adicionar') }}" role="form"
+                                          method="post">
+                                        <div class="form-group">
+                                            <label for="nombre">Nombre</label>
+                                            <input type="text" class="form-control" id="nombre" placeholder="" name="nombre"
+                                                   required="">
+                                        </div>
+                                        <div class="form-group has-feedback">
+                                            <label for="tema">Tema</label>
+                                            <input type="text" class="form-control" id="tema" placeholder="" name="tema"
+                                                   required="">
+                                        </div>
+                                        <div class="form-group mb30">
+                                            <label>Puntuación</label>
+                                            <select class="form-control" id="puntuacion" name="puntuacion" required>
+                                                <option value=""></option>
+                                                <option value="5">5</option>
+                                                <option value="4">4</option>
+                                                <option value="3">3</option>
+                                                <option value="2">2</option>
+                                                <option value="1">1</option>
+                                            </select>
+                                        </div>
+                                        <textarea class="form-control counted" name="comentario"
+                                                  placeholder="Escribe aquí tu comentario" rows="5"
+                                                  style="margin-bottom:10px;" id="comentario" required></textarea>
+                                        <button class="btn btn-rw btn-primary" type="" id="btnValoracion">Dejar Valoracion
+                                        </button>
+                                        <input type="hidden" id="idProducto" value="{{ producto.id }}" name="idProducto">
+                                    </form>
+                                </div>
+
+                            {% else %}
+                                <div class="alert alert-info alert-info-rw " role="alert" style="margin: 5px">
+                                    Debes estar logueado para comentar
+                                </div>
+                            {% endif %}
+                        </div><!-- /panel -->
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <!-- Right Side Bar -->
+            <div class="col-sm-4 col-xs-12 detalle-producto-sidebar">
+                <div class="row white-box hidden-xs"
+                     style="margin-left:0;margin-right:0;padding-left:0;padding-right:0">
+
+                    <div class="col-xs-12">
+                        <h1>{{ producto.nombre }} </h1>
+                    </div>
+                    
+                    {% if app.user != null and app.user.id == producto.usuarioid.id and producto.fechaExpiracion and not producto.estadoFinalizado %}
+                    <div class="col-xs-12">
+                            <p class="mb15">Finaliza el {{ producto.fechaExpiracion | date("d/m/Y") }}</p>    
+                    </div>
+                    {% endif %}
+
+                    <div class="col-xs-12">
+                        <div class="media-body">
+                            <h4 class="media-heading">
+                                {% if producto.valoraciones|length > 0 %}
+                                    <span class="text-muted"><!-- stars -->
+                                        {% for i in 1..producto.getValoracionTotal() %}
+                                            <i class="fa fa-star"></i>
+                                        {% endfor %}
+                                        {% if producto.getValoracionTotal()!=5 %}
+                                            {% set n=5-producto.getValoracionTotal() %}
+                                            {% for i in 1..n %}
+                                                <i class="fa fa-star-o"></i>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </span>
+                                    <span class="text-muted" style="margin-left: 9px">
+                                        {% if producto.valoraciones|length > 1 %}
+                                            {{ producto.valoraciones|length }} valoraciones
+                                        {% else %}
+                                            {{ producto.valoraciones|length }} valoración
+                                        {% endif %}
+                                    </span>
+                                {% else %}
+                                    <span class="text-muted">
+                                        Este producto no tiene valoraciones
+                                    </span>
+                                {% endif %}
+                            </h4>
+                        </div>
+                    </div>
+                    <form role="form" id="formAddProdCesta" method="post"
+                          action="{{ path('public_cesta_adicionar_producto') }}">
+                        <div class="col-xs-12 mt20">
+                            {% if producto.ofertaActiva is not null %}
+                                <h1>
+                                    <span class="precio-anterior pull-left" style="text-decoration:line-through;margin-top: 10px;margin-bottom: 10px;">
+                                        $ {{ producto.precio | number_format(2,',','.') }}
+                                    </span>
+                                </h1>
+                                <p style="margin-top:45px;">{{ producto.ofertaActiva.porcientoDescuento }}% OFF</p>
+                                <h3 style="margin-bottom: 10px;">$ {{ producto.precioOferta | number_format(2,',','.') }}</h3>
+                            {% else %}
+                                    <h2><span style="margin-bottom: 10px;margin-top: 10px;">$ {{ producto.precio | number_format(2,',','.') }}</span></h2>
+                            {% endif %}
+
+                        </div>
+                        <div class="col-xs-12 mt20">
+                            {% if producto.usuarioid.hasTipoEnvio('envio-gratis') %}
+                                <p style="color:#39b54a;"><i class="fa fa-truck"></i> Envío gratis</p>
+                            {% elseif producto.usuarioid.hasTipoEnvio('envio-domicilio-vendedor') %}
+                                {% if costoEnvio is defined and costoEnvio!=0 %}
+                                    <p><i class="fa fa-truck"></i> Envío ${{ costoEnvio|number_format(2,',','.') }}</p>
+                                {% else %}
+                                    <p><i class="fa fa-truck"></i> Envío por parte del vendedor</p>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        {% if (app.user != null and app.user.id != producto.usuarioid.id) or app.user == null %}
+                            <div class="col-xs-12 inline cantidad-container">
+                                <label style="margin-right:5px;font-weight:300;">Cantidad</label>
+                                <input name="cantidad" min="1" style="width:75px" type="number" value="1"
+                                       class="form-control cantidadProd" placeholder="Cantidad">
+                            </div>
+                            {#<div class="col-xs-12 mt30">#}
+                            {#<p><i class="ion-card"></i> Pagá en hasta {{ producto.cuotaspagar }} cuotas</p>#}
+                            {#</div>#}
+
+                            <div class="col-xs-12 mt10">
+                                <input type="hidden" value="{{ producto.id }}" id="idProducto" name="idProducto">
+                                {% if app.user!=null %}
+                                    <a href="#" style="width:100%;"
+                                       class="btn btn-custom-orange btn-lg comprar-producto-ahora">Comprar ahora</a>
+                                {% else %}
+                                    <a href="#modalLoginComprarAhora" style="width:100%;" data-toggle="modal"
+                                       class="btn btn-custom-orange btn-lg">Comprar ahora</a>
+                                {% endif %}
+                                {#{% if producto.usuarioid.hasTipoEnvio('envio-gratis') or  producto.usuarioid.hasTipoEnvio('envio-domicilio-mercadofree')%}#}
+                                {#<a id="adicionarACesta" style="margin-top:10px;width:100%;" class="btn btn-default btn-lg">Añadir al carrito</a>#}
+                                {#{% endif %}#}
+                            </div>
+                        {% endif %}
+                    </form>
+                </div>
+
+                <div class="row white-box mt30 mb30 hidden-xs"
+                     style="margin-left:0;margin-right:0;padding-left:0;padding-right:0">
+                    <div class="col-xs-12">
+                        <div class="heading mb20 mt30-xs">
+                            <h4><span class="ion-ios7-contact-outline"></span> Información del vendedor</h4>
+                        </div>
+                        
+                        <p><b><a href="{% if producto.usuarioid.tienda %}{{ path('public_tienda_detalle', {'slug': producto.usuarioid.tienda.slug }) }}{% else %}{{ path('public_usuario_perfil_vendedor', {'id': producto.usuarioid.id }) }}{% endif %}">
+                            {{ producto.usuarioid.clienteid.nombre }}, {{ producto.usuarioid.clienteid.apellidos }} 
+                        </a></b></p>
+
+                        <p><b><i class="ion-android-location"></i> Ubicación</b></p>
+
+                        <p>{{ producto.usuarioid.getDireccionVenta().ciudad.ciudadNombre }}, {{ producto.usuarioid.getDireccionVenta().provincia.nombre }}</p>
+
+                        <p><b><i class="ion-ios7-star"></i> Nivel: {{ producto.usuarioid.nivel }}</b></p>
+
+                    </div>
+
+                    <div class="col-xs-12">
+                        {% if cantPedidos >= 50 %}
+                            <p style="text-align: center;font-size: 29px;margin-bottom: 0px;">{{ cantPedidos }}</p>
+                            <p style="text-align:center;">ventas en los ultimos 3 meses</p>
+                        {% endif %}
+                    </div>
+                    {#<div class="col-xs-12 col-md-4">#}
+                        {#<p style="text-align: center;font-size: 29px;margin-bottom: 0px;"><i#}
+                                    {#class="ion-ios7-chatboxes-outline"></i></p>#}
+                        {#<p style="text-align:center;">Brinda buena atención</p>#}
+                    {#</div>#}
+                    {#<div class="col-xs-12 col-md-4">#}
+                        {#<p style="text-align: center;font-size: 29px;margin-bottom: 0px;"><i#}
+                                    {#class="ion-ios7-stopwatch-outline"></i></p>#}
+                        {#<p style="text-align:center;">Entrega sus productos a tiempo</p>#}
+                    {#</div>#}
+                    {#<div class="col-xs-12">#}
+                        {#<a href="#">Ver más información sobre el vendedor</a>#}
+                    {#</div>#}
+                </div>
+
+
+                <div class="row white-box mt30 mb30"
+                     style="margin-left:0;margin-right:0;padding-left:0;padding-right:0">
+                    <div class="col-xs-12">
+                        <div class="heading mb20 mt30-xs">
+                            <h4><span class="ion-ios7-sunny"></span> Garantía</h4>
+                        </div>
+
+                        {% if conf!=null and conf.mostrarGarantia %}
+                            <p><b>Compra Protegida con MercadoFree</b></p>
+
+                            <p style="color:#8F8F8F;">{{ conf.textoGarantia }}</p>
+
+                        {% endif %}
+
+                        {% if producto.usuarioid.mostrarGarantia %}
+
+                            <p><b>Garantía del vendedor</b></p>
+
+                            <p style="color:#8F8F8F;">{{ producto.usuarioid.garantia }}</p>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="col-xs-12">
+                        <a href="http://help.mercadofree.com.ar/comprando/garantias-de-productos/" target="_blank">Conocer más sobre garantía</a>
+                    </div>
+                </div>
+
+                <div class="row white-box mt30 mb30"
+                     style="margin-left:0;margin-right:0;padding-left:0;padding-right:0">
+                    <div class="col-xs-12">
+                        <div class="heading mb20 mt30-xs">
+                            <h4><span class="fa fa-money"></span> Medios de pago</h4>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <p><img src="{{ asset('bundles/public/img/PayPal-Logo.png') }}" class="img-responsive"></p>
+                            </div>
+                        </div>
+
+                        <p>Mediante PayPal, sin tener cuenta, también puedes pagar con las siguientes tarjetas</p>
+
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <img src="{{ asset('bundles/public/img/img_visa_logo.jpg') }}" class="img-responsive">
+                            </div>
+                            <div class="col-xs-4">
+                                <img src="{{ asset('bundles/public/img/img_mastercard_logo.jpg') }}" class="img-responsive">
+                            </div>
+                            <div class="col-xs-4">
+                                <img src="{{ asset('bundles/public/img/img_amex_logo.jpg') }}" class="img-responsive">
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-xs-4">
+                                <img src="{{ asset('bundles/public/img/img_diners-club_logo.jpg') }}" class="img-responsive">
+                            </div>
+                            <div class="col-xs-4">
+                                <img src="{{ asset('bundles/public/img/img_discover_logo.jpg') }}" class="img-responsive">
+                            </div>
+                            <div class="col-xs-4">
+                                <img src="{{ asset('bundles/public/img/img_eurocheque_logo.jpg') }}" class="img-responsive">
+                            </div>
+                            <div class="clearfix"></div>
+                            <div class="col-xs-4">
+                                <img src="{{ asset('bundles/public/img/img_giropay_logo.jpg') }}" class="img-responsive">
+                            </div>
+                            <div class="col-xs-4">
+                                <img src="{{ asset('bundles/public/img/img_jcb_logo.jpg') }}" class="img-responsive">
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    {#<div class="col-xs-12 mt15">
+                        <a href="#">Conocer otros medios de pago</a>
+                    </div>#}
+                </div>
+
+                <div class="row white-box mt30 mb30"
+                     style="margin-left:0;margin-right:0;padding-left:0;padding-right:0">
+                    <div class="col-xs-12">
+                        <div class="heading mb20 mt30-xs">
+                            <h4><span class="ion-ios7-box"></span> Formas de entrega</h4>
+                        </div>
+
+                        {% if producto.usuarioid.hasTipoEnvio('envio-gratis') %}
+                            <p><b>Envío gratis</b></p>
+
+                            <p style="color:#8F8F8F;">Transporte ofrecido por el vendedor, incluído en la compra de este producto</p>
+                        {% endif %}
+
+                        {% if producto.usuarioid.hasTipoEnvio('envio-domicilio-mercadofree') %}
+                                <p><b>Envío gratis con MercadoFree</b></p>
+
+                                <p style="color:#8F8F8F;">Es el servicio de MercadoFree que te permite recibir tus productos de
+                                    forma rápida y segura.</p>
+                        {% endif %}
+
+                        {% if producto.usuarioid.hasTipoEnvio('recogida-domicilio-vendedor') %}
+
+                            <p><b>Retiro en domicilio del vendedor</b></p>
+
+                            <p style="color:#8F8F8F;">
+
+                                {% if usuarioP is defined and usuarioP is not null %}
+
+                                    {% if usuarioP.getDireccionVenta is defined and usuarioP.getDireccionVenta is not null %}
+                                    Ubicado en  {{ usuarioP.getDireccionVenta.ciudad.ciudadNombre~" ("~usuarioP.getDireccionVenta.provincia.nombre~")" }}
+                                    {% endif %}
+                                {% endif %}
+                            </p>
+
+                        {% endif %}
+
+                        {% if producto.usuarioid.hasTipoEnvio('envio-domicilio-vendedor') %}
+
+                            <p><b>Envío gestionado por el vendedor</b></p>
+
+                            <p style="color:#8F8F8F;">
+                                {% if app.user!=null %}
+                                    {% if costoEnvio is defined and costoEnvio!=0 %}
+                                        <p><i class="fa fa-truck"></i> Envío ${{ costoEnvio|number_format(2,',','.') }}</p>
+                                    {% else %}
+                                        <p><i class="fa fa-truck"></i> Envío por parte del vendedor</p>
+                                    {% endif %}
+                                {% else %}
+                                    El vendedor envía directamente el producto a tu domicilio. Costo y disponibilidad, estarán sujetos a tu ubicación
+                                {% endif %}
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <div class="col-xs-12">
+                        <a href="http://help.mercadofree.com.ar/comprando/metodos-de-envio/" target="_blank">Conocer más sobre formas de envío</a>
+                    </div>
+                </div>
+
+            </div>
+            <!-- //Right Side Bar -->
+
+            <!-- <div id="comprar-entradas"></div> -->
+
+            <div class="col-sm-12 col-xs-12 background-white white-box mt30" id="waitPregunta">
+                <div style="background-color: #ffffff !important;padding:20px;" class="mb30">
+                    <div class="heading mb20 mt30-xs">
+                        <h4><span class="fa fa-question"></span> Preguntas y respuestas</h4>
+                    </div>
+                    <div id="errorPregunta" class="alert alert-danger alert-danger-rw hidden" role="alert"
+                                style="margin: 5px">
+                        Hemos detectado que ha entrado datos de contacto o enlaces externos a nuestra web, en los datos del formulario, le rogamos corrija esta información para poder publicar su comentario, ya que está incumpliendo nuestras Políticas de Uso.
+                    </div>
+
+                    {% if app.user!=null %}
+                        {% if app.user.id != producto.usuarioid.id %}
+                            <div class="form-group">
+                                <label>Preguntale lo que quieras saber al vendedor</label>
+                                <textarea class="form-control" placeholder="escribí una pregunta..."
+                                          id="datosPregunta"></textarea>
+                                <button class="btn btn-primary mt10" id="btnPregunta">Preguntar</button>
+
+                                <input type="hidden" id="idProducto" value="{{ producto.id }}">
+                            </div>
+
+                        {% endif %}
+
+                        <h4 class="mb20">Últimas preguntas</h4>
+
+                        <div id="containerPreguntas">
+                            {% if preguntas!=null and preguntas|length!=0 %}
+                                {% for pr in preguntas %}
+                                    <p><i class="ion-ios7-chatboxes-outline"></i> <b>{{ pr.pregunta }}</b></p>
+
+                                    {% if pr.respuesta!=null and pr.respuesta!="" %}
+                                        <p><i class="ion-ios7-chatbubble-outline"></i> {{ pr.respuesta }}</p>
+                                    {% endif %}
+                                    <hr class="mt10 mb25">
+                                {% endfor %}
+                            {% else %}
+                                <div class="alert alert-info-rw " role="alert" style="margin: 5px" id="noPreguntas">
+                                    Todavía no se han hecho preguntas en este producto, si tienes dudas, pregunte en el
+                                    formulario de arriba.
+                                </div>
+
+                            {% endif %}
+
+                        </div>
+                    {% else %}
+
+                        <div class="alert alert-info-rw " role="alert" style="margin: 5px">
+                            Para realizar una pregunta, debes estar logueado
+                        </div>
+
+                    {% endif %}
+                </div>
+            </div>
+
+        </div>
+
+        {% if productos|length > 1 %}
+            <div class="row mb20 hidden-xs">
+                <div class="col-sm-12 col-xs-12 background-white white-box">
+                    <div class="heading mb30">
+                        <h4><span class="ion-plus mr15"></span>Otras publicaciones de este usuario:</h4>
+                        <div class="owl-controls">
+                            <div id="customNav" class="owl-nav"></div>
+                        </div>
+                    </div>
+                    <div id="owl-carousel-thumb" class="owl-carousel carousel-home">
+                        {% for produc in productos %}
+                            <div class="thumbnail">
+                                <div class="view image-hover-1 no-margin">
+                                    <!-- Blog Thumb -->
+                                    <div class="product-container" >
+                                        {#<img class="img-responsive full-width"#}
+                                             {#src="{{ asset(uploads_images_productos)~produc.getImagenDestacada }}"#}
+                                             {#alt="...">#}
+                                        {% set imagenDestacada = produc.getImagenDestacada %}
+                                        {% if imagenDestacada == "" %}
+                                            {% set imagenDestacada = produc.getImagenes[0].getUrl %}
+                                        {% endif %}
+                                        <div style="max-height:270px;max-width: 270px;min-height:270px;min-width: 270px">
+                                            <img height="260" width="260"  class="img-responsive" src="{{ asset(uploads_images_productos)~ imagenDestacada}}" alt="Thumbnail">
+                                        </div>
+                                        {% if produc.ofertaActiva != null %}
+                                            <span class="badge home-badge">
+                                                {{ produc.porcientoOferta }}% OFF
+                                            </span>
+                                        {% endif %}
+                                        {% if produc.usuarioid.hasTipoEnvio('envio-gratis') or produc.usuarioid.hasTipoEnvio('envio-domicilio-mercadofree') %}
+                                            <span class="badge home-badge transporte">
+                                                <i class="fa fa-truck"></i>
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="mask">
+                                        <div class="image-hover-content">
+                                            <!-- Zoom + Blog Link -->
+                                            {#<a href="{{ asset(uploads_images_productos)~produc.getImagenDestacada }}"#}
+                                               {#class="info image-zoom-link">#}
+                                                {#<div class="image-icon-holder"><span#}
+                                                            {#class="ion-ios7-search image-icons"></span></div>#}
+                                            {#</a>#}
+                                            <a href="{{ path('public_anuncio_detalles',{'slug':produc.slug}) }}" class="info">
+                                                <div class="image-icon-holder"><span
+                                                            class="ion-link image-icons"></span></div>
+                                            </a>
+                                        </div><!-- /image hover content -->
+                                    </div><!-- /mask-->
+                                </div>
+                                <div class="shop-product content-box-shadow">
+                                    <a class="product-title" href="#"><h2
+                                                class="product-title">{{ produc.nombre }}</h2></a>
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <span class="pull-left label label-default shop-product-price">
+                                                {% if produc.ofertaActiva != null %}
+                                                    $ {{ produc.precioOferta | number_format(2,',','.') }}
+                                                {% else %}
+                                                    $ {{ produc.precio | number_format(2,',','.') }}
+                                                {% endif %}
+                                            </span>
+                                        </div>
+                                        {% if produc.ofertaActiva != null %}
+                                            <div class="col-md-7" style="text-align:left;">
+                                                <span class="precio-anterior pull-right">$ {{ produc.precio | number_format(2,',','.') }}</span>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% include 'PublicBundle:Templates:modalProductoAnnadido.html.twig' %}
+
+        {% include 'PublicBundle:Templates:modalLoginComprarAhora.html.twig' %}
+
+    </div>
+
+    <input type="hidden" id="idProducto" value="{{ producto.id }}">
+    <input type="hidden" id="adicionarPregunta" value="{{ path('public_pregunta_adicionar') }}">
+    <input type="hidden" id="adicionarValoracion" value="{{ path('public_valoracion_adicionar') }}">
+    <input type="hidden" id="urlObtenerValoraciones" value="{{ path('public_valoracion_obtener') }}">
+
+    <input type="hidden" id="startValoracion" value="{{ start }}">
+
+    <input type="hidden" id="totalValoracion" value="{{ total }}">
+
+    <input type="hidden" id="urlImagenProducto" value="{{ asset(uploads_images_productos) }}">
+
+    <input type="hidden" id="urlComprarAhora" value="{{ path('public_cesta_comprar_ahora') }}">
+
+    <input type="hidden" id="urlDetalleProducto" value="{{ path('public_anuncio_detalles',{'slug':producto.slug}) }}">
+
+    <input type="hidden" id="urlCarrito" value="{{ path('public_cesta_listar') }}">
+
+    <input type="hidden" id="urlEnvio" value="{{ path('public_cesta_envio') }}">
+
+{% endblock %}
+{% block customScripts %}
+
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.validate.min.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ asset('bundles/public/js/jquery-validate.bootstrap-tooltip.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/Validators/validatorAnuncio.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/public/js/publicAnuncioDetalles.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/public/js/zoom-image.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/public/js/main-image-zoom.js') }}"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.show').zoomImage({
+                layerW: 200, // 遮罩宽度
+                layerH: 200, // 遮罩高度
+                layerOpacity: 0.5, // 遮罩透明度
+                layerBgc: '#000', // 遮罩背景颜色
+                showPanelW: 500, // 显示放大区域宽
+                showPanelH: 500, // 显示放大区域高
+                marginL: 20, // 放大区域离缩略图右侧距离
+                marginT: 0 // 放大区域离缩略图上侧距离
+            });
+        });
+    </script>
+{% endblock %}

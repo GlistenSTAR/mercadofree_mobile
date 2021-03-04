@@ -1,0 +1,169 @@
+{% extends '::publicTemplate.html.twig' %}
+
+{% block breadcrumbs %}
+    <!-- Begin Page Header -->
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <!-- Breadcrumbs -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li><span class="ion-home breadcrumb-home"></span><a href="{{ path('public_homepage') }}">Inicio</a></li>
+                        <li>Publicar anuncio</li>
+                    </ol>
+                </div><!-- /column -->
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </div><!-- /page header -->
+{% endblock %}
+
+{% block generalContent %}
+    <!-- Begin Content -->
+    <div class="content-40mg">
+        <div class="container">
+            {% include 'PublicBundle:Templates:steps.html.twig' with {'step':1} %}
+
+            <div class="row mb30">
+                <div class="col-xs-12 white-bg-shadow">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="heading mt30">
+                                <h3>Selecciona la categoría de tu producto</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" id="containerHilo">
+                        <div class="col-lg-12" id="containerHilo">
+                            <h4 id="hilo">{{ producto!=null?hilo:"" }}</h4>
+                        </div>
+                    </div>
+                    <div class="row mt30">
+
+                        {% for categoria in categorias %}
+
+                            <div class="col-sm-3 text-center">
+                                <div class="content-box content-box-bordered">
+                                    <a href="#" id="{{ categoria.id }}" class="categoriaPublicar">
+                                        <span class="{{ categoria.icono }} bordered-icon-lg"></span>
+                                        <h4 class="pt15">{{ categoria.nombre }}</h4>
+                                    </a>
+                                </div>
+                            </div>
+                            {#<div class="clearfix"></div>#}
+                            {#{% if loop.index== %}#}
+
+                        {% endfor %}
+
+
+
+                        <div class="clearfix"></div>
+
+
+
+                    </div>
+
+                    <div class="row" id="containerHilo-bottom">
+                        <div class="col-lg-12" id="containerHilo-bottom">
+                            <h4 id="hilo-bottom">{{ producto!=null?hilo:"" }}</h4>
+                        </div>
+                    </div>
+
+                    <div class="row mt30" id="containerSelect">
+
+                        {% if producto!=null %}
+
+                            {{ selects |raw }}
+
+                        {% endif %}
+
+
+                    </div>
+
+                    <div class="row mb30">
+                        <div class="col-sm-12 text-right mt10">
+                            <a disabled="true" id="nextStep1" href="{{ path('public_anuncio_publicar',{'step':'2', 'nav':'1'}) }}" class="btn btn-rw btn-primary btn-lg">Siguiente <i class="ion-ios7-arrow-right"></i></a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div><!-- /container -->
+    </div><!-- /content -->
+    <!-- End Content -->
+    <input type="hidden" id="urlObtenerCategoriaId" value="{{ path('public_categoria_tener') }}">
+    <input type="hidden" id="urlObtenerCategoria" value="{{ path('public_categoria_obtener') }}">
+    <input type="hidden" id="urlStep1" value="{{ path('public_anuncio_publicar',{'step':'1'}) }}">
+    <input type="hidden" id="nav" name="nav" value="1">
+
+    <input type="hidden" id="cadenaId" value="{{ cadenaId }}">
+
+    <input type="hidden" id="categoriaSeleccionada" value="{{ producto!=null?producto.categoriaid.id:"" }}">
+{% endblock %}
+{% block customScripts %}
+
+    <script src="{{ asset('bundles/public/js/publicAnuncioAdicionar.js') }}"></script>
+
+    <script type="text/javascript">
+
+        // jQuery(document).ready(function() {
+
+            if ($('#cadenaId').val()!="")
+            {
+               var id= $('#cadenaId').val().split('-');
+
+                $('#containerSelect .selectCategorias').each(function () {
+
+                    for(var i=0;i<id.length;i++)
+                    {
+                        var t=id[i].split(':');
+                        if($(this).parent().attr('id')==t[1])
+                        {
+                            $(this).val(parseInt(t[0]));
+                        }
+                    }
+
+                });
+
+                $('#nextStep1').attr('disabled',false);
+            }
+
+
+            $.ajax($('#urlObtenerCategoria').val(), {
+                'type': 'post',
+                'dataType': 'json',
+                'async':false,
+                'data': {
+                    'nivel': 1
+                }
+            }).done(function (response) {
+                var categorias = response.categorias;
+
+                for (var i = 0; i < categorias.length; i++)
+                {
+                    var subCategorias="";
+                    for(var j=0; j<categorias[i][3].length;j++)
+                    {
+                        subCategorias+='<li><a href=""><span class="fa fa-angle-right mega-dropdown-arrow"></span>'+categorias[i][3][j][1]+'</a></li>';
+                    }
+                    var liCategoria = '<li class="col-lg-2 col-md-3 col-sm-6">' +
+                        '<ul>' +
+                        '<li class="dropdown-header">'+categorias[i][1]+
+                        '</li>' +
+                        subCategorias+
+                        '</ul>' +
+                        '</li>';
+                    if ($('#cadenaId').val() != "") {    
+                            
+                        $('#containerCategoria').append(liCategoria);
+
+                    }
+                }
+
+            });
+        // });
+
+    </script>
+
+
+{% endblock %}

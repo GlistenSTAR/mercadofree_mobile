@@ -1,0 +1,146 @@
+{% extends '::publicTemplate.html.twig' %}
+
+{% block breadcrumbs %}
+    <!--=== Begin Header Parallax ===-->
+    <div id="header-tienda" class="header-parallax" style="background-image:url('{{ asset(uploads_images_tiendas)~(tienda!=null?tienda.getImagenPortada:"") }}'); background-color: #272727;" data-top-bottom="background-position: 50% 0px;" data-bottom-top="background-position: 50% -200px;">
+        <div class="container">
+            <div class="row">
+                <!--=== Page Title ===-->
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-12">
+                    <img src="{{ asset(uploads_images_tiendas)~tienda.getImagenLogo }}" class="img-responsive">
+                </div>
+                <div class="col-xs-10" style="text-align: center; padding-top: 60px;">
+                    <h2 style="color:#fff;">{{ tienda.slogan }}</h2>
+                </div>
+
+                <!--=== Breadcrumbs ===-->
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </div><!-- /page header -->
+    <!--=== End Header Parallax ===-->
+
+    <!-- Begin Page Header -->
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <!-- Breadcrumbs -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li><span class="ion-home breadcrumb-home"></span><a href="{{ path('public_homepage') }}">Inicio</a></li>
+                        <li><a href="{{ path('public_tienda_listado') }}">Tiendas</a></li>
+                        <li>{{ tienda.nombre }}</li>
+                    </ol>
+                </div><!-- /column -->
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </div><!-- /page header -->
+{% endblock %}
+
+{% block generalContent %}
+    <section class="pt30 mb30" id="wait">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="heading mb30">
+                        <h4 class="hidden-xs hidden-sm hidden-md"><i class="fa fa-filter"></i> Filtrar resultados</h4>
+                        <h5 class="visible-xs visible-sm visible-md"><i class="fa fa-filter"></i> Filtrar resultados <a id="btn-toggle-filter" href="#" class="pull-right"><i class="fa fa-bars"></i></a></h5>
+                        <div class="owl-controls">
+                            <div id="customNav" class="owl-nav"></div>
+                        </div>
+                    </div>
+                    <div class="row filter-container">
+                        <div class="col-xs-12">
+                            <h4>Categorías</h4>
+                            <div id="containerCategoriaListado">
+                                {% for cat in categorias %}
+                                <p><a href="#" id="{{ cat.id }}" class="categoria">{{ cat.nombre }}</a></p>
+                                {% endfor %}
+                            </div>
+
+                        </div>
+                        <div class="col-xs-12 mt30">
+                            <h4>Condición <small><a href="#" id="cleanCondicion">Limpiar</a></small></h4>
+                            {#<p id="condicionNueva"><a href="#">Nuevo <small id="condicionNuevaSpam" >({{ nuevo!=0?nuevo[0][1]:(0) }})</small></a></p>
+                            <p id="condicionUso"><a  href="#">Usado <small id="condicionUsoSpam">({{ uso!=0?uso[0][1]:(0) }})</small></a></p>#}
+
+                            <p><input type="radio" name="c" id="condicionNueva" class="condicion"> Nuevo</p>
+                            <p><input type="radio" name="c" id="condicionUso" class="condicion"> Usado </p>
+
+                        </div>
+                        <div class="col-xs-12 mt30">
+                            <h4>Precio <small><a href="#" id="cleanPrecio">Limpiar</a></small></h4>
+
+{#                                <p><input type="radio" name="p" class="precioFijo" id="precio1"> $1.000 a $3.000 </p>#}
+{#                                <p><input type="radio" name="p" class="precioFijo" id="precio2"> Hasta $1.000 </p>#}
+{#                                <p><input type="radio" name="p" class="precioFijo" id="precio3"> Más de $3.000</p>#}
+
+                            <p>
+                            <div class="form-group inline filtro-precio-container">
+                                <input type="number" class="form-control" placeholder="Mínimo" id="precioMin">
+                                <input type="number" class="form-control" placeholder="Máximo" id="precioMax">
+                                <button class="btn btn-primary mt10" id="btnFiltrarProductos">Filtrar</button>
+                            </div>
+                            </p>
+                        </div>
+
+                        <div class="col-xs-12 mt30">
+                            <h4>Envío</h4>
+                            <div id="containerTipoEnviosListado">
+                                {% for te in tiposEnvios %}
+                                <p><input type="checkbox" class="te" id="{{ te.id }}" /> {{ te.nombre }} </p>
+                                {% endfor %}
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-9">
+                    <div class="heading mb30">
+                        <h4><span>Productos</span> <small id="headSmall">{{ total }}</small></h4>
+
+                        <div class="owl-controls">
+                            <div id="customNav" class="owl-nav"></div>
+                        </div>
+                    </div>
+                    <div id="containerProducto">
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <input type="hidden" id="usuarioid" value="{{ tienda.usuarioid.id }}">
+    <input type="hidden" value="{{ path('public_anuncio_listar', {'slug':"0"}) }}" id="urlBuscarProductos">
+    <input type="hidden" value="{{ path('public_anuncio_listarPaginado') }}" id="urlBuscarProductosPaginado">
+    <input type="hidden" name="img-route" id="img-route" value="{{ asset(uploads_images_productos) }}">
+    <input type="hidden" id="valorSearch" value="">
+    <input type="hidden" id="categoriaid" value="">
+    <input type="hidden" id="condicionid" value="">
+    <input type="hidden" id="ciudadid" value="">
+    <input type="hidden" id="tipoenvioid" value="">
+    <input type="hidden" id="urlPublicHome" value="{{ path('public_homepage') }}">
+
+    <input type="hidden" id="urlAdicionarProductoFavorito" value="{{ path('public_anuncio_favorito') }}">
+
+    <input type="hidden" id="urlProductoDetalles" value="{{ path('public_anuncio_detalles',{'slug':0}) }}">
+
+    <input type="hidden" id="nuevo" value="">
+    <input type="hidden" id="uso" value="">
+
+    <input type="hidden" id="offset" value="15">
+    <input type="hidden" id="start" value="0">
+    <input type="hidden" id="total" value="{{ total }}">
+
+    <input type="hidden" id="paginador" value="1">
+
+
+
+{% endblock %}
+{% block customScripts %}
+    <script type="text/javascript" src="{{ asset('bundles/public/js/publicTiendaDetalles.js') }}"></script>
+{% endblock %}
+

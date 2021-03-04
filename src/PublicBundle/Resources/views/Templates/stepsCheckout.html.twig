@@ -1,0 +1,47 @@
+<div class="row mb20">
+    <div class="col-md-12 without-padding-right without-padding-left">
+        <ul class="steps nav nav-pills">
+            <li role="presentation" class="{{ step is defined and step==1?'active':'' }} first">
+                <a href="#">
+                    1
+                </a>
+                <span>Carrito</span>
+            </li>
+            <li class="divider">
+                <span>
+                    <hr class="hr-solid">
+                </span>
+            </li>
+            <li role="presentation" class="{{ step is defined and step==2?'active':'' }}">
+                <a href="#">
+                    2
+                </a>
+                <span>Envío</span>
+            </li>
+            <li class="divider">
+                <span>
+                    <hr class="hr-solid">
+                </span>
+            </li>
+            <li role="presentation" class="{{ step is defined and step==3?'active':'' }}">
+                <a href="#">
+                    3
+                </a>
+                <span>Método de Pago</span>
+            </li>
+
+            <li class="divider">
+                <span>
+                    <hr class="hr-solid">
+                </span>
+            </li>
+            <li role="presentation" class="{{ step is defined and step==4?'active':'' }}">
+                <a href="#">
+                    4
+                </a>
+                <span>Resumen</span>
+            </li>
+
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+var validatorValoracion=$('#comentarioForm').validate({
+    errorPlacement: function(error, element) {
+        // Append error within linked label
+        $( element )
+            .closest( "form" )
+            .find( "label[for='" + element.attr( "id" ) + "']" )
+            .append( error );
+    },
+    errorElement: "span"
+
+});

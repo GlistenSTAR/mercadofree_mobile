@@ -1,0 +1,48 @@
+services:
+#    public.example:
+#        class: PublicBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+#     public.resetting.controller:
+#         class: PublicBundle\Controller\ResettingController
+#         arguments: ["@admin.mailer.default"]
+#
+#     admin.util.token_generator.default:
+#         class: AdministracionBundle\Util\TokenGenerator
+#
+#     admin.util.token_generator:
+#         class: AdministracionBundle\Util\TokenGeneratorInterface
+
+#
+#     admin.mailer.default:
+#         class: AdministracionBundle\Mailer\Mailer
+#         arguments: ["@mailer","@router","@templating.engine.twig",""]
+#         tags:
+#          - { name: 'admin.requires_swift' }
+
+    public_validator_input_service:
+        class: PublicBundle\Services\ValidatorInputService\ValidatorInputService
+    
+    validar_input_contactos_no_permitidos_service:
+        class: PublicBundle\Services\ValidatorInputService\ValidarInputContactosNoPermitidosService
+        arguments: 
+            - "@public_validator_input_service"
+            - "@configuracion_repository"
+            - "@usuario_repository"
+            - "@email"
+            - "@templating"
+            
+    liberar_pago_pedido_service:
+        class:  PublicBundle\Services\LiberarPagoPedidoService
+        arguments: 
+            - "@doctrine.orm.entity_manager"
+            - "@email"
+            - "@templating"
+            - "@RegistroMivimento"
+            
+    devolver_pago_pedido_service:
+        class:  PublicBundle\Services\DevolverPagoPedidoService
+        arguments: 
+            - "@doctrine.orm.entity_manager"
+            - "@email"
+            - "@templating"
+            - "@RegistroMivimento"

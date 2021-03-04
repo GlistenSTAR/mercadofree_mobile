@@ -1,0 +1,20 @@
+parameters:
+    entity.configuracion: AdministracionBundle\Entity\Configuracion
+    entity.usuario: AdministracionBundle\Entity\Usuario
+
+services:
+    
+    configuracion_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - '%entity.configuracion%'
+
+    usuario_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - '%entity.usuario%'
+            
+    curl:
+        class: AdministracionBundle\Services\CurlService

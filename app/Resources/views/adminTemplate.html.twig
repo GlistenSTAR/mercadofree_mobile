@@ -1,0 +1,209 @@
+{% extends '::base.html.twig' %}
+{% block title%}MercadoFree | Panel de Administracion{% endblock %}
+{% block stylesheets %}
+
+    <!-- Vendor styles -->
+    <link href="{{ asset('bundles/administracion/css/font-awesome.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/administracion/css/metisMenu.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/administracion/css/animate.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/administracion/css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/administracion/css/dataTables.bootstrap.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{ asset('bundles/administracion/css/alertify.core.css') }}" />
+    <link rel="stylesheet" href="{{ asset('bundles/administracion/css/alertify.default.css') }}" />
+
+    <link rel="stylesheet" href="{{ asset('bundles/administracion/css/awesome-bootstrap-checkbox.css') }}" />
+
+    <!-- Royal Preloader CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/administracion/css/royal_preloader.css') }}">
+
+
+    <!-- App styles -->
+    <link href="{{ asset('bundles/administracion/css/pe-icon-7-stroke.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/administracion/css/helper.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/administracion/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/administracion/css/waitMe/waitMe.min.css') }}" rel="stylesheet">
+
+    {% block customStyles %}{% endblock %}
+
+{% endblock %}
+{% block classBody %}royal_preloader scrollreveal{% endblock %}
+{% block login %}{% endblock %}
+{% block body %}
+    <!-- Header -->
+    <div id="header">
+        <div id="logo" class="light-version">
+            <img src="{{ asset('bundles/administracion/img/logo-gris.jpg') }}" class="img-responsive" alt=""/>
+        </div>
+        <nav role="navigation">
+            <div class="header-link hide-menu"><i class="fa fa-bars"></i></div>
+            <div class="small-logo">
+                <span class="text-primary">MercadoFree</span>
+            </div>
+
+            <div class="navbar-right">
+                <ul class="nav navbar-nav no-borders">
+                    <li class="dropdown">
+                        <a href="{{ path('administracion_logout') }}">
+                            <i class="pe-7s-upload pe-rotate-90"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <!-- Navigation -->
+    <aside id="menu">
+        {% block mainMenu %}
+        <div id="navigation">
+            <ul class="nav" id="side-menu">
+                <li class="active">
+                    <a href="{{ path('administracion_homepage') }}"> <span class="nav-label"><i class="fa fa-dashboard"></i> Panel de control</span></a>
+                </li>
+                <li>
+                    <a href="{{ path('administracion_pedido_listar') }}"> <span class="nav-label"><i class="fa fa-truck"></i> Pedidos</span></a>
+                </li>
+                <li>
+                    <a href="#"><span class="nav-label"><i class="fa fa-bullhorn"></i> Anuncios</span><span class="fa arrow"></span> </a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="{{ path('administracion_anuncio_listar') }}"><i class="fa fa-list"></i> Listado de anuncios</a></li>
+                        <li><a href="{{ path('administracion_categoria_listar') }}"><i class="fa fa-tag"></i> Categorías</a></li>
+                        <li><a  href="{{ path('administracion_categoria_adicionar', {'modoAdicionar': 2}) }}"  data-toggle="modal"><i class="fa fa-plus-circle"></i> Adicionar Categoría</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="{{ path('administracion_coleccion_listar') }}"><span class="nav-label"><i class="fa fa-bookmark"></i> Colecciones</span></a>
+                </li>
+                <li>
+                    <a href="{{ path('administracion_oferta_listar') }}"> <span class="nav-label"><i class="fa fa-bolt"></i> Ofertas</span></a>
+                </li>
+                <li>
+                    <a href="{{ path('administracion_tienda_listar') }}"> <span class="nav-label"><i class="fa fa-shopping-cart"></i> Tiendas</span></a>
+                </li>
+                <li>
+                    <a href="#"><span class="nav-label"><i class="fa fa-users"></i> Usuarios</span><span class="fa arrow"></span> </a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="{{ path('administracion_usuario_listar') }}"><i class="fa fa-list"></i> Listado de usuarios</a></li>
+                        <li><a  href="{{ path('administracion_usuario_adicionar', {'modoAdicionar': 2}) }}"  data-toggle="modal"><i class="fa fa-plus-circle"></i> Adicionar usuario</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="{{ path('administracion_notificacion_listar') }}"><i class="fa fa-bell"></i> Notificaciones</a>
+                </li>
+                <li>
+                    <a href="{{ path('administracion_objetivo_listar') }}"><span class="nav-label"><i class="fa fa-trophy"></i> Objetivos</span> </a>
+
+                </li>
+                <li>
+                    <a href="{{ path('administracion_categoriaObjetivo_listar') }}"><span class="nav-label"><i class="fa fa-tag"></i> Categorias de Objetivos</span> </a>
+
+                </li>
+
+                <li>
+                    <a href="{{ path('administracion_contenidos_home') }}"> <span class="nav-label"><i class="fa fa-home"></i> Contenidos de la HOME</span></a>
+                </li>
+                <li>
+                    <a href="#"><span class="nav-label"><i class="fa fa-truck"></i> Costos de Envío</span><span class="fa arrow"></span> </a>
+                    <ul class="nav nav-second-level">
+                        <li><a href="{{ path('administracion_costoenvio_listar') }}"><i class="fa fa-list"></i> Listado de Costos de Envío</a></li>
+                        <li><a  href="{{ path('administracion_costoenvio_adicionar') }}"  data-toggle="modal"><i class="fa fa-plus-circle"></i> Adicionar costo de envío</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="{{ path('administracion_solicitudretiro_listar') }}"> <span class="nav-label"><i class="fa fa-usd"></i> Solicitudes de Retiro</span></a>
+                </li>
+                <li>
+                    <a href="{{ path('administracion_configuracion_configuracion') }}"> <span class="nav-label"><i class="fa fa-cogs"></i> Configuraciones</span></a>
+                </li>
+                <li class="{{ page is defined and page == 'comisiones' ? 'active' : '' }}">
+                    <a href="{{ path('administracion_comisiones_index') }}"> <span class="nav-label"><i class="fa fa-usd"></i> Comisiones</span></a>
+                </li>
+            </ul>
+        </div>
+        {% endblock %}
+    </aside>
+    <!-- Main Wrapper -->
+
+    <div id="wrapper">
+        {% block normalheader %}
+        <div class="normalheader transition animated fadeIn">
+            <div class="hpanel">
+                <div class="panel-body">
+                    <a class="small-header-action" href="">
+                        <div class="clip-header">
+                            <i class="fa fa-arrow-up"></i>
+                        </div>
+                    </a>
+
+                    <div id="hbreadcrumb" class="pull-right m-t-lg">
+                        {% block breadcrumbs %}{% endblock %}
+                    </div>
+                    <h2 class="font-light m-b-xs">
+                        {% block titulo %}{% endblock %}
+                    </h2>
+                    <p>{% block subTitulo %}{% endblock %}</p>
+                </div>
+            </div>
+        </div>
+        {% endblock %}
+    {% block generalContent %}{% endblock %}
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+
+
+    <!-- Vendor scripts -->
+
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery-ui.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/waitMe/waitMe.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.slimscroll.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/metisMenu.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/metisMenu.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/icheck.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/index.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/dataTables.bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap.min.js') }}"></script>
+
+
+
+    <!-- index-->
+
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/adminTemplate.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/royal_preloader.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/alertify.js') }}"></script>
+
+
+
+
+    <!-- App scripts -->
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/homer.js') }}"></script>
+
+    <script>
+        function wait(container){
+            $(container).waitMe({
+                effect: 'facebook',
+                text: 'Por favor, espere...',
+                bg: 'rgba(255,255,255,0.7)',
+                color:'#000',
+                sizeW:'',
+                sizeH:'',
+                source: 'img.svg',
+                onClose: function() {}
+            });
+        }
+
+        function endWait(container){
+            $(container).waitMe('hide');
+        }
+
+
+
+
+    </script>
+
+    {% block customScripts %}{% endblock %}
+
+{% endblock %}

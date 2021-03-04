@@ -1,0 +1,327 @@
+{% extends '::publicTemplate.html.twig' %}
+
+{% block generalContent %}
+
+    <!-- Start Slider Revolution -->
+    <div class="rev_slider_wrapper hidden-xs">
+        <div class="rev_slider" data-version="5.0" id="slider1">
+            <ul>
+                {% if imagenesSlider|length > 0 %}
+                    {% for imagen in imagenesSlider %}
+                    <!-- Slide 1 -->
+                    <li data-delay="9000"
+                        data-description="Raleway Bootstrap Template"
+                        data-easein="default"
+                        data-easeout="default"
+                        data-masterspeed="default"
+                        data-param1="test"
+                        data-rotate="0"
+                        data-slotamount="default"
+                        data-title="Raleway Intro"
+                        data-thumb="{{ asset(uploads_images_slider_home)~imagen.url }}"
+                        data-transition="slideremoveup">
+
+                        <!-- MAIN IMAGE -->
+                        <img alt=""
+                             data-bgfit="cover"
+                             data-bgposition="center center"
+                             data-bgrepeat="no-repeat"
+                             data-no-retina=""
+                             height="340"
+                             src="{{ asset(uploads_images_slider_home)~imagen.url }}"
+                             style="background-color:#000"
+                             width="1600px">
+                    </li>
+                    {% endfor %}
+                    {% else %}
+                        <li data-delay="9000"
+                            data-description="Raleway Bootstrap Template"
+                            data-easein="default"
+                            data-easeout="default"
+                            data-masterspeed="default"
+                            data-param1="test"
+                            data-rotate="0"
+                            data-slotamount="default"
+                            data-title="Raleway Intro"
+                            data-thumb=""
+                            data-transition="slideremoveup">
+
+                            <!-- MAIN IMAGE -->
+                            <img alt=""
+                                 data-bgfit="cover"
+                                 data-bgposition="center center"
+                                 data-bgrepeat="no-repeat"
+                                 data-no-retina=""
+                                 height="340"
+                                 src=""
+                                 style="background-color:#000;"
+                                 width="1600">
+
+
+                        </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div><!-- /rev slider -->
+    <!-- End Slider Revolution -->
+
+    <div class="background-light-grey pt40 pb40 border-bottom">
+        <div class="container">
+            <div class="row">
+                <!-- Content 1 -->
+                <div class="col-sm-4 fadeInUp-animated text-center">
+                    <span class="ion-bag bordered-icon-sm bordered-icon-color"></span>
+                    <h4 class="mt15">Vende tus productos</h4>
+                    <p class="p15xs no-margin">
+                        Ya tengas un comercio, tienda, o simplemente quieras vender algo que ya no uses, este es tu sitio. Vende
+                        de forma segura y rápido.
+                    </p>
+                </div>
+                <!-- Content 2 -->
+                <div class="col-sm-4 fadeInUp-animated text-center mt20-xs">
+                    <span class="ion-star bordered-icon-sm bordered-icon-color"></span>
+                    <h4 class="mt15">Tiendas personalizadas</h4>
+                    <p class="p15xs no-margin">
+                        Sigue a tus vendedores favoritos buscando su tienda, donde encontrarás todos sus productos de un vistazo. Si eres vendedor profesional,
+                        podrás crear tu propia tienda con tu marca e imagen, para que tus clientes te reconozcan y lleguen más facil a tus productos.
+                    </p>
+                </div>
+                <!-- Content 3 -->
+                <div class="col-sm-4 fadeInUp-animated text-center mt20-xs">
+                    <span class="ion-ios7-cart bordered-icon-sm bordered-icon-color"></span>
+                    <h4 class="mt15">Compra fácil y seguro</h4>
+                    <p class="p15xs no-margin">Aquí podrás encontrar miles de productos, ofertas, y muy bien organizado, para que encuentres
+                        muy rápidamente lo que andas buscando.
+                    </p>
+                </div>
+            </div>
+        </div><!-- /container -->
+    </div><!-- /cta -->
+
+    <!-- Begin Quote -->
+    <div id="banner-venta-container" style="background-image:url('{{ asset(directorio_imagenes_public) }}bg-ventas.jpg');background-color: #000;padding: 150px 0 150px 0;" data-top-bottom="background-position: 20% -200px;" data-bottom-top="background-position: 20% -600px;">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 text-white text-center">
+                    <!-- Span -->
+                    <h2 style="color: #fff;font-size: 40px;">¿Necesitas vender algo?</h2>
+
+                    <!-- Content  -->
+                    <p  class="text-white mt15" style="visibility: visible; font-size: 30px;">
+                        Aquí puedes vender todos tus productos de forma rápida y segura
+                    </p>
+                    <a style="font-size: 20px;padding: 15px;margin-top:35px;}" class="btn btn-primary" href="{{ path('public_anuncio_publicar') }}">Publicar Anuncio</a>
+                </div>
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </div><!-- /bg div -->
+    <!-- End Quote -->
+
+
+    <!-- Begin Carousel + Intro -->
+    <div class="background-light-grey pt40 pb40 border-top">
+        <div class="container">
+            <!-- Begin Carousel + Content -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="heading mb30">
+                        <h3>Categorías Populares
+                            <span class="hidden-xs" style="font-size: 17px;margin-left: 29px;">Te mostramos las categorías más populares para que comiences tu búsqueda</span>
+                        </h3>
+                        <div class="owl-controls">
+                            <div id="customNav" class="owl-nav"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /row -->
+            <!-- End Carousel + Content -->
+
+            <div class="row">
+                <!--=== Content 1 ===-->
+                <div class="col-sm-3 text-center">
+                    <div class="content-box content-box-bordered white-bg-shadow">
+                        <span class="ion-ios7-monitor-outline bordered-icon-lg"></span>
+                        <h4 class="pt15"><a href="{{ path('public_anuncio_listar',{'slug': 'computacion'}) }}">Computación</a></h4>
+                    </div>
+                </div>
+                <!--=== Content 2 ===-->
+                <div class="col-sm-3 text-center">
+                    <div class="content-box content-box-bordered white-bg-shadow">
+                        <span class="ion-model-s bordered-icon-lg"></span>
+                        <h4 class="pt15"><a href="{{ path('public_anuncio_listar',{'slug': 'vehiculos'}) }}">Vehículos</a></h4>
+                    </div>
+                </div>
+                <!--=== Content 3 ===-->
+                <div class="col-sm-3 text-center">
+                    <div class="content-box content-box-bordered white-bg-shadow">
+                        <span class="ion-android-book bordered-icon-lg"></span>
+                        <h4 class="pt15"><a href="{{ path('public_anuncio_listar',{'slug': 'libros'}) }}">Libros</a></h4>
+                    </div>
+                </div>
+                <!--=== Content 4 ===-->
+                <div class="col-sm-3 text-center">
+                    <div class="content-box content-box-bordered white-bg-shadow">
+                        <span class="ion-bag bordered-icon-lg"></span>
+                        <h4 class="pt15"><a href="{{ path('public_anuncio_listar',{'slug': 'ropa'}) }}">Ropa</a></h4>
+                    </div>
+                </div>
+
+            </div><!-- /row -->
+
+        </div><!-- /container -->
+    </div><!-- /content -->
+    <!-- End Carousel + Intro -->
+
+    <section class="content-render-right content-render-1" style="background-image: url('{{ asset(directorio_imagenes_public) }}chick-render.png');margin-top:0;">
+        <div class="container">
+
+            <!-- Begin Freebie -->
+            <div class="row">
+                <!-- Video -->
+                <div class="col-sm-8 text-white fadeInRight-animated fadeInRight animated">
+                    <h3 class="text-white"><span style="height: 40px !important; width:40px !important;color: #fff;font-size: 25px !important;padding: 6px;" class="ion-ios7-cart bordered-icon-lg"></span> Tiendas especializadas</h3>
+                    <p>Los vendedores también podrán crear tiendas, donde podrán tener un espacio único</p>
+                    <p>y personalizado para mostrar sus productos</p>
+                    <a href="{{ path('public_tienda_listado') }}" class="btn btn-rw btn-clear mt10">
+                        Ver todas las tiendas
+                    </a>
+                </div><!-- /column -->
+            </div><!-- /row -->
+            <!-- End Freebie -->
+
+        </div><!-- /container -->
+    </section>
+
+    <input type="hidden" id="urlObtenerColeccion" value="{{ path('public_coleccion_obtener') }}">
+    <input type="hidden" id="imgColeccion" value="{{ asset(uploads_images_colecciones) }}">
+    <input type="hidden" id="imgProducto" value="{{ asset(uploads_images_productos) }}">
+
+    <input type="hidden" value="{{ path('public_anuncio_listar', {'slug':"0"}) }}" id="urlBuscarProductos2">
+
+{% endblock %}
+{% block customScripts %}
+
+    <script src="{{ asset('bundles/public/js/publicHome.js') }}"></script>
+    <script type="text/javascript" >
+//        $('#btnBuscarProductos').on('click', function (e) {
+//
+//            e.preventDefault();
+//
+//            if($('#containerProducto').length==0)
+//            {
+//                var url = $('#urlBuscarProductos2').val() + '?valorSearch=' + $('#general-search').val();
+//                window.location.replace(url);
+//            }
+//
+//        });
+    </script>
+
+    <!-- Slider Revolution Main -->
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+
+
+            var c=0;
+
+            $('.owl-carousel').each(function () {
+                c++;
+                //owl carousel thumbnail caption slider
+                $('#c'+c).owlCarousel({
+                    loop: true,
+                    margin: 30,
+                    nav: true,
+                    dots: false,
+                    navContainer: '#n'+c,
+                    navText: ["<span><</span>", "<span>></span>"],
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        600: {
+                            items: 1
+                        },
+                        1000: {
+                            items: 4
+                        }
+                    }
+                });
+
+            });
+
+
+
+
+            jQuery("#slider1").revolution({
+                sliderType:"standard",
+                startDelay:2500,
+                spinner:"spinner2",
+                sliderLayout:"auto",
+                viewPort:{
+                    enable:false,
+                    outof:'wait',
+                    visible_area:'100%'
+                }
+                ,
+                delay:9000,
+                navigation: {
+                    keyboardNavigation:"off",
+                    keyboard_direction: "horizontal",
+                    mouseScrollNavigation:"off",
+                    onHoverStop:"off",
+                    arrows: {
+                        style:"erinyen",
+                        enable:true,
+                        hide_onmobile:true,
+                        hide_under:600,
+                        hide_onleave:true,
+                        hide_delay:200,
+                        hide_delay_mobile:1200,
+                        tmp:'<div class="tp-title-wrap">  	<div class="tp-arr-imgholder"></div>    <div class="tp-arr-img-over"></div>	<span class="tp-arr-titleholder">fnrufnrufn</span> </div>',
+                        left: {
+                            h_align:"left",
+                            v_align:"center",
+                            h_offset:30,
+                            v_offset:0
+                        },
+                        right: {
+                            h_align:"right",
+                            v_align:"center",
+                            h_offset:30,
+                            v_offset:0
+                        }
+                    }
+                    ,
+                    touch:{
+                        touchenabled:"on",
+                        swipe_treshold : 75,
+                        swipe_min_touches : 1,
+                        drag_block_vertical:false,
+                        swipe_direction:"horizontal"
+                    }
+                    ,
+                    bullets: {
+                        enable:true,
+                        hide_onmobile:true,
+                        hide_under:600,
+                        style:"hermes",
+                        hide_onleave:true,
+                        hide_delay:200,
+                        hide_delay_mobile:1200,
+                        direction:"horizontal",
+                        h_align:"center",
+                        v_align:"bottom",
+                        h_offset:0,
+                        v_offset:30,
+                        space:5
+                    }
+                },
+                gridwidth:1240,
+                gridheight:497
+            });
+
+
+        });
+    </script>
+
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends '::publicTemplate.html.twig' %}
+
+{% block breadcrumbs %}
+    <!-- Begin Page Header -->
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <!-- Breadcrumbs -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb" id="containerBreadCrumb">
+                        <li><span class="ion-home breadcrumb-home"></span><a href="{{ path('public_homepage') }}">Inicio</a></li>
+
+                    </ol>
+                </div><!-- /column -->
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </div><!-- /page header -->
+{% endblock %}
+
+
+{% block generalContent %}
+    <section class="pt30 mb30" id="wait">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+
+                    <div class="row">
+                        <div class="heading mb30">
+
+
+                            <h4><span id="categoriaName"></span>Productos que visitaste recientemente</h4>'
+                            <a id="eliminarHistorial" tabindex="-1" data-toggle="modal" href="#dangerMessage-eliminarHistorial">Eliminar historial</a>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                       <div class  id="containerProductoHistorial">
+
+                       </div>
+                    </div>
+                </div>
+             </div>
+        </div>
+    </section>
+    <input type="hidden" id="urlProductoDetalles" value="{{ path('public_anuncio_detalles', {'slug':"0"}) }}">
+    <input type="hidden" id="urlProductos" value="{{ path('public_panel_usuario_historial') }}">
+    <input type="hidden" name="img-route" id="img-route" value="{{ asset(uploads_images_productos) }}">
+    <input type="hidden" id="productoid">
+    <input type="hidden" id="indicador">
+    <input type="hidden" id="usuarioid" value="{{ app.user.id }}">
+    <input type="hidden" id="start" value="0">
+    <input type="hidden" id="total" value="">
+    {% include 'PublicBundle:Templates:dangerMessage.html.twig' with {
+    'id':'eliminarHistorial',
+    'title':'Eliminar Historial',
+    'message':'¿Está seguro que desea eliminar el historial?'
+    } %}
+
+
+{% endblock %}
+{% block customScripts %}
+    <script type="text/javascript" src="{{ asset('bundles/public/js/alertify.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/publicPanelUsuarioHistorial.js') }}"></script>
+
+
+{% endblock %}
+
+
+

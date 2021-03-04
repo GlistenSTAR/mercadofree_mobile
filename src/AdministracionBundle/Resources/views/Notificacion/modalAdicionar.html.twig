@@ -1,0 +1,34 @@
+<div class="modal fade" id="modalAdicionarNotificacion" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="loginLabel">Adicionar Notificación</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="formAdicionarNotificacion" action="{{ path('administracion_notificacion_adicionar') }}" method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="iconoNotificacion">Icono<span class="required">*</span></label>
+                                <input required="required" class="form-control" type="text" name="iconoNotificacion" id="iconoNotificacion">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nombreNotificacion">Nombre<span class="required">*</span></label>
+                                <input required="required" class="form-control" type="text" name="nombreNotificacion" id="nombreNotificacion">
+                                <input class="form-control" type="hidden" name="modoAdicionar" id="modoAdicionar" value="1">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a id="btnSubmitNotificacionAdicionar" class="btn btn-rw btn-primary">Aceptar <img id="submitEditLoading" style="display: none;" class="img-responsive" src="spinner.gif"></a>
+                <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
+            </div>
+        </div><!-- /modal content -->
+    </div><!-- /modal dialog -->
+</div><!-- /modal holder -->
+<!-- End Register -->

@@ -1,0 +1,150 @@
+{% extends '::publicPanelUsuario.html.twig' %}
+
+{% block breadcrumbPanelUsuario %}
+    <li>Métodos de envío</li>
+{% endblock %}
+
+{% block menuPanelUsuario %}
+    {% include 'PublicBundle:Templates:menuPanelUsuario.html.twig' with {'page':'envios'} %}
+{% endblock %}
+
+{% block headerCenterContent %}
+    <h4>Métodos de envío</h4>
+{% endblock %}
+
+{% block centerContent %}
+    <div class="col-xs-12">
+        <h4>Selecciona las formas de envío que ofrecerás a los compradores</h4>
+    </div>
+    <div class="col-xs-12" style="padding-left: 35px;">
+        <form role="form" method="post" id="formGrupoCosto" action="{{ path('public_panel_usuario_envios') }}">
+            <div class="form-group">
+                <div class="checkbox" >
+                    {% set flagEnvioGratis=false %}
+                    {% for en in envios %}
+                        {% if en.slug=="envio-gratis" %}
+                            {% set flagEnvioGratis=true %}
+                        {% endif %}
+                    {% endfor %}
+                    <input type="checkbox" name="1" id="envio-gratis" {{ flagEnvioGratis==true?"checked":"" }}>
+                    <label style="padding-left: 0;">Envío gratis a todo el país</label>
+                    <p class="help-block" style="margin-left: -19px;"><i class="fa fa-question-circle"></i>
+                        Ofreces envío a cualquier parte del país sin costo adicional. Si marcas esta opción, se mostrará solo este tipo de envío
+                        en tus productos, aunque se mantienen tus otras configuraciones de envío.
+                    </p>
+                </div>
+            </div>
+            {#<div class="form-group">#}
+                {#<div class="checkbox">#}
+                    {#{% set flag=false %}#}
+                    {#{% for en in envios %}#}
+                        {#{% if en.slug=="envio-domicilio-mercadofree" %}#}
+                            {#{% set flag=true %}#}
+                        {#{% endif %}#}
+                    {#{% endfor %}#}
+                    {#<input {{ flagEnvioGratis?'disabled':'' }} id="envio-mercadofree" type="checkbox" name="2" {{ flag==true?"checked":"" }}>#}
+                    {#<label style="padding-left: 0;">Envío por MercadoFree</label>#}
+                    {#<p class="help-block" style="margin-left: -19px;"><i class="fa fa-question-circle"></i>#}
+                        {#Se aplicarán los costos de envío de MercadoFree según la dirección del comprador.#}
+                    {#</p>#}
+                {#</div>#}
+            {#</div>#}
+            <div class="form-group">
+                <div class="checkbox">
+                    {% set flag=false %}
+                    {% for en in envios %}
+                        {% if en.slug=="recogida-domicilio-vendedor" %}
+                            {% set flag=true %}
+                        {% endif %}
+                    {% endfor %}
+                    <input id="recogida-domicilio-vendedor" {{ flagEnvioGratis?'disabled':'' }} type="checkbox" name="5" {{ flag==true?"checked":"" }}>
+
+                    <label style="padding-left: 0;">Recogida en tienda</label>
+                    <p class="help-block" style="margin-left: -19px;"><i class="fa fa-question-circle"></i>
+                        Al terminar la compra, se le mostrarán tus datos de contacto al comprador, para que se pongan de acuerdo
+                        para recoger su pedido.
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox">
+                    {% set flag=false %}
+                    {% for en in envios %}
+                        {% if en.slug=="envio-domicilio-vendedor" %}
+                            {% set flag=true %}
+                        {% endif %}
+                    {% endfor %}
+                    <input {{ flagEnvioGratis?'disabled':'' }} type="checkbox" id="edv" name="3" {{ flag==true?"checked":"" }}>
+
+                    <label style="padding-left: 0;">Personalizado</label>
+                    <p class="help-block" style="margin-left: -19px;"><i class="fa fa-question-circle"></i>
+                        Te encargas del envío de tus productos, estableciendo costos de envío segun la zona, peso y dimensiones, o gratis, como mejor
+                        se adapte a tus necesidades.
+                    </p>
+                </div>
+                <div id="regiones-envio-container"  class="content-box content-box-bordered text-left" style="margin-left: -20px;display: {{ flag==true?"inline-block":"none" }}">
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <input id="costoFijoPaisCheck" type="checkbox" name="4" style="margin-left: 0" {{ app.user.getEnvioFijoPais!=null?"checked":"" }}>
+                            <label style="padding-left: 19px;">Costo de envío para todo el país</label>
+                        </div>
+                    </div>
+                    <div id="costoFijoPais" class="form-group" style="display:{{ (app.user.getEnvioFijoPais!=null and app.user.getEnvioFijoPais.todoElPais==true and flag==true)?"inline":"none" }};">
+                        <label>Costo: </label>
+                        <input style="margin-bottom: 20px;width: 28%;" type="number" name="costoFijo" class="form-control" value="{{ (app.user.getEnvioFijoPais!=null and app.user.getEnvioFijoPais.todoElPais==true and flag==true)?app.user.getEnvioFijoPais.costo:"" }}">
+                    </div>
+                    <section id="gruposCostoPais">
+                        <p>Crea configuraciones de envío con un precio determinado, o gratis, según tus preferencias. Estos precios se aplicarán con mayor prioridad
+                        al precio general que definas arriba, si es el caso.</p>
+                        <hr/>
+                        <section class="costoE">
+                            {% for g in gruposCostoEnvio %}
+                                {% if( not g.todoElPais ) %}
+                                    <section>
+                                        <p>{{ g.provinciaid != null ? g.provinciaid.nombre : 'Todo el país' }} {{ g.ciudadid!=null?" > "~g.ciudadid.ciudadNombre:"" }} - <b>{{ g.gratis==true?"Gratis":"$"~g.costo }}</b>  <a id="{{ g.id }}" style="padding: 0px 7px;margin-left: 10px;" class="btn btn-danger eliminarCosto"><i class="fa fa-trash"></i></a></p>
+
+                                        <p class="dimensiones-envio" style="font-size: 13px;">
+                                            {{ g.peso != null ? 'Hasta '~g.peso~' Kg' }}
+                                            {{ g.peso !=null and g.ancho != null ? ', Ancho: '~g.ancho~' cm' : ( g.ancho != null ? 'Ancho: '~g.ancho~' cm' ) }}
+                                            {{ (g.peso !=null or g.ancho != null) and g.alto != null ? ', Alto: '~g.alto~' cm' : ( g.alto != null ? 'Alto: '~g.alto~' cm' ) }}
+                                            {{ (g.peso !=null or g.ancho != null or g.alto != null) and g.profundidad != null ? ', Profundidad: '~g.profundidad~' cm' : ( g.profundidad != null ? 'Profundidad: '~g.profundidad~' cm' ) }}
+                                        </p>
+                                    </section>
+                                {% endif %}
+                            {% endfor %}
+                        </section>
+
+                        <a href="#modalCrearGrupoCostoEnvio" data-toggle="modal" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Crear nuevo grupo</a>
+                    </section>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <hr style="margin-left: -20px;"/>
+                <a style="margin-left: -20px;" class="btn btn-primary guardar"><i class="fa fa-save"></i> Guardar Cambios</a>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block includes %}
+    {% include 'PublicBundle:Templates:modalCrearGrupoCostoEnvio.html.twig' with {
+    'provincias': provincias,
+    'gruposEnvios': gruposCostoEnvio}%}
+{% endblock %}
+{% block hiddensPanelUsuario %}
+    <input type="hidden" value="{{ path('public_ciudad_obtenerCiudades') }}" id="urlObtenerCiudades" />
+    {#<input type="hidden" value="{{ path('public_costoenvio_agregarcostoenvio') }}" id="urlAgregarCostoEnvio">#}
+    <input type="hidden" value="{{ path('public_costoenvio_eliminarcostoenvio') }}" id="urlEliminarCostoEnvio">
+    <input type="hidden" value="{{ path('public_direccion_obtener') }}" id="urlObtenerDireccion" />
+    <input type="hidden" value="{{ path('public_direccion_obtenerid') }}" id="urlObtenerDireccionId" />
+    <input type="hidden" value="{{ path('public_direccion_eliminar') }}" id="urlEliminarDireccion" />
+    <input type="hidden" id="idDireccion" />
+
+{% endblock %}
+{% block customScriptsPanelUsuario %}
+    <script type="text/javascript" src="{{ asset('bundles/public/js/Validators/validatorUsuario.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/publicPanelUsuarioTipoEnvio.js') }}"></script>
+
+{% endblock %}

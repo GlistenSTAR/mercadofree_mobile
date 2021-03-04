@@ -1,0 +1,65 @@
+<div class="modal fade" id="modalEditarDatosCuentaEmpresa" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="loginLabel"><i class="fa fa-plus-circle"></i> Modificar Datos Cuenta Empresa</h4>
+            </div>
+            <div class="modal-body" id="containerDireccion">
+                <form action="{{ path('public_panel_usuario_editar_perfil') }}" id="formEmpresaCuenta" role="form" method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="emailE">Correo Electrónico <span class="required">*</span></label>
+                                <input required="required" class="form-control" type="text" name="emailE" id="emailE" value="{{ usuario.email!=null?usuario.email:"" }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="cuitE">CUIT<span class="required">*</span></label>
+                                <input required="required" class="form-control" type="text" name="cuitE" id="cuitE" value="{{ usuario.empresaid!=null?usuario.empresaid.cuit:"" }}">
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="razonsocialE">Razon Social<span class="required">*</span></label>
+                                <input required="required" class="form-control" type="text" name="razonsocialE" id="razonsocialE" value="{{ usuario.empresaid!=null?usuario.empresaid.razonSocial:"" }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="telefonoE">Telefono <span class="required">*</span></label>
+                                <input required="required" class="form-control" type="text" name="telefonoE" id="telefonoE" value="{{ usuario.telefono!=null?usuario.telefono:"" }}">
+                            </div>
+                        </div>
+
+                        <input id="modificar" name="modificar" value="3" hidden>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <span id="dul2" style="color: red" hidden>Deben coincidir las claves</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Clave</label>
+                                <input class="form-control" type="text" name="passwordE" id="passwordE" value="">
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Repetir Clave</label>
+                                <input class="form-control" type="text" name="passwordE2" id="passwordE2" value="">
+                            </div>
+
+
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a id="btnSubmitEditarCuentaEmpresa"  class="btn btn-rw btn-primary">Aceptar <img id="submitEditLoading" style="display: none;" class="img-responsive" src=""></a>
+                <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
+
+            </div>
+        </div><!-- /modal content -->
+    </div><!-- /modal dialog -->
+</div><!-- /modal holder -->

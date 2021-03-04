@@ -1,0 +1,194 @@
+{% extends '::adminTemplate.html.twig' %}
+
+{% block mainMenu %}
+    {% include 'AdministracionBundle:Templates:mainMenu.html.twig' with {'page':'comisiones'} %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% include 'AdministracionBundle:Templates:breadcrumbs.html.twig' with {'items':[
+    {'raiz':true,'title':'Comisiones'},
+    ]} %}
+{% endblock %}
+
+{% block titulo %}<i class="fa fa-usd"></i> Comisiones de Venta {% endblock %}
+{% block subTitulo %} Configure las comisiones sobre los precios de ventas establecidos, en base a rangos de precios o categoría del producto {% endblock %}
+{% block generalContent %}
+    <div class="normalheader animated-panel zoomIn" style="animation-delay: 0.1s;padding-top:20px;">
+    <div class="hpanel">
+    <div class="panel-body" id="app">
+        <div v-if="mode==2">
+            <div class="row">
+                <div class="col-xs-12">
+                    <button
+                        type="button" 
+                        @click.stop.prevent="crear()"
+                        class="buttonDataTable btn btn-primary"
+                        style="margin-right: 5px;padding: 5px; margin-bottom: 10px;">
+                        <i class="fa fa-plus-circle"></i> Nueva
+                    </button>
+                    <button
+                        type="button"
+                        class="buttonDataTable btn btn-primary"
+                        :disabled="!hasSelected"
+                        @click.stop.prevent="editar()"
+                        style="margin-right: 5px;padding: 5px; margin-bottom: 10px;">
+                        <i class="fa fa-edit"></i> Editar
+                    </button>
+                    <button
+                        type="button"
+                        class="buttonDataTable btn btn-danger"
+                        :disabled="!hasSelected"
+                        @click.stop.prevent="eliminar()"
+                        style="margin-right: 5px;padding: 5px; margin-bottom: 10px;">
+                        <i class="fa fa-trash"></i> Eliminar
+                    </button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 mt10 table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr style="color:#FFF;background:#424242;">
+                                <th><input type="checkbox" v-model="checkall" @change="toogleAll()"></th>
+                                <th>Tipo</th>
+                                <th>Catégoria</th>
+                                <th>Precio Mínimo</th>
+                                <th>Precio Máximo</th>
+                                <th>Comisión</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-if="list.length > 0" v-for="(item, index) in list">
+                                <th><input type="checkbox" v-model="item.selected"></th>
+                                <td>{[{ item.categoria == null ? 'Rango' : 'Categoria' }]}</td>
+                                <td>{[{ getCategoria(item.categoria) }]}</td>
+                                <td>{[{ item.precio_minimo | currency }]}</td>
+                                <td>{[{ item.precio_maximo | currency }]}</td>
+                                <td>{[{ item.comision + '%' }]}</td>
+                            </tr>
+                            <tr v-if="list.length == 0">
+                                <td colspan="6" class="text-center">
+                                    No existen registros
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div v-if="mode==3">
+            <div class="row">
+                <div class="col-xs-12 col-md-8 col-md-offset-2">
+                    <form name="form">
+                        <div class="form-group">
+                            <label for="tipo">Tipo</label>
+                            <select
+                                class="form-control"
+                                id="tipo"
+                                name="tipo"
+                                v-validate="'required'"
+                                ref="tipo"
+                                @change="cambioTipo"
+                                v-model="form.tipo">
+                                <option value="">Seleccione</option>
+                                <option value="1">Rango</option>
+                                <option value="2">Categoría</option>
+                            </select>
+                            <small class="text-danger">{[{ errors.first('tipo') }]}</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="precio_minimo">Precio Mínimo:</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="precio_minimo"
+                                name="precio_minimo"
+                                placeholder="Precio Mínimo"
+                                v-validate="'decimal:2|min_value:0'"
+                                v-model="form.precio_minimo"
+                                v-bind:disabled="form.tipo==2">
+                            <small class="text-danger">{[{ errors.first('precio_minimo') }]}</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="precio_maximo">Precio Máximo:</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="precio_maximo"
+                                name="precio_maximo"
+                                placeholder="Precio Máximo"
+                                v-model="form.precio_maximo"
+                                v-validate="'decimal:2|min_value:0'"
+                                v-bind:disabled="form.tipo==2">
+                            <small class="text-danger">{[{ errors.first('precio_maximo') }]}</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="categoria">Categoría:</label>
+                            <select
+                                class="form-control"
+                                id="categoria"
+                                name="categoria"
+                                v-model="form.categoria"
+                                v-validate="''"
+                                v-bind:disabled="form.tipo==1">
+                                <option value="">Seleccione</option>
+                                <option v-for="item in categorias" v-bind:value="item.id">{[{ item.nombre }]}</option>
+                            </select>
+                            <small class="text-danger">{[{ errors.first('categoria') }]}</small>
+                        </div>
+                        <div class="form-group">
+                            <label for="comision">Comisión:</label>
+                            <input
+                                type="number"
+                                class="form-control"
+                                id="comision"
+                                name="comision"
+                                placeholder="Comisión"
+                                v-validate="'required|numeric|between:1,100'"
+                                v-model="form.comision"
+                                required>
+                            <small class="text-danger">{[{ errors.first('comision') }]}</small>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <button
+                                    type="button"
+                                    class="btn btn-primary"
+                                    @click.stop.prevent="salvar(form)"
+                                    type="submit">
+                                    Salvar
+                                </button>
+                                <button
+                                    type="button"
+                                    class="btn btn-danger"
+                                    @click.stop.prevent="clearForm(); mode = 2;">
+                                    Cancelar
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+{% endblock  %}
+
+{% block customScripts %}
+
+    <script type="text/javascript">
+        const URL_CONTROL = "{{ url('administracion_comisiones_control') }}";
+        const URL_CREAR = "{{ url('administracion_comisiones_guardar') }}";
+        const URL_ELIMINAR = "{{ url('administracion_comisiones_eliminar') }}";
+    </script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/homer.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/vue.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/veevalidate.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/vue-resource.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/sweetalert2.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/administracionComisiones.js') }}"></script>
+
+{% endblock %}

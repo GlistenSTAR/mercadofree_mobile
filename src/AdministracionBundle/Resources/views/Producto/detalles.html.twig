@@ -1,0 +1,162 @@
+{% extends '::adminTemplate.html.twig' %}
+
+{% block mainMenu %}
+    {% include 'AdministracionBundle:Templates:mainMenu.html.twig' with {'page':'anuncios'} %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% include 'AdministracionBundle:Templates:breadcrumbs.html.twig' with {'items':[
+    {'raiz':false,'title':'Producto','href':'#'},
+    {'raiz':true,'title':'Detalles de el Producto'}
+    ]} %}
+{% endblock %}
+
+{% block titulo %}Detalles de el Producto{% endblock %}
+{% block subTitulo %}Detalles del producto seleccionado.{% endblock %}
+{% block generalContent %}
+    <div class="content animate-panel">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="hpanel">
+                    {#<div class="panel-heading">
+                            <div class="panel-tools">
+                                    <a class="showhide"><i class="fa fa-chevron-up"></i></a>
+                                    <a class="closebox"><i class="fa fa-times"></i></a>
+                            </div>
+
+                    </div>#}
+                    <div class="panel-body">
+                        <input type="button" id="volverProducto" value="Volver Atras" class="buttonDataTable"  style="padding: 5px; margin-bottom: 10px;"/>
+                        <div class="row" >
+                            <div class="col-md-4" >
+                                <div class="hpanel">
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <img id="imgProductoContainerDetalles"  class="img-responsive" src="{{ asset(uploads_images_productos) }}{{ producto.getImagenDestacada }}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="nombreProductoDetalles">Nombre<span class="required">*</span></label>
+                                    <input required="required" disabled class="form-control" type="text" name="nombreProductoDetalles" id="nombreProductoDetalles" value="{{ producto.nombre }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cuotasProductoDetalles">Cuotas/Pagar<span class="required">*</span></label>
+                                    <input required="required" disabled class="form-control" type="text" name="cuotasProductoDetalles" id="cuotasProductoDetalles" value="{{ producto.cuotaspagar }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="categoriaProductoDetalles">Categoria<span class="required">*</span></label>
+                                    <input required="required" disabled class="form-control" type="text" name="categoriaProductoDetalles" id="categoriaProductoDetalles" value="{{ producto.categoriaid.nombre }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="estadoProductoDetalles">Estado<span class="required">*</span></label>
+                                    <input required="required" disabled class="form-control" type="text" name="estadoProductoDetalles" id="estadoProductoDetalles" value="{{ producto.estadoProductoid.nombre }}">
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label for="precioProductoDetalles">Precio<span class="required">*</span></label>
+                                    <input required="required" disabled class="form-control" type="text" name="precioProductoDetalles" id="precioProductoDetalles" value="{{ producto.precio }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="cantidadProductoDetalles">Cantidad<span class="required">*</span></label>
+                                    <input required="required" disabled class="form-control" type="text" name="cantidadProductoDetalles" id="cantidadProductoDetalles" value="{{ producto.cantidad }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="usuarioProductoDetalles">Usuario<span class="required">*</span></label>
+                                    <input required="required" disabled class="form-control" type="text" name="usuarioProductoDetalles" id="usuarioProductoDetalles" value="{{ producto.usuarioid.email }}">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12" >
+                                <div class="hpanel">
+                                    <div class="panel-heading">Características</div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-lg-12">
+                                                <ul style="list-style:none;margin-left:-40px;">
+                                                    {% for caracteristica in caracteristicas %}
+                                                        <li style="float: left;margin-left: 25px;"><i class="fa fa-check"></i> {{ caracteristica.caracteristicaCategoriaid.nombre }} : {{ caracteristica.valor }}</li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label for="descripcionProductoDetalles">Descripcion<span class="required">*</span></label>
+                                    <textarea required="required" disabled class="form-control" rows="10" name="descripcionProductoDetalles" id="descripcionProductoDetalles">{{ producto.descripcion }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+    <input type="hidden" value="{{ path('administracion_anuncio_listar') }}" id="urlListar">
+    <input type="hidden" value="{{producto.id}}" id="idProducto">
+    <input type="hidden" value="{{ asset(uploads_images_productos) }}" id="urlImagen">
+
+
+
+
+
+{% endblock  %}
+
+{% block customScripts %}
+
+    <!-- Vendor scripts -->
+
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery-ui.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.slimscroll.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/metisMenu.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/metisMenu.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/icheck.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/sparkline/index.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/index.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/dataTables.bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap.min.js') }}"></script>
+
+    <!-- App scripts -->
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/homer.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/vue.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/vue-resource.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/administracionProducto.js') }}"></script>
+
+    <!-- Simple Ajax Uploader -->
+
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/simpleAjaxUploader/SimpleAjaxUploader.min.js') }}"></script>
+
+    <script>
+        $('#fechaRegistroAdicionarUsuario').datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true
+        });
+
+
+
+    </script>
+{% endblock %}

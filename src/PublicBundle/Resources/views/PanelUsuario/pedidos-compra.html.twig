@@ -1,0 +1,283 @@
+{% extends '::publicPanelUsuario.html.twig' %}
+
+{% block breadcrumbPanelUsuario %}
+    <li>Compras</li>
+{% endblock %}
+
+{% block menuPanelUsuario %}
+    {% include 'PublicBundle:Templates:menuPanelUsuario.html.twig' with {'page':'pedidos_comprador'} %}
+{% endblock %}
+
+{% block headerCenterContent %}
+    <h4>Compras</h4>
+{% endblock %}
+
+{% block centerContent %}
+    <div class="col-xs-12 mt10 hidden-xs">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Código</th>
+                <th>Fecha</th>
+                <th>Monto</th>
+                <th>Estado</th>
+                <th></th>
+            </tr>
+            </thead><!-- /table header -->
+            <tbody id="pedidosListado">
+                {% for pedido in pedidos %}
+                    <tr id="tr{{ pedido.id }}">
+                        <td>{{ pedido.codigo }}</td>
+                        <td>{{ pedido.fecha|date('d/m/Y') }}</td>
+                        <td><b>$ {{ pedido.getTotal()|number_format(2,',','.') }}</b></td>
+                        <td>{{ pedido.estado.nombre }}</td>
+                        <td>
+                            <div class="dropdown mb{{ pedido.id }}">
+                                <button id="dropdownMenu1" class="btn btn-rw btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                                    Opciones <span class="caret"></span>
+                                </button>
+                                <ul id="ul{{ pedido.id }}" class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                    {% if pedido.puedeValorarse(configuracion) %}
+                                        <li role="presentation"><a role="menuitem" class="calificar-button" href="#modalValorarPedido" data-toggle="modal" data-cod-pedido="{{ pedido.codigo }}">Calificar</a></li>
+                                    {% endif %}
+                                    <li role="presentation"><a role="menuitem"  href="{{ path('public_panel_usuario_compras_detalle',{'codPedido':pedido.codigo}) }}">Ver detalles</a></li>
+                                    {% if pedido.cerrado() %}
+                                        <li role="presentation"><a role="menuitem" class="btnEliminarPedido" data-id="{{ pedido.id }}" href="#">Eliminar</a></li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                            <br/>
+                            {% if pedido.valoracionPedido %}
+                                <a class="btn btn-rw btn-info detalle-calificacion-button"
+                                   href="#modalDetalleCalificacionPedido"
+                                   data-toggle="modal"
+                                   data-codigo-pedido="{{ pedido.codigo }}"
+                                   data-tiempo-entrega="{{ pedido.valoracionPedido.getDetalleTiempoEntrega() }}"
+                                   data-calidad-producto="{{ pedido.valoracionPedido.getDetalleCalidadProducto() }}"
+                                   data-compra-aceptada="{{ pedido.valoracionPedido.compraAceptada }}"
+                                   data-motivo-rechazo="{{ pedido.valoracionPedido.motivoRechazo }}">
+                                    Calificación
+                                </a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+
+            </tbody><!-- /table body -->
+        </table><!-- /hover table -->
+
+    </div>
+
+    <div class="col-xs-12 visible-xs">
+        {% for pedido in pedidos %}
+            <div class="panel">
+                <div class="panel-heading" style="background: #ececec;"><h4>{{ pedido.codigo }}</h4></div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>Fecha: </label>
+                        {{ pedido.fecha|date('d/m/Y') }}
+                    </div>
+                    <div class="form-group">
+                        <label>Monto: </label>
+                        <b>$ {{ pedido.getTotal()|number_format(2,',','.') }}</b>
+                    </div>
+                    <div class="form-group">
+                        <label>Estado: </label>
+                        <b>{{ pedido.estado.nombre }}</b>
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="dropdown mb{{ pedido.id }}">
+                                    <button id="dropdownMenu1" class="btn btn-rw btn-primary dropdown-toggle" type="button" data-toggle="dropdown" aria-expanded="false">
+                                        Opciones <span class="caret"></span>
+                                    </button>
+                                    <ul id="ul{{ pedido.id }}" class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                        {% if pedido.puedeValorarse(configuracion) %}
+                                            <li role="presentation"><a role="menuitem" class="calificar-button" href="#modalValorarPedido" data-toggle="modal" data-cod-pedido="{{ pedido.codigo }}">Calificar</a></li>
+                                        {% endif %}
+                                        <li role="presentation"><a role="menuitem"  href="{{ path('public_panel_usuario_compras_detalle',{'codPedido':pedido.codigo}) }}">Ver detalles</a></li>
+                                        {% if pedido.cerrado() %}
+                                            <li role="presentation"><a role="menuitem" class="btnEliminarPedido" data-id="{{ pedido.id }}" href="#">Eliminar</a></li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-xs-6 text-right">
+                                {% if pedido.valoracionPedido %}
+                                    <a class="btn btn-rw btn-info detalle-calificacion-button"
+                                       href="#modalDetalleCalificacionPedido"
+                                       data-toggle="modal"
+                                       data-codigo-pedido="{{ pedido.codigo }}"
+                                       data-tiempo-entrega="{{ pedido.valoracionPedido.getDetalleTiempoEntrega() }}"
+                                       data-calidad-producto="{{ pedido.valoracionPedido.getDetalleCalidadProducto() }}"
+                                       data-compra-aceptada="{{ pedido.valoracionPedido.compraAceptada }}"
+                                       data-motivo-rechazo="{{ pedido.valoracionPedido.motivoRechazo }}">
+                                        Calificación
+                                    </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+        
+    
+{% endblock %}
+
+{% block includes %}
+        <div class="row">
+            <div class="col-xs-12">
+            {% include 'PublicBundle:PanelUsuario:modalValorarPedido.html.twig' with {
+                'opcionesValoracionCalidadProductoPedido' : opcionesValoracionCalidadProductoPedido,
+                'opcionesValoracionTiempoEntregaPedido' : opcionesValoracionTiempoEntregaPedido
+                }
+            %}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">    
+                {% include 'PublicBundle:PanelUsuario:modalDetalleCalificacionPedido.html.twig'%}
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                {% include 'PublicBundle:Templates:dangerMessage.html.twig' with {
+                    'id':'eliminarPedido',
+                    'title':'¿Está seguro de eliminar este Pedido?',
+                    'message':'Si eliminas este pedido, perderás todos los datos asociados a él, y no los podrás recuperar'
+                } %}
+            </div>
+        </div>
+{% endblock %}
+
+{% block hiddensPanelUsuario %}
+    <input type="hidden" id="urlPedidos" value="{{ path('public_pedido_paginadopedidocompras') }}">
+    <input type="hidden" id="urlEliminarPedido" value="{{ path('public_pedido_eliminar') }}">
+    <input type="hidden" name="img-route" id="img-route" value="{{ asset(uploads_images_productos) }}">
+    <input type="hidden" id="indicador">
+    <input type="hidden" id="idPedido">
+    <input type="hidden" id="usuarioid" value="{{ app.user.id }}">
+    <input type="hidden" id="start" >
+    <input type="hidden" id="total" value="{{ pedidos|length }}">
+{% endblock %}
+
+{% block customScriptsPanelUsuario %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.calificar-button').click(function() {
+                var codPedido = $(this).data('cod-pedido');
+                $('#codPedido').val(codPedido);
+            });
+            
+            $('#btnSubmitValorarPedido').click(function () {
+                var form = $('#formValorarPedido');
+                var tiempoEntrega = false;
+                var calidadProducto = false;
+                var estadoCompra = false;
+
+                // Verificar si ha sleccionado todas las opciones
+
+                $('#formValorarPedido .tiempoEntregaOptions').each(function (){
+                    if($(this).prop('checked')){
+                        tiempoEntrega = true;
+                    }
+                });
+
+                $('#formValorarPedido .calidadProductoOptions').each(function (){
+                    if($(this).prop('checked')){
+                        calidadProducto = true;
+                    }
+                });
+
+                $('#formValorarPedido .btnAceptaCompra').each(function (){
+                    if($(this).prop('checked')){
+                        estadoCompra = true;
+                    }
+                });
+
+                if(tiempoEntrega && calidadProducto && estadoCompra){
+                    form.submit();
+                }
+                else{
+                    alert("Debe valorar todos los aspectos mostrados en la ventana de valoración");
+                }
+
+
+            });
+            
+            $('.btnAceptaCompra').click(function() {
+                var aceptaCompra = $(this).val();
+                
+                if(aceptaCompra == 'Si') {
+                    $('.motivo-rechazo-row').hide();
+                } else {
+                    $('.motivo-rechazo-row').show();
+                }
+            });
+            
+            $('.detalle-calificacion-button').click(function () {
+                $('.label-codigo-pedido').html($(this).data('codigo-pedido'));
+                $('.label-tiempo-entrega').html($(this).data('tiempo-entrega'));
+                $('.label-calidad-producto').html($(this).data('calidad-producto'));
+                var compraAceptada = $(this).data('compra-aceptada');
+                if(compraAceptada) {
+                    $('.label-compra-aceptada').html('La compra fue aceptada');
+                    $('.motivo-rechazo-row').hide();
+                } else {
+                    $('.label-compra-aceptada').html('La compra fue rechazada');
+                    $('.label-motivo-rechazo').html($(this).data('motivo-rechazo'));
+                    $('.motivo-rechazo-row').show();
+                }
+            });
+            
+            $('#pedidosListado').on('click','.btnEliminarPedido',function (e) {
+                e.preventDefault();
+
+                var id=$(this).attr('data-id');
+
+                $('#idPedido').val(id);
+
+                $('#dangerMessage-eliminarPedido').modal('show');
+            });
+
+            $('#btnConfirmDanger-eliminarPedido').on('click', function (e) {
+
+                var id=$('#idPedido').val();
+
+                var url=$('#urlEliminarPedido').val();
+
+                wait('#wait');
+
+                $.ajax(url, {
+                    type: 'post',
+                    dataType: 'json',
+                    async: false,
+                    data: {
+                        "idPedido": id
+                    }
+                }).done(function (response) {
+
+                    endWait('#wait');
+
+                    if(!response[0]){
+                        alertify.error(response[1]);
+                    }
+                    else{
+                        var selector="#tr"+id;
+
+                        $(selector).remove();
+                        alertify.success("El pedido ha  sido eliminado satisfactoriamente.");
+                    }
+
+                    $('#dangerMessage-eliminarPedido').modal('hide');
+
+                });
+            });
+        });
+    </script>
+{% endblock %}
+

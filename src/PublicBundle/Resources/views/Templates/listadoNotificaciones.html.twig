@@ -1,0 +1,27 @@
+<div class="btn-group btn-user-main-menu">
+    <input type="hidden" id="urlSetNotificacionesLeidas" value="{{ path('public_notificacion_set_leidas') }}">
+    <button id="btnOpenNotifications" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+        <span class="fa fa-bell"></span>
+        {% if noLeidas > 0 %}
+            &nbsp;
+            <span class="badge" style="color:#c12a2a;">{{ noLeidas }}</span>
+        {% endif %}
+    </button>
+    <ul id="notificaciones-menu" class="dropdown-menu" role="menu">
+        {% if notificaciones | length == 0 %}
+            <li style="padding: 25px;">
+                <p style="text-align: center"><i class="fa fa-thumbs-o-up" style="font-size: 26px;"></i></p>
+                <p class="notificaciones-title" style="text-align: center;color: #424141;">Por el momento no tienes notificaciones</p>
+            </li>
+        {% else %}
+            {% for notif in notificaciones %}
+                <li class="{{ notif.leida ? 'read' : '' }}">
+                    <p class="notificaciones-title"><b>{{ notif.notificacion.titulo }}</b></p>
+                    <p class="notificaciones-message">{{ notif.mensaje }}</p>
+                </li>
+            {% endfor %}
+            <li class="divider"></li>
+            <li class="del-notificaciones"><a id="deleteAllNotifications" data-url="{{ path('public_notificacion_delete_all') }}" class="btn btn-danger" href="#"><i class="fa fa-trash"></i> Eliminar todas</a></li>
+        {% endif %}
+    </ul>
+</div>

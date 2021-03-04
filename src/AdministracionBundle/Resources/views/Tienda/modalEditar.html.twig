@@ -1,0 +1,57 @@
+<div class="modal fade" id="modalEditarTienda" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="loginLabel"><i class="fa fa-edit"></i> Editar Tienda</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="formEditarTienda" action="{{ path('administracion_tienda_editar') }}" method="post">
+                    <div class="row">
+                        <div class="col-md-4" style="text-align: center;">
+                            <img id="imgEditarTiendaContainer" class="img-responsive">
+                            <input hidden id="routeImg" value="">
+                        </div>
+                        <input type="hidden" name="imgEditarAlbum" id="imgEditarAlbum">
+
+
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="nombreEditar">Nombre<span class="required">*</span></label>
+                                <input disabled required="required" class="form-control" type="text" name="nombreEditar" id="nombreEditar">
+                            </div>
+                            <div class="form-group">
+                                <label for="tituloAlbum">Usuario<span class="required">*</span></label>
+                                <input disabled required="required" class="form-control" type="text" name="usuarioEditar" id="usuarioEditar">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="marcaEditar">Marca<span class="required">*</span></label>
+                                <input disabled required="required" class="form-control" type="text" name="marcaEditar" id="marcaEditar">
+                            </div>
+                            <div class="form-group">
+                                <label for="estadoEditar">Estado<span class="required">*</span></label>
+                                <select required="required" name="estadoEditar" id="estadoEditar" class="form-control ">
+                                    <option value="">Seleccionar Estado</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <input type="hidden" name="idTienda" id="idTienda" value="">
+                    <input type="hidden" name="editarTienda" id="editarTienda" value="true">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a id="btnSubmiTiendaEditar" class="btn btn-rw btn-primary">Aceptar <img id="submitEditLoading" style="display: none;" class="img-responsive" src="spinner.gif"></a>
+                <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
+
+            </div>
+        </div><!-- /modal content -->
+    </div><!-- /modal dialog -->
+</div><!-- /modal holder -->
+<!-- End Register -->

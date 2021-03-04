@@ -1,0 +1,12 @@
+<ol class="hbreadcrumb breadcrumb">
+    <li><span class="ion-home breadcrumb-home"></span><a href="{{ path('administracion_homepage') }}">Inicio</a></li>
+    {% for item in items %}
+        <li>
+            {% if not item.raiz %}
+                <a href="{{ item.href }}" class="active">{{ item.title }}</a>
+            {% else %}
+                {{ item.title }}
+            {% endif %}
+        </li>
+    {% endfor %}
+</ol>

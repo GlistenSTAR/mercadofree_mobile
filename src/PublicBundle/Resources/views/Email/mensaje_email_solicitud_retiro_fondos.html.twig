@@ -1,0 +1,34 @@
+{% extends '::emails.html.twig' %}
+
+{%  block body %}
+    <tr>
+        <td valign="top">
+            <h2 class="h2" style="color:#444444;
+			display:block;
+			font-family:Open Sans;
+			font-size:30px;
+			font-weight: 400;
+			line-height:100%;
+			margin-top:2%;
+			margin-right:0;
+			margin-bottom:1%;
+			margin-left:0;
+			text-align:left;">Solicitud de Retiro de Fondos de {{ usuario.clienteid }}</h2>
+            <br />
+            <div class="textdark" style="color: #444444;
+			font-family: Open Sans;
+			font-size: 17px;
+			line-height: 150%;
+			text-align: left;">
+                Se ha realizado una nueva solicitud de Retiro de Fondos, a continuación se muestran los datos de la solicitud:<br/><br/>
+                Usuario: {{ usuario.clienteid }}<br/>
+                Cuenta PayPal: {{ solicitudRetiroFondos.emailPaypal }}<br/>
+                Fecha: {{ solicitudRetiroFondos.fecha | date("d/m/Y H:i") }}<br/>
+                Monto: {{ solicitudRetiroFondos.monto | number_format(2, '.', ',') }}<br/>
+                Estado de la solicitud: {{ solicitudRetiroFondos.estadoSolicitudRetiro }}<br/>
+            </div>
+        </td>
+    </tr>
+
+{% endblock %}
+

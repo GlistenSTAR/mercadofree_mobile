@@ -1,0 +1,72 @@
+{% extends '::publicPanelUsuario.html.twig' %}
+
+{% block breadcrumbPanelUsuario %}
+    <li>Publicaciones</li>
+{% endblock %}
+
+{% block menuPanelUsuario %}
+    {% include 'PublicBundle:Templates:menuPanelUsuario.html.twig' with {'page':'publicaciones'} %}
+{% endblock %}
+
+{% block headerCenterContent %}
+    <h4>Publicaciones</h4>
+{% endblock %}
+
+{% block centerContent %}
+    <div class="col-xs-12">
+        <a disabled="disabled" id="btnEliminarProductos" class="btn btn-danger btn-sm"  data-toggle="modal" href="#dangerMessage-eliminarProducto"><i class="fa fa-trash"></i> Eliminar seleccionados</a>
+        <a class="btn btn-primary btn-sm"  href="{{ path('public_anuncio_publicar') }}"><i class="fa fa-plus-circle"></i> Nuevo anuncio</a>
+    </div>
+    <div class="col-xs-12 mt10 table-responsive" id="bodyPublicaciones">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th><input type="checkbox" class="box" ></th>
+                <th>Anuncios</th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+            </thead><!-- /table header -->
+            <tbody id="tableBody">
+
+            </tbody><!-- /table body -->
+        </table><!-- /hover table -->
+
+    </div>
+{% endblock %}
+
+{% block includes %}
+    <div class="row">
+
+        <div class="col-xs-12">
+            {% include 'PublicBundle:Templates:dangerMessage.html.twig' with {
+            'id':'eliminarProducto',
+            'title':'¿Está seguro de eliminar este anuncio?',
+            'message':'Si eliminas este anuncio perderás todos los datos asociados a él como ventas, preguntas de interesados, datos estadísticas, etc.
+                            Si lo que deseas es que no se muestre mas en los listados, te recomendamos que lo pongas en PAUSA, para que luego lo puedas republicar nuevamente'
+            } %}
+
+        </div>
+    </div>
+{% endblock %}
+
+{% block hiddensPanelUsuario %}
+    <input type="hidden" id="urlProductoDetalles" value="{{ path('public_anuncio_detalles', {'slug':0}) }}">
+    <input type="hidden" id="urlProductoPublicar" value="{{ path('public_anuncio_publicar') }}">
+    <input type="hidden" id="urlProductoModificar" value="{{ path('public_anuncio_modificar',{'step':1}) }}">
+    <input type="hidden" id="urlProductos" value="{{ path('public_anuncio_paginadoanuncio') }}">
+    <input type="hidden" id="urlProductosEliminar" value="{{ path('public_anuncio_panelusuarioeliminar') }}">
+    <input type="hidden" id="urlProductosCambiarEstado" value="{{ path('public_anuncio_cambiarestado') }}">
+    <input type="hidden" name="img-route" id="img-route" value="{{ asset(uploads_images_productos) }}">
+    <input type="hidden" id="productoid">
+    <input type="hidden" id="indicador">
+    <input type="hidden" id="usuarioid" value="{{ app.user.id }}">
+    <input type="hidden" id="start" value="0">
+    <input type="hidden" id="total" value="{{ total }}">
+{% endblock %}
+
+{% block customScriptsPanelUsuario %}
+    <script type="text/javascript" src="{{ asset('bundles/public/js/publicPanelUsuarioAnuncios.js') }}"></script>
+{% endblock %}
+

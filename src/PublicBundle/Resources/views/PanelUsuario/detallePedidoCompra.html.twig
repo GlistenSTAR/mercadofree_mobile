@@ -1,0 +1,201 @@
+{% extends '::publicPanelUsuario.html.twig' %}
+
+{% block breadcrumbPanelUsuario %}
+    <li><a href="{{ path('public_panel_usuario_compras') }}">Compras</a></li>
+    <li>{{ pedido.codigo }}</li>
+{% endblock %}
+
+{% block menuPanelUsuario %}
+    {% include 'PublicBundle:Templates:menuPanelUsuario.html.twig' with {'page':'pedidos_comprador'} %}
+{% endblock %}
+
+{% block headerCenterContent %}
+    <h4>Detalles del pedido <b>{{ pedido.codigo }}</b></h4>
+{% endblock %}
+
+{% block centerContent %}
+    <div class="col-xs-12">
+        <div class="content-box content-box-bordered" style="padding: 20px 10px;">
+            <div class="row">
+                <div class="col-xs-6" style="text-align: left">
+                    <p>Código: <b>{{ pedido.codigo }}</b></p>
+                    <p>Estado: <b>{{ pedido.estado.nombre }}</b></p>
+                </div>
+                <div class="col-xs-6" style="text-align: left">
+                    <p>Fecha: <b>{{ pedido.fecha|date('d/m/Y') }}</b></p>
+                    <p>Método de Pago: <b>{{ pedido.metodoPago!=null?pedido.metodoPago.nombre:'--' }}</b></p>
+                    {% if pedido.metodoPago!=null and (pedido.metodoPago.slug=='rapipago' or pedido.metodoPago.slug=='pago_facil') %}
+                        <a class="btn btn-primary btn-sm" href="#modalDetalleFactura" data-toggle="modal"><i class="fa fa-edit"></i> Ver Factura</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {#<div class="col-xs-12" >
+        <div class="heading mb30">
+            <h5>Información del vendedor</h5>
+        </div>
+    </div>
+
+    <div class="col-xs-12">
+        <div class="content-box content-box-bordered" style="padding: 20px 10px;">
+            <div class="row">
+                <div class="col-xs-12" style="text-align: left">
+                    <p>Nombre: <b>{{ pedido.usuario.clienteid.nombre }}</b></p>
+                    <p>Apellidos: <b>{{ pedido.usuario.clienteid.apellidos }}</b></p>
+                    <p>Email: <b>{{ pedido.usuario.email }}</b></p>
+                </div>
+            </div>
+        </div>
+    </div>#}
+
+    {% if pedido.tipoEnvio != null and ( pedido.tipoEnvio.slug=='envio-gratis' or pedido.tipoEnvio.slug=='envio-domicilio-vendedor' ) %}
+        <div class="col-xs-12" >
+            <div class="heading mb30">
+                <h5>Dirección de Envío</h5>
+            </div>
+        </div>
+
+        <div class="col-xs-12">
+            <div class="content-box content-box-bordered" style="padding: 20px 10px;">
+                <div class="row">
+                    <div class="col-xs-12" style="text-align: left">
+                        <p>{{ pedido.direccionEnvio.getFormatedDir('direccion-compra-envio') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="col-xs-12" >
+        <div class="heading mb30">
+            <h5>Productos</h5>
+        </div>
+    </div>
+    <div class="col-xs-12 mt10 table-responsive">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+            </tr>
+            </thead><!-- /table header -->
+            <tbody id="tableBody">
+            {% if pedido.producto!=null %}
+                <tr>
+                    <td width="55%">
+                        <table>
+                            <tr class="visible-xs">
+                                <td width="100%" style="padding-right: 5px;padding-bottom: 10px;"><img class="img-responsive" src="{{ asset(uploads_images_productos)~pedido.producto.getImagenDestacada }}"></td>
+                            </tr>
+                            <tr>
+                                <td class="hidden-xs" width="17%" style="padding-right: 5px"><img class="img-responsive" src="{{ asset(uploads_images_productos)~pedido.producto.getImagenDestacada }}"></td>
+                                <td>
+                                    <a href="#">{{ pedido.detalle.nombre }}</a>
+                                    <p>$ {{ pedido.detalle.precio|number_format(2) }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>$ {{ pedido.detalle.precio|number_format(2,',','.') }}</td>
+                    <td>{{ pedido.cant }}</td>
+                    <td>
+
+                        $ {{ (pedido.detalle.precio * pedido.cant) | number_format(2,',','.') }}
+                    </td>
+                </tr>
+            {% else %}
+                {% for cesta in pedido.cestas %}
+                    <tr>
+                        <td width="55%">
+                            <table>
+                                <tr>
+                                    <td width="17%" style="padding-right: 5px"><img class="img-responsive" src="{{ asset(uploads_images_productos)~cesta.producto.getImagenDestacada }}"></td>
+                                    <td>
+                                        <a href="#">{{ cesta.producto.nombre }}</a>
+                                        <p>$ {{ cesta.producto.precio|number_format(2,',','.') }}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>$ {{ cesta.producto.precio|number_format(2,',','.') }}</td>
+                        <td>{{ cesta.cantidad }}</td>
+                        <td>
+                            $ {{ (cesta.producto.precio * cesta.cantidad)|number_format(2,',','.') }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            <tr>
+                <td colspan="3"><b>Subtotal</b></td>
+                <td>$ {{ pedido.subtotal | number_format(2,',','.') }}</td>
+            </tr>
+            {% if pedido.tipoEnvio != null and pedido.costoEnvio != null and pedido.costoEnvio > 0 %}
+                <tr>
+                    <td colspan="3"><b>{{ pedido.tipoEnvio.nombre }}</b></td>
+                    <td>$ {{ pedido.costoEnvio|number_format(2,',','.') }}</td>
+                </tr>
+            {% endif %}
+            <tr>
+                <td colspan="3"><b>Total</b></td>
+                <td><b>$ {{ pedido.getTotal()|number_format(2,',','.') }}</b></td>
+            </tr>
+            </tbody><!-- /table body -->
+        </table><!-- /hover table -->
+
+    </div>
+                
+    <div class="col-xs-12" >
+        {% if pedido.puedeValorarse(configuracion) %}
+            <a role="menuitem" class="calificar-button btn btn-primary" href="#modalValorarPedido" data-toggle="modal" data-cod-pedido="{{ pedido.codigo }}">Calificar este pedido</a>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block includes %}
+    <div class="row">
+        <div class="col-xs-12">
+            {% if pedido.factura!=null %}
+                {% include 'PublicBundle:PanelUsuario:modalDetalleFactura.html.twig' %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">    
+            {% include 'PublicBundle:PanelUsuario:modalValorarPedido.html.twig' with {
+                'opcionesValoracionCalidadProductoPedido' : opcionesValoracionCalidadProductoPedido,
+                'opcionesValoracionTiempoEntregaPedido' : opcionesValoracionTiempoEntregaPedido
+                }
+            %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block customScriptsPanelUsuario %}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.calificar-button').click(function() {
+                var codPedido = $(this).data('cod-pedido');
+                $('#codPedido').val(codPedido);
+            });
+            
+            $('#btnSubmitValorarPedido').click(function () {
+                var form = $('#formValorarPedido');
+                form.submit();
+            });
+            
+            $('.btnAceptaCompra').click(function() {
+                var aceptaCompra = $(this).val();
+                
+                if(aceptaCompra == 'Si') {
+                    $('.motivo-rechazo-row').hide();
+                } else {
+                    $('.motivo-rechazo-row').show();
+                }
+            });
+        });
+    </script>
+{% endblock %}

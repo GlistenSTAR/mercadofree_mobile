@@ -1,0 +1,138 @@
+{% extends '::adminTemplate.html.twig' %}
+
+{% block customStyles %}
+    <link href="{{ asset('bundles/administracion/css/iconSelect.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/administracion/css/ionicons.min.css') }}" rel="stylesheet">
+    <style>
+        .cajon{
+            width: 240px;
+            display: inline;
+            padding: 5px;
+            float:left;
+        }
+        .cajon-container {
+            display: inline-block;
+            width: 2000px;
+            position: relative;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+    </style>
+{% endblock %}
+
+{% block mainMenu %}
+    {% include 'AdministracionBundle:Templates:mainMenu.html.twig' with {'page':'anuncios','subpage':'listado-categorias'} %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% include 'AdministracionBundle:Templates:breadcrumbs.html.twig' with {'items':[
+    {'raiz':false,'title':'Categorías','href':'#'},
+    {'raiz':true,'title':'Listado Categorías'}
+    ]} %}
+{% endblock %}
+
+{% block titulo %}<i class="fa fa-tag"></i> Listado de Categorías{% endblock %}
+{% block subTitulo %}Edición de las categorías de la Plataforma{% endblock %}
+{% block generalContent %}
+    <form role="form" action="{{ path('administracion_categoria_adicionar_caracteristicas') }}" id="formCaracteristicas" method="post">
+        <div class="content animate-panel">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="hpanel">
+
+                        <div class="panel-body" id="panelCategoria">
+                            <div class="row">
+                                <div class="col-md-6 col-xs-6">
+                                    <div class="hpanel" >
+                                        <div class="panel-heading"><i class="fa fa-plus-circle"></i> Adiciona una categoría de forma rápida</div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-xs-8">
+                                                    <input required="required" class="form-control" type="text" name="nombreCategoria" id="nombreCategoria" placeholder="Nombre de la Nueva Categoria">
+                                                </div>
+                                                <div class="col-xs-4 inline">
+                                                    <input required="required" class="form-control" data-trigger="listado" type="text" name="iconoCategoria" id="iconoCategoria" placeholder="Icono">
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-xs-8">
+                                                    <div class="pull-left m-t-md">
+                                                        <button type="button" id="nuevaCategoria" class="buttonDataTable btn btn-primary" style="padding: 4px;"><i class="fa fa-plus-circle"></i> Adicionar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-8" style="overflow: auto;">
+                                    <div class="cajon-container"  id="container">
+
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4" hidden id="rowCaracteristicas">
+                                    <div class="hpanel">
+                                        <div class="page-heading" style="padding: 10px;"> <i class="fa fa-pencil"></i> Añade y elimina tus caraterísticas</div>
+                                        <div class="panel-body">
+                                            <div class="row" >
+                                                <div class="col-lg-8" >
+                                                    <input required="required" class="form-control addcarac" type="text" name="nombreCaracteristica" id="nombreCaracteristica" placeholder="Agregar Caracteristica" >
+
+                                                </div>
+                                                <div class="col-lg-2 " style="margin-left: -25px; margin-right: 7px;">
+                                                    <input type="button" id="nuevaCaracteristica" value="Adicionar" class="buttonDataTable addcarac" style="padding: 4px;"  />
+                                                </div>
+                                                <div class="col-lg-2">
+                                                    <input type="button" id="guardarCaracteristica" value="Guardar" class="buttonDataTable addcarac" style="padding: 4px;"  />
+                                                </div>
+                                            </div>
+
+                                            <div class="row" id="containerCaracteristica"></div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {% include 'AdministracionBundle:Templates:modalSeleccionarIconoIonic.html.twig' %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <input type="hidden" value="" id="ultimaCategoriaSelected" name="ultimaCategoriaSelected" />
+    </form>
+
+    <input type="hidden" value="{{ path('administracion_categoria_listar') }}" id="urlListar" />
+    <input type="hidden" value="{{ path('administracion_categoria_editar') }}" id="urlEditar" />
+    <input type="hidden" value="{{ path('administracion_categoria_eliminar') }}" id="urlEliminar" />
+    <input type="hidden" value="{{ path('administracion_categoria_obtener') }}" id="urlObtener" />
+    <input type="hidden" value="{{ path('administracion_categoria_adicionar') }}" id="urlAdicionar" />
+    <input type="hidden" value="{{ path('administracion_categoria_adicionar') }}" id="urlAdicionarCaracteristicas" />
+    <input type="hidden" value="{{ path('administracion_categoria_obtenercaracteristicas') }}" id="urlObtenerCaracteristicas" />
+    <input type="hidden" id="trigger-icon-select" />
+
+    <a id="modalEditar"  class="" style="visibility: hidden" href="#modalEditarCategoria"  data-toggle="modal" ><i class="fa fa-edit"></i> DDD</a>
+    <a id="modalEliminar"  class="" style="visibility: hidden" href="#modalEliminarCategoria"  data-toggle="modal" ><i class="fa fa-edit"></i> DDD</a>
+
+    {% include 'AdministracionBundle:Categoria:modalEditar.html.twig'%}
+    {% include 'AdministracionBundle:Categoria:modalEliminar.html.twig'%}
+
+{% endblock  %}
+
+{% block customScripts %}
+
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/administracionCategoria.js') }}"></script>
+
+    <script>
+        $('#fechaRegistroAdicionarUsuario').datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true
+        });
+    </script>
+{% endblock %}

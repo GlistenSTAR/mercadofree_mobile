@@ -1,0 +1,110 @@
+{% extends '::publicPanelUsuario.html.twig' %}
+
+{% block breadcrumbPanelUsuario %}
+    <li>Favoritos</li>
+{% endblock %}
+
+{% block menuPanelUsuario %}
+    {% include 'PublicBundle:Templates:menuPanelUsuario.html.twig' with {'page':'favoritos'} %}
+{% endblock %}
+
+{% block headerCenterContent %}
+    <h4>Favoritos</h4>
+{% endblock %}
+
+{% block centerContent %}
+    <div class="col-xs-12">
+        <a disabled="disabled" id="btnEliminar" class="btn btn-danger btn-sm"  data-toggle="modal" href="#dangerMessage-eliminarFavorito"><i class="fa fa-trash"></i> Eliminar seleccionados</a>
+    </div>
+    <div class="col-xs-12 mt10">
+        {% if productos|length >0 %}
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Anuncios</th>
+                <th></th>
+            </tr>
+            </thead><!-- /table header -->
+            <tbody id="tableBody">
+
+            {% for p in productos %}
+                {% set imagenDestacada = p.getImagenDestacada %}
+                {% if imagenDestacada == "" %}
+                    {% set imagenDestacada = p.imagenes[0].url %}
+                {% endif %}
+                <tr id="tr{{ p.id }}">
+                    <td><input type="checkbox" class="box" value="{{ p.id }}"></td>
+                    <td>
+                        <table>
+                            <tr class="visible-xs">
+                                <td width="17%" style="padding-right: 5px;padding-bottom: 10px;"><img class="img-responsive" src="{{ asset(uploads_images_productos)~ imagenDestacada }}"></td>
+                            </tr>
+                            <tr>
+                                <td class="hidden-xs" width="17%" style="padding-right: 5px"><img class="img-responsive" src="{{ asset(uploads_images_productos)~ imagenDestacada }}"></td>
+                                <td>
+                                    <a href="#">{{ p.nombre }}</a>
+                                    <p>$ {{ p.precio }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                        <div class="dropdown mb15">
+                            <button class="btn btn-rw btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                                Opciones
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                                <li role="presentation"><a role="menuitem" tabindex="-1" href="{{ path('public_anuncio_detalles',{'slug': p.slug}) }}">Ver producto</a></li>
+                                <li role="presentation"><a id="p{{ p.id }}" class="preguntaP" role="menuitem" tabindex="-1" data-toggle="modal" href="#realizarPreguntaProducto">Hacer pregunta</a></li>
+                                <li role="presentation"><a id="e{{ p.id }}" class="eliminarP" role="menuitem" tabindex="-1" data-toggle="modal" href="#dangerMessage-eliminarUnFavorito">Eliminar</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody><!-- /table body -->
+        </table><!-- /hover table -->
+        {% else %}
+            <div class="alert alert-info-rw " role="alert" style="margin: 5px" >
+                No tiene Favoritos.
+            </div>
+
+
+        {% endif %}
+
+    </div>
+{% endblock %}
+
+{% block includes %}
+    <div class="row">
+        <div class="col-xs-12">
+            {% include 'PublicBundle:Templates:dangerMessage.html.twig' with {
+            'id':'eliminarFavorito',
+            'title':'¿Está seguro de eliminar este producto de tus favoritos?',
+            'message':'Si eliminas este producto de tus favoritos no aparecerá mas en el listado de favoritos, aunque puedes adicionarlo
+                            como favorito cuando lo desees'
+            } %}
+            {% include 'PublicBundle:Templates:dangerMessage.html.twig' with {
+            'id':'eliminarUnFavorito',
+            'title':'¿Está seguro de eliminar este producto de tus favoritos?',
+            'message':'Si eliminas este producto de tus favoritos no aparecerá mas en el listado de favoritos, aunque puedes adicionarlo
+                            como favorito cuando lo desees'
+            } %}
+
+
+            {% include 'PublicBundle:Templates:modalRealizarPreguntaProducto.html.twig' %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block hiddensPanelUsuario %}
+    <input type="hidden" id="urlEliminarProductosFavoritos" value="{{ path('public_panel_usuario_favoritos') }}">
+    <input type="hidden" id="urlAdicionarPreguntas" value="{{ path('public_pregunta_adicionar') }}">
+    <input type="hidden" id="productoid">
+{% endblock %}
+
+{% block customScriptsPanelUsuario %}
+    <script type="text/javascript" src="{{ asset('bundles/public/js/publicPanelUsuarioFavoritos.js') }}"></script>
+{% endblock %}

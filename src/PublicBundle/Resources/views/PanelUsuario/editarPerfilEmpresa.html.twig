@@ -1,0 +1,196 @@
+{% extends '::publicPanelUsuario.html.twig' %}
+
+{% block breadcrumbPanelUsuario %}
+    <li>Editar Perfil</li>
+{% endblock %}
+
+{% block menuPanelUsuario %}
+    {% include 'PublicBundle:Templates:menuPanelUsuario.html.twig' with {'page':'editarPerfil'} %}
+{% endblock %}
+
+{% block headerCenterContent %}
+    <h4>Mis Datos</h4>
+{% endblock %}
+
+{% block centerContent %}
+            <div class="col-xs-8">
+                            <h4>Datos de cuenta</h4>
+                        </div>
+                        <div class="col-xs-4">
+                            <a class="btn btn-primary pull-right" href="#modalEditarDatosCuentaEmpresa" data-toggle="modal"><i class="fa fa-edit"></i> Modificar</a>
+                        </div>
+                        <div class="col-xs-12 mt10 mb30">
+                            <div class="content-box content-box-bordered text-left">
+                                <div class="form-group">
+                                    <label>Correo electrónico: </label>
+                                    <span id="emailP"> {{ usuario.email!=null?usuario.email:"" }}</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Clave: </label>
+                                    ******
+                                </div>
+                                <div class="form-group">
+                                    <label>CUIT : </label>
+                                    <span id="cuitP">{{ usuario.empresaid!=null?usuario.empresaid.cuit:"" }}</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Razón social: </label>
+                                    <span id="razonsocialP">{{ usuario.empresaid!=null?usuario.empresaid.razonSocial:"" }}</span>
+                                </div>
+                                <div class="form-group">
+                                    <label>Teléfono: </label>
+                                    <span id="telefonoP">{{ usuario.telefono!=null?usuario.telefono:"" }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-8">
+                            <h4>Datos Fiscales</h4>
+                        </div>
+                        {% if usuario.empresaid.informacionfiscal!=null %}
+                            <div class="col-xs-4">
+                                <a class="btn btn-primary pull-right" href="{{ path('public_panel_usuario_datos_fiscales') }}"><i class="fa fa-edit"></i> Modificar</a>
+                            </div>
+                        {% endif %}
+                        <div class="col-xs-12 mt10 mb30">
+                            <div class="content-box content-box-bordered text-left">
+                                {% if usuario.empresaid.informacionfiscal==null %}
+                                    <div class="alert alert-warning" role="alert">
+                                        No has especificado tus datos fiscales todavía. Para que podamos facturarte correctamente
+                                        debes <a href="{{ path('public_panel_usuario_datos_fiscales') }}">completarlos ahora</a>.
+                                    </div>
+                                {% else %}
+                                    <div class="form-group">
+                                        <label>Tipo de Contribuyente: </label>
+                                        {{ usuario.empresaid.informacionfiscal.tipoContribuyente.nombre }}
+                                    </div>
+                                    {% if usuario.empresaid.informacionfiscal.tipoContribuyente.id!=3 %}
+                                        <div class="form-group">
+                                            <label>¿Exclusión IVA?: </label>
+                                            {{ usuario.empresaid.informacionfiscal.certificadoExclusion!=null?"Sí":"No" }}
+                                        </div>
+                                    {% endif %}
+                                    {% if usuario.empresaid.informacionfiscal.regimenIngresosBrutos!=null %}
+                                        <div class="form-group">
+                                            <label>Régimen de Ingresos Brutos: </label>
+                                            {{ usuario.empresaid.informacionfiscal.regimenIngresosBrutos.nombre }}
+                                        </div>
+                                    {% endif %}
+                                    {% if usuario.empresaid.informacionfiscal.regimenIngresosBrutos!=null %}
+                                        <div class="form-group">
+                                            <label>Formulario de Inscripción de Ingresos Brutos: </label>
+                                            <p>Válido desde <b>{{ usuario.empresaid.informacionfiscal.fechaIniValidezCert|date('d/m/Y') }}</b> hasta <b>{{ usuario.empresaid.informacionfiscal.fechaFinValidezCert|date('d/m/Y') }}</b></p>
+                                            <a class="btn btn-primary" target="_blank" href="{{  asset(uploads_images_usuarios)~usuario.empresaid.informacionfiscal.formInscripcionIngresosBrutos }}"><i class="fa fa-search"></i> Ver archivo</a>
+                                        </div>
+                                    {% endif %}
+                                    {% if usuario.empresaid.informacionfiscal.certificadoExclusion!=null %}
+                                        <div class="form-group">
+                                            <label>Certificado de Exclusión: </label>
+                                            <p>Válido desde <b>{{ usuario.empresaid.informacionfiscal.fechaIniValidezCert|date('d/m/Y') }}</b> hasta <b>{{ usuario.empresaid.informacionfiscal.fechaFinValidezCert|date('d/m/Y') }}</b></p>
+                                            <a class="btn btn-primary" target="_blank" href="{{  asset(uploads_images_usuarios)~usuario.empresaid.informacionfiscal.certificadoExclusion }}"><i class="fa fa-search"></i> Ver archivo</a>
+                                        </div>
+                                    {% endif %}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        <div class="col-xs-8">
+                            <h4>Domicilios</h4>
+                        </div>
+
+                        <div class="col-xs-12 mt10">
+                            <div class="content-box content-box-bordered text-left" id="containerDireccion">
+                                <div id="direccionVenta">
+                                    {% if  usuario.getDireccionVenta != null%}
+                                        <div class="form-group">
+                                            <label>{{ usuario.getDireccionVenta.calle~' ('~usuario.getDireccionVenta.numero~') ' }}</label>
+                                            {{ usuario.getDireccionVenta.ciudad.ciudadNombre~", "~usuario.getDireccionVenta.provincia.nombre  }} -
+                                            <span class="label label-default">Venta</span><br/><br/>
+                                            <a id="m{{ usuario.getDireccionVenta.id  }}" class="btn btn-primary btn-sm modificarDirec" href="#modalEditarDireccion" data-toggle="modal"><i class="fa fa-edit"></i> Modificar</a>
+                                            <a id="e{{ usuario.getDireccionVenta.id  }}" class="btn btn-danger btn-sm eliminarDirec" href="#dangerMessage-eliminarDireccion" data-toggle="modal"><i class="fa fa-trash"></i> Eliminar</a>
+                                            <hr>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div id="direccionCompra">
+                                    {% for dir in  usuario.direccion %}
+                                        {% if usuario.getDireccionVenta.id != dir.id %}
+                                            <div class="form-group">
+                                                <label>{{ dir.calle~' ('~dir.numero~') ' }}</label>
+                                                {{ dir.ciudad.ciudadNombre~", "~dir.provincia.nombre  }} -
+                                                <span class="label label-default">Compra</span><br/><br/>
+                                                <a id="m{{ dir.id }}" class="btn btn-primary btn-sm modificarDirec" href="#modalEditarDireccion" data-toggle="modal"><i class="fa fa-edit"></i> Modificar</a>
+                                                <a id="e{{ dir.id }}" class="btn btn-danger btn-sm eliminarDirec" href="#dangerMessage-eliminarDireccion" data-toggle="modal"><i class="fa fa-trash"></i> Eliminar</a>
+                                                <hr>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+
+                                <a class="btn btn-primary btn-sm" href="#modalAdicionarDireccion" data-toggle="modal"><i class="fa fa-plus-circle"></i> Adicionar nueva dirección</a>
+                            </div>
+                        </div>
+
+{% endblock %}
+    {% block includes %}
+        <div class="row">
+            <div class="col-xs-12">
+                {% include 'PublicBundle:PanelUsuario:modalEditarDatosCuentaEmpresa.html.twig' with {
+                'usuario': usuario
+                } %}
+                {% include 'PublicBundle:PanelUsuario:modalEditarDireccion.html.twig' with {
+                'usuario':usuario,
+                'ciudades':null,
+                'provincias':provincias} %}
+
+                {% include 'PublicBundle:PanelUsuario:modalAdicionarDireccion.html.twig' with {
+                'usuario':usuario,
+                'provincias':provincias} %}
+
+
+                {% include 'PublicBundle:Templates:dangerMessage.html.twig' with {
+                'id':'eliminarDireccion',
+                'title':'¿Está seguro de eliminar esta dirección?',
+                'message':'Se eliminará la dirección, de forma permanente.'
+                } %}
+            </div>
+        </div>
+    {% endblock %}
+
+    {% block hiddensPanelUsuario %}
+        <input type="hidden" value="{{ path('public_ciudad_obtenerCiudades') }}" id="urlObtenerCiudades" />
+        <input type="hidden" value="{{ path('public_direccion_obtener') }}" id="urlObtenerDireccion" />
+        <input type="hidden" value="{{ path('public_direccion_obtenerid') }}" id="urlObtenerDireccionId" />
+        <input type="hidden" value="{{ path('public_direccion_eliminar') }}" id="urlEliminarDireccion" />
+        <input type="hidden" id="idDireccion" />
+
+    {% endblock %}
+
+    {% block customScriptsPanelUsuario %}
+        <script type="text/javascript" src="{{ asset('bundles/public/js/publicPanelUsuarioEditarPerfilEmpresa.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/public/js/Validators/validatorUsuario.js') }}"></script>
+
+
+        <script>
+            $('.itemPregunta').on('click',function(e){
+                e.preventDefault();
+
+                var id=$(this).attr('data-id');
+
+                $('.itemRespuesta').each(function(){
+                    if(id==$(this).attr('data-id')){
+                        $(this).fadeIn();
+                    }
+                });
+
+                $('.btnCancelarRespuesta').on('click',function(e){
+                    e.preventDefault();
+
+                    $(this).siblings('textarea').val("");
+                    $(this).parent().hide();
+                });
+            });
+
+        </script>
+
+    {% endblock %}

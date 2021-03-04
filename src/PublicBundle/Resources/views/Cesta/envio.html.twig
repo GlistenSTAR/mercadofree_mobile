@@ -1,0 +1,245 @@
+{% extends '::publicTemplate.html.twig' %}
+
+{% block breadcrumbs %}
+    <!-- Begin Page Header -->
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <!-- Breadcrumbs -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li><span class="ion-home breadcrumb-home"></span><a href="{{ path('public_homepage') }}">Inicio</a></li>
+                        {% if buyNow is defined and buyNow %}
+                            <li>Comprar producto</li>
+                        {% else %}
+                            <li><a href="{{ path('public_cesta_listar') }}">Carrito</a></li>
+                            <li>Envío</li>
+                        {% endif %}
+                    </ol>
+                </div><!-- /column -->
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </div><!-- /page header -->
+{% endblock %}
+
+{% block generalContent %}
+    <!-- Begin Content -->
+    <div class="content-40mg">
+        <div class="container" id="publicar-producto-envio">
+            {% if buyNow is defined and buyNow %}
+                {% include 'PublicBundle:Templates:stepsBuyNow.html.twig' with {'step':2} %}
+            {% else %}
+                {% include 'PublicBundle:Templates:stepsCheckout.html.twig' with {'step':2} %}
+            {% endif %}
+            <div class="row mb30">
+                <div class="col-xs-12 white-bg-shadow">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="heading mt30">
+                                <h3>Configuración de envío</h3>
+                            </div>
+                        </div>
+                    </div>
+                    {% if buyNow is defined and buyNow %}
+                        <div class="row mb30">
+                            <div class="col-xs-12">
+                                <table>
+                                    <tr>
+                                        <td style="width: 12%;">
+                                            <img class="img-responsive" src="{{ asset(uploads_images_productos) }}{{ pedido.producto.getImagenDestacada() }}">
+                                        </td>
+                                        <td style="padding-left: 25px;" valign="top">
+                                            <a style="font-size: 16px" target="_blank" href="{{ path('public_anuncio_detalles',{'slug':pedido.producto.slug}) }}" class="product-name">{{ pedido.producto.nombre }}</a>
+                                            <p style="font-size: 30px;">$ {{ pedido.producto.precio|number_format(2) }}</p>
+                                            <p>Cantidad: {{ pedido.cant }}</p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <h4>Enviar a</h4>
+                            {% include 'PublicBundle:Templates:gestionarDireccion.html.twig' with {
+                                'usuario':app.user,
+                                'ciudades':null,
+                                'provincias':provincias,
+                                'source':'confEnvio'  } %}
+
+                            {#<div class="form-group">#}
+                                {#{% set dir=app.user.getDireccionCompra() %}#}
+                                {#{% if dir!=null %}#}
+                                    {#{{ dir.getFormatedDir('direccion-compra-envio')|raw }}#}
+                                {#{% else %}#}
+                                    {#<div class="alert alert-warning" role="alert">#}
+                                        {#No tienes configurada una dirección de compra, y la necesitamos para enviar tu pedido. Créala cuanto antes#}
+                                        {#para que puedas finalizar tu compra.#}
+                                    {#</div>#}
+                                {#{% endif %}#}
+                            {#</div>#}
+                        </div>
+                        {#<div class="col-sm-12">#}
+                            {#{% if dir!=null %}#}
+                                {#<a href="#modalEditarDireccion" data-toggle="modal" class="btn btn-primary"><i class="fa fa-edit"></i> Modificar</a>#}
+                            {#{% else %}#}
+                                {#<a href="{{ path('public_panel_usuario_editar_perfil') }}" target="_blank" class="btn btn-primary"><i class="fa fa-plus-circle"></i> Crear dirección</a>#}
+                                {#<a href="#" onclick="document.location.reload();" class="btn btn-primary"><i class="fa fa-refresh"></i> Actualizar</a> &nbsp;&nbsp;<b>Haz clic aquí en caso que ya la tengas</b>#}
+                            {#{% endif %}#}
+                        {#</div>#}
+                    </div>
+                    <div class="row mt30">
+                        <div class="col-sm-12">
+                            <p id="error-message-metodo-envio" style="color:red;font-weight: bold;"></p>
+                        </div>
+                    </div>
+                    <div class="row mt30">
+                        <div class="col-sm-12">
+                            <div class="table-responsive no-margin">
+                                <table class="table cart-table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th {{ tipoEnvios|length>0?'colspan="2"':'' }} >Método de Envío</th>
+                                        <th class="total-title">Costo</th>
+                                    </tr>
+                                    </thead><!-- /table header -->
+                                    <tbody>
+                                        {% if envioGratis %}
+                                            <tr>
+                                                {#<td width="45px"><input type="radio"></td>#}
+                                                <td colspan="2">
+                                                    <label>Envío Gratis</label>
+                                                </td>
+                                                <td class="cart-total">--</td>
+                                            </tr>
+                                        {% else %}
+                                            {% for tipoEnvio in tipoEnvios %}
+                                                <tr>
+                                                    <td width="45px">
+                                                        <input value="{{ tipoEnvio.slug }}" {{ pedido.tipoEnvio!=null and pedido.tipoEnvio.slug==tipoEnvio.slug?'checked':'' }}
+                                                               name="metodoEnvioSelected" type="radio"
+                                                               data-price="{{ tipoEnvio.slug=='envio-domicilio-vendedor'?costoEnvio:0 }}"
+                                                               class="radioMetodoEnvio"
+                                                        >
+                                                    </td>
+                                                    <td>
+                                                        <label>{{ tipoEnvio.nombre }}</label>
+                                                    </td>
+                                                    <td id="{{ tipoEnvio.slug=='envio-domicilio-vendedor'?'costoEnvioDomicilio':'' }}" style="font-weight: normal;" class="cart-total">
+                                                        {% if tipoEnvio.slug=='envio-domicilio-vendedor' %}
+                                                            {% if costoEnvio>=0 %}
+                                                                ${{ costoEnvio|number_format(2) }}
+                                                            {% else %}
+                                                                <p style="font-weight: normal;color:red;">No tienes dirección de compra, o no hacemos envíos a tu región</p>
+                                                            {% endif %}
+                                                        {% else %}
+                                                            $0.00
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                            {% else %}
+                                                <tr>
+                                                    {#<td width="45px"><input type="radio"></td>#}
+                                                    <td>
+                                                        <label>Recogida en tienda</label>
+                                                    </td>
+                                                    <td style="font-weight: normal;" class="cart-total">
+                                                        $0.00
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+
+                                        {% endif %}
+                                        <tr>
+                                            <td {{ tipoEnvios|length>0?'colspan="2"':'' }} class="subtotal">Subtotal</td>
+                                            <td style="font-weight: normal;" class="cart-total">${{ subtotal|number_format(2) }}</td>
+                                        </tr>
+                                        {#<tr>#}
+                                            {#<td class="subtotal">Costo Envío</td>#}
+                                            {#<td class="cart-total">#}
+                                                {#{% if costoEnvio>0 %}#}
+                                                    {#${{ costoEnvio|number_format(2) }}#}
+                                                {#{% else %}#}
+                                                    {#--#}
+                                                {#{% endif %}#}
+                                            {#</td>#}
+                                        {#</tr>#}
+                                        <tr>
+                                            <td {{ tipoEnvios|length>0?'colspan="2"':'' }} class="subtotal">Total</td>
+                                            <td id="cartTotal" class="cart-total">
+                                                {% if costoEnvio>0 and pedido.tipoEnvio!=null and pedido.tipoEnvio.slug=='envio-domicilio-vendedor' %}
+                                                    {% set total=costoEnvio+subtotal %}
+                                                    ${{ total|number_format(2) }}
+                                                {% else %}
+                                                    ${{ subtotal|number_format(2) }}
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb30">
+                        <div class="col-sm-12 text-right mt10">
+                            {% set dir = app.user.getDireccionCompra() %}
+                            {% if buyNow is defined and buyNow %}
+                                <a id="btnNextConfEnvio" href="#" {{ dir==null ? 'disabled' : '' }} class="btn btn-rw btn-primary btn-lg">Siguiente <i class="ion-ios7-arrow-right"></i></a>
+                            {% else %}
+                                <a href="{{ path('public_cesta_listar') }}" class="btn btn-rw btn-primary btn-lg"><i class="ion-ios7-arrow-left"></i> Atrás</a>
+                                <a id="{{ dir!=null?'btnNextConfEnvio':'' }}" href="#" {{ dir==null?'disabled':'' }} class="btn btn-rw btn-primary btn-lg">Siguiente <i class="ion-ios7-arrow-right"></i></a>
+                            {% endif %}
+
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="urlMetodoPago" value="{{ path('public_cesta_metodo_pago') }}">
+                    <input type="hidden" id="urlConfEnvioCesta" value="{{ path('public_cesta_envio') }}">
+                    <input type="hidden" id="buyNow" value="{{ buyNow is defined?buyNow:0 }}">
+                    <input type="hidden" id="idProducto" value="{{ buyNow is defined?pedido.producto.id:-1 }}">
+                    <input type="hidden" id="subtotal" value="{{ subtotal }}">
+                    <input type="hidden" id="envioSelected" value="{{ pedido.tipoEnvio!=null?pedido.tipoEnvio.slug:'recogida-domicilio-vendedor' }}">
+                    <input type="hidden" id="idPedido" value="{{ buyNow is defined? pedido.id:-1 }}">
+
+                    <input type="hidden" id="urlUpdateCostoEnvio" value="{{ path('public_cesta_envio_actualizarCostoEnvio') }}">
+
+                    {####  Datos para el modal de editar direccion de compra  #####}
+
+                    <input type="hidden" value="{{ path('public_ciudad_obtenerCiudades') }}" id="urlObtenerCiudades" />
+                    <input type="hidden" value="{{ path('public_direccion_obtenerid') }}" id="urlObtenerDireccionId" />
+                    <input type="hidden" value="{{ path('public_direccion_eliminar') }}" id="urlEliminarDireccion" />
+                    <input type="hidden" id="idDireccion" />
+
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12">
+                    {% include 'PublicBundle:PanelUsuario:modalEditarDireccion.html.twig' with {
+                        'usuario':app.user,
+                        'ciudades':null,
+                        'provincias':provincias,
+                        'source':'confEnvioPublicar'} %}
+
+                    {% include 'PublicBundle:PanelUsuario:modalAdicionarDireccion.html.twig' with {
+                        'usuario':app.user,
+                        'provincias':provincias,
+                        'source':'confEnvioPublicar'} %}
+                </div>
+            </div>
+
+        </div><!-- /container -->
+    </div><!-- /content -->
+
+
+
+    <!-- End Content -->
+
+{% endblock %}
+{% block customScripts %}
+    <script type="text/javascript" src="{{ asset('bundles/public/js/number_format.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/Validators/validatorGestionarDireccion.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/publicGestionarDireccion.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/confEnvioCesta.js') }}"></script>
+{% endblock %}

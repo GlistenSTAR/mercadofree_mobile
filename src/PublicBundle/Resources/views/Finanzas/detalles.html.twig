@@ -1,0 +1,48 @@
+{% extends '::publicPanelUsuario.html.twig' %}
+
+{% block breadcrumbPanelUsuario %}
+    <li><a href="{{ path('public_finanzas_index') }}">Mis Finanzas</a></li>
+    <li>Detalle de Movimiento</li>
+{% endblock %}
+
+{% block menuPanelUsuario %}
+    {% include 'PublicBundle:Templates:menuPanelUsuario.html.twig' with {'page':'finanzas'} %}
+{% endblock %}
+
+{% block headerCenterContent %}
+    <h4>Detalle de Movimiento: <b>{{ movimiento.referencia }}</b></h4>
+{% endblock %}
+
+{% block centerContent %}
+    <div class="col-xs-12">
+        <div class="content-box content-box-bordered" style="padding: 20px 10px;">
+            <div class="row">
+                <div class="col-xs-6" style="text-align: left">
+                    <p>Referencia: <b>{{ movimiento.referencia }}</b></p>
+                    <p>Monto: <b>$ {{ movimiento.monto | number_format(2, '.', ',') }}</b></p>
+                    <p>Concepto: <b>{{ movimiento.ConceptoMovimientoCuentaid.nombre }}</b></p>
+                    <p>Tipo: <b>{{ movimiento.tipo }}</b></p>
+                </div>
+                <div class="col-xs-6" style="text-align: left">
+                    <p>Fecha: <b>{{ movimiento.fecha.date | date("d-m-Y") }}</b></p>
+                    <p>Hora: <b>{{ movimiento.fecha.date | date("H:i") }}</b></p>
+                    <p>Referencia Externa: <b>{{ movimiento.refexterna }}</b></p>
+                    {% if movimiento.pedidoid %}
+                        {% set pedido = movimiento.pedidoid %}
+                        {% if pedido.usuario == usuario %}
+                            <p>Pedido: <a href="{{ path('public_panel_usuario_compras_detalle',{'codPedido':movimiento.pedidoid.codigo}) }}">{{ movimiento.pedidoid.codigo }}</a></p>
+                        {% else %}
+                            <p>Pedido: <a href="{{ path('public_panel_usuario_ventas_detalle',{'codPedido':movimiento.pedidoid.codigo}) }}">{{ movimiento.pedidoid.codigo }}</a></p>
+                        {% endif %}
+                    {% endif %}
+                    <p></p>
+                </div>
+            </div>
+        </div>
+        <a href="{{ path('public_finanzas_index') }}" id="form_volver">Volver</a>
+    </div>
+{% endblock %}
+
+{% block customScriptsPanelUsuario %}
+    <script src="{{ asset('bundles/public/js/publicFinanzasDetalles.js') }}"></script>
+{% endblock %}

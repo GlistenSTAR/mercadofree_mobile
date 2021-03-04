@@ -1,0 +1,163 @@
+{% extends '::adminTemplate.html.twig' %}
+
+{% block mainMenu %}
+    {% include 'AdministracionBundle:Templates:mainMenu.html.twig' with {'page':'tiendas'} %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% include 'AdministracionBundle:Templates:breadcrumbs.html.twig' with {'items':[
+    {'raiz':false,'title':'Oferta','href':'#'},
+    {'raiz':true,'title':'Detalles de la Tienda'}
+    ]} %}
+{% endblock %}
+
+{% block titulo %}<i class="fa fa-shopping-cart"></i> Detalles de la Tienda{% endblock %}
+{% block subTitulo %}Detalles de la tienda seleccionada.{% endblock %}
+{% block generalContent %}
+    <div class="content animate-panel">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="hpanel">
+
+                    {#<div class="panel-heading">
+                            <div class="panel-tools">
+                                    <a class="showhide"><i class="fa fa-chevron-up"></i></a>
+                                    <a class="closebox"><i class="fa fa-times"></i></a>
+                            </div>
+
+                    </div>#}
+                    <div class="panel-body">
+                        <input type="button" id="volverTienda" value="Volver Atras" class="buttonDataTable"  style="padding: 5px; margin-bottom: 10px;"/>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="hpanel">
+                                    <div class="panel-body">
+                                        <div class="border">
+                                            <div class="view image-hover-1">
+                                                <img src="{{ asset(uploads_images_tiendas)~(tienda.getImagenPortada!=null?tienda.getImagenPortada:"") }}" class="img-responsive" />
+                                                <div class="mask">
+                                                    <div class="image-hover-content">
+                                                        <a href="#" class="info btn-eliminar-image-temp" data-target="">
+                                                            <div class="image-icon-holder"><span class="ion-ios7-trash image-icons"></span></div>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" >
+                            <div class="col-md-3" style="text-align: center;">
+                                <div class="hpanel">
+                                    <div class="panel-body">
+                                        <img id="imgEditarTiendaContainer" class="img-responsive" src="{{ asset(uploads_images_tiendas)~(tienda.getImagenLogo!=null?tienda.getImagenLogo:"") }}">
+                                        <input hidden id="routeImg" value="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 m-t-lg">
+                                <div class="form-group">
+                                    <label for="nombreTiendaDetalles">Nombre<span class="required">*</span></label>
+                                    <input required="required" disabled class="form-control" type="text" name="nombreTiendaDetalles" id="nombreTiendaDetalles" value="{{ tienda.nombre }}">
+                                </div>
+                            </div>
+                            <div class="col-lg-3 m-t-lg">
+                            <div class="form-group">
+                            <label for="marcaTiendaDetalles">Slogan<span class="required">*</span></label>
+                            <input required="required" disabled class="form-control" type="text" name="marcaTiendaDetalles" id="marcaTiendaDetalles" value="{{ tienda.slogan}}">
+                            </div>
+                            </div>
+                            {#<div class="col-lg-3 m-t-lg">#}
+                                {#<div class="form-group">#}
+                                    {#<label for="marcaTiendaDetalles">Marca<span class="required">*</span></label>#}
+                                    {#<input required="required" disabled class="form-control" type="text" name="marcaTiendaDetalles" id="marcaTiendaDetalles" value="{{ tienda.marca}}">#}
+                                {#</div>#}
+                            {#</div>#}
+                            {#<div class="col-lg-3 m-t-lg">#}
+                                {#<div class="form-group">#}
+                                    {#<label for="estadoTiendaDetalles">Estado <span class="required">*</span></label>#}
+                                    {#<input required="required" disabled class="form-control" type="text" name="estadoTiendaDetalles" id="estadoTiendaDetalles" value="{{ tienda.estadoProductoid.nombre }}">#}
+
+                                {#</div>#}
+                            {#</div>#}
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <table id="tableDetalles" class="display table table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th style="width:50px;">Imagen</th>
+                                        <th style="width:150px;">Nombre</th>
+                                        <th style="width:50px;">Precio</th>
+                                        <th style="width:50px;">Cantidad</th>
+                                        <th style="width:80px;">Categoria</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    </div>
+
+
+    <input type="hidden" value="{{ path('administracion_oferta_producto_detalles') }}" id="urlProductos">
+    <input type="hidden" value="{{tienda.usuarioid.id}}" id="idUsuarioTienda">
+    <input type="hidden" value="{{ asset(uploads_images_productos) }}" id="urlImagen">
+    <input type="hidden" value="{{ path('administracion_tienda_listar') }}" id="urlListar">
+
+
+
+
+
+{% endblock  %}
+
+{% block customScripts %}
+
+    <!-- Vendor scripts -->
+
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery-ui.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.slimscroll.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/metisMenu.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/metisMenu.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/icheck.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/sparkline/index.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/index.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/dataTables.bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap.min.js') }}"></script>
+
+    <!-- App scripts -->
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/homer.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/vue.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/vue-resource.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/administracionTienda.js') }}"></script>
+
+    <script>
+        $('#fechaRegistroAdicionarUsuario').datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true
+        });
+
+
+
+    </script>
+{% endblock %}

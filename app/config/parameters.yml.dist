@@ -1,0 +1,42 @@
+# This file is a "template" of what your parameters.yml file should look like
+# Set parameters here that may be different on each deployment target of the app, e.g. development, staging, production.
+# https://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
+parameters:
+    database_host: 127.0.0.1
+    database_port: ~
+    database_name: symfony
+    database_user: root
+    database_password: ~
+    # You should uncomment this if you want to use pdo_sqlite
+    #database_path: "%kernel.root_dir%/data.db3"
+
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: ~
+    mailer_password: ~
+
+    # A secret key that's used to generate certain security-related tokens
+    secret: ThisTokenIsNotSoSecretChangeIt
+
+    uploads_images_productos: uploads/images/productos/
+    uploads_images_slider_home: uploads/images/slider_home/
+    uploads_images_tiendas: uploads/images/tiendas/
+    uploads_images_colecciones: uploads/images/colecciones/
+    uploads_images_temp: uploads/images/temp/
+    uploads_images_usuarios: uploads/images/usuarios/
+    directorio_imagenes_admin: bundles/administracion/img/
+    directorio_imagenes_public: bundles/public/img/
+    directorio_styles_public: bundles/public/css/
+    site_url: localhost:8080
+    help_url: localhost:8080
+
+    paypal_client_id:
+    paypal_client_secret:
+    paypal_currency: ARS
+
+# Parametros para la ejecución de pagos por paypal
+# En entorno de test utilizar la url base: https://api.sandbox.paypal.com
+# En entorno de producción utilizar la url base: https://api.paypal.com
+    paypal_token_url: https://api.sandbox.paypal.com/v1/oauth2/token
+    paypal_payouts_url: https://api.sandbox.paypal.com/v1/payments/payouts
+    paypal_payouts_item_url: https://api.sandbox.paypal.com/v1/payments/payouts-item

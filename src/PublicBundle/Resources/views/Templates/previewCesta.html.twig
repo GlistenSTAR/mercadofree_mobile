@@ -1,0 +1,51 @@
+<ul class="fadeInUp-animated dropdown-menu dropdown-menu-user cart">
+    <li id="dropdownForm">
+        <div class="dropdown-form">
+            <table id="table-preview-cesta" class="table table-hover no-margin">
+                {% if productosView|length>0 %}
+                    <thead>
+                    <tr>
+                        <th class="quantity">Cant</th>
+                        <th class="product">Producto</th>
+                        <th class="amount">Subtotal</th>
+                    </tr>
+                    </thead>
+                    <tbody id="table-preview-cesta-body">
+                    {% for prod in productosView %}
+                        <tr id="preview-item-{{ prod.id }}">
+                            <td id="preview-cant-prod-{{ prod.id }}" class="quantity">{{ prod.cantidad }} x</td>
+                            <td class="product">
+                                <table>
+                                    <tr>
+                                        <td width="30%">
+                                            <img style="width: 70%" class="img-responsive" src="{{ asset(uploads_images_productos) }}{{ prod.imagen }}">
+                                        </td>
+                                        <td>
+                                            <a href="{{ path('public_anuncio_detalles',{'idProducto':prod.id}) }}">{{ prod.nombre }}</a>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                            <td id="preview-precio-prod-{{ prod.id }}" class="amount">
+                                {% set precioTotal=prod.precio*prod.cantidad %}
+                                ${{ precioTotal }}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td class="text-right" colspan="3">
+                            <a href="{{ path('public_cesta_listar') }}"><button class="btn btn-rw btn-primary btn-sm">Ver carrito</button></a>
+                        </td>
+                    </tr>
+                    </tbody>
+                {% else %}
+                    <tr id="no-products-message">
+                        <td>
+                            <p>No tienes productos en el carrito</p>
+                        </td>
+                    </tr>
+                {% endif %}
+            </table>
+        </div><!-- /dropdown form -->
+    </li><!-- /dropdownForm list item -->
+</ul><!-- /cart dropdown -->

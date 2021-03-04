@@ -1,0 +1,61 @@
+<div class="content-box content-box-bordered text-left" id="containerDireccion">
+    {% if source is defined and source == 'confEnvio' %}
+        <div id="direccionCompra">
+            {% set index=0 %}
+            {% for dir in  usuario.direccion %}
+                {% if (usuario.getDireccionVenta()!=null and usuario.getDireccionVenta().id != dir.id) or usuario.getDireccionVenta()==null %}
+                    {% if index==0 %}
+                        <div class="form-group" data-id="{{ dir.id }}">
+                            <label>{{ dir.calle~' ('~dir.numero~') ' }}</label>
+                            {{ dir.ciudad.ciudadNombre~", "~dir.provincia.nombre  }} -
+                            <span class="label label-default">Compra</span><br/>
+                            <p style="font-size: 12px;" class="help-block">En esta dirección recibirás los productos que compres</p>
+                            <a id="m{{ dir.id }}" class="btn btn-primary btn-sm modificarDirec" href="#modalEditarDireccion" data-toggle="modal"><i class="fa fa-edit"></i> Modificar</a>
+                            <hr>
+                        </div>
+                        {% set index = index+1 %}
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+
+            {% if index == 0 %}
+                <div id="msg-no-direccion-compra" class="alert alert-warning" role="alert">
+                    No tienes configurada una dirección de compra, y la necesitamos para enviar tu pedido. Créala cuanto antes
+                    para que puedas finalizar tu compra.
+                </div>
+
+                <a id="addDireccionCompra" class="btn btn-primary btn-sm" href="#modalAdicionarDireccion" data-toggle="modal"><i class="fa fa-plus-circle"></i> Adicionar nueva dirección</a>
+            {% endif %}
+        </div>
+    {% else %}
+        <div id="direccionVenta">
+            {% if  usuario.getDireccionVenta != null%}
+                <div class="form-group">
+                    <label>{{ usuario.getDireccionVenta.calle~' ('~usuario.getDireccionVenta.numero~') ' }}</label>
+                    {{ usuario.getDireccionVenta.ciudad.ciudadNombre~", "~usuario.getDireccionVenta.provincia.nombre  }} -
+                    <span class="label label-default">Venta</span><br/><br/>
+                    <a id="m{{ usuario.getDireccionVenta.id  }}" class="btn btn-primary btn-sm modificarDirec" href="#modalEditarDireccion" data-toggle="modal"><i class="fa fa-edit"></i> Modificar</a>
+                    <a id="e{{ usuario.getDireccionVenta.id  }}" class="btn btn-danger btn-sm eliminarDirec" href="#dangerMessage-eliminarDireccion" data-toggle="modal"><i class="fa fa-trash"></i> Eliminar</a>
+                    <hr>
+                </div>
+            {% endif %}
+        </div>
+        <div id="direccionCompra">
+            {% for dir in  usuario.direccion %}
+                {% if (usuario.getDireccionVenta()!=null and usuario.getDireccionVenta().id != dir.id) or usuario.getDireccionVenta()==null %}
+                    <div class="form-group" data-id="{{ dir.id }}">
+                        <label>{{ dir.calle~' ('~dir.numero~') ' }}</label>
+                        {{ dir.ciudad.ciudadNombre~", "~dir.provincia.nombre  }} -
+                        <span class="label label-default">Compra</span><br/>
+                        <p style="font-size: 12px;" class="help-block">En esta dirección recibirás los productos que compres</p>
+                        <a id="m{{ dir.id }}" class="btn btn-primary btn-sm modificarDirec" href="#modalEditarDireccion" data-toggle="modal"><i class="fa fa-edit"></i> Modificar</a>
+                        <a id="e{{ dir.id }}" class="btn btn-danger btn-sm eliminarDirec" href="#dangerMessage-eliminarDireccion" data-toggle="modal"><i class="fa fa-trash"></i> Eliminar</a>
+                        <hr>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <a class="btn btn-primary btn-sm" href="#modalAdicionarDireccion" data-toggle="modal"><i class="fa fa-plus-circle"></i> Adicionar nueva dirección</a>
+
+    {% endif %}
+</div>

@@ -1,0 +1,61 @@
+{% extends '::publicPanelUsuario.html.twig' %}
+
+{% block breadcrumbPanelUsuario %}
+    <li>Garantía de Productos</li>
+{% endblock %}
+
+{% block menuPanelUsuario %}
+    {% include 'PublicBundle:Templates:menuPanelUsuario.html.twig' with {'page':'garantia'} %}
+{% endblock %}
+
+{% block headerCenterContent %}
+    <h4>Garantía de Productos</h4>
+{% endblock %}
+
+{% block centerContent %}
+    <div class="col-xs-12">
+        <h4>Ofrecer una garantía en los productos que vendes, es esencial para ganar confianza y vender más</h4>
+    </div>
+    <div class="col-xs-12" style="padding-left: 35px;">
+        <form role="form" method="post" id="formGarantia" action="{{ path('public_panel_usuario_garantia') }}">
+            <div class="form-group">
+                <div class="checkbox" >
+                    <input type="checkbox" name="mostrarGarantia" value="1" id="mostrar-garantia" {{ app.user.mostrarGarantia?"checked":"" }}>
+                    <label style="padding-left: 0;">Mostrar garantía en mis productos</label>
+                    <p class="help-block" style="margin-left: -19px;"><i class="fa fa-question-circle"></i>
+                        Se mostrará en la ficha de tus productos, el texto con las condiciones de la garantía que entres aquí.
+                    </p>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="detalleGarantia">Detalles de la garantía</label>
+                <textarea required class="form-control" id="detalleGarantia" name="detalleGarantia">
+                    {{ app.user.garantia }}
+                </textarea>
+            </div>
+
+            <div class="form-group">
+                <hr style="margin-left: -20px;"/>
+                <a style="margin-left: -20px;" class="btn btn-primary guardar"><i class="fa fa-save"></i> Guardar Cambios</a>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+
+
+{% block hiddensPanelUsuario %}
+    <input type="hidden" value="{{ path('public_ciudad_obtenerCiudades') }}" id="urlObtenerCiudades" />
+    {#<input type="hidden" value="{{ path('public_costoenvio_agregarcostoenvio') }}" id="urlAgregarCostoEnvio">#}
+    <input type="hidden" value="{{ path('public_costoenvio_eliminarcostoenvio') }}" id="urlEliminarCostoEnvio">
+    <input type="hidden" value="{{ path('public_direccion_obtener') }}" id="urlObtenerDireccion" />
+    <input type="hidden" value="{{ path('public_direccion_obtenerid') }}" id="urlObtenerDireccionId" />
+    <input type="hidden" value="{{ path('public_direccion_eliminar') }}" id="urlEliminarDireccion" />
+    <input type="hidden" id="idDireccion" />
+
+{% endblock %}
+{% block customScriptsPanelUsuario %}
+    <script type="text/javascript" src="{{ asset('bundles/public/js/Validators/validatorUsuario.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/publicPanelUsuarioGarantia.js') }}"></script>
+
+{% endblock %}

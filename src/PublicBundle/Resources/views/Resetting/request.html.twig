@@ -1,0 +1,76 @@
+{% extends '::publicTemplate.html.twig' %}
+
+{% block breadcrumbs %}
+    <!-- Begin Page Header -->
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <!-- Breadcrumbs -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li><span class="ion-home breadcrumb-home"></span><a href="{{ path('public_homepage') }}">Inicio</a></li>
+                        <li>Recuperar Contraseña</li>
+                    </ol>
+                </div><!-- /column -->
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </div><!-- /page header -->
+{% endblock %}
+
+
+{% block generalContent %}
+
+    <!-- Begin Content -->
+    <div class="content-40mg">
+        <div class="container">
+
+            <div class="row mb30" style="text-align:center;">
+                <div class="col-xs-12 col-sm-6 col-sm-offset-3 white-bg-shadow">
+                    <div class="row">
+
+                        {% if error is defined %}
+                            <div class="alert alert-danger alert-dismissable">
+                                <button class="close" aria-hidden="true" data-dismiss="alert" type="button">x</button>
+                                {{ error.message }}
+                            </div>
+                        {% endif %}
+                        <div class="col-xs-12" style="padding: 20px 70px;">
+                            <h3 class="mb10" style="font-weight:10;text-align: left;">Recuperar contraseña</h3>
+                            <h5 class="mb10" style="font-weight:10;text-align: left;">Entra el email con el que te registraste, para enviarte un enlace para modificar tu contraseña.</h5>
+                        </div>
+                    </div>
+
+                    <div class="row" style="display:none;">
+                        <div class="col-xs-12" style="padding: 0 70px;">
+                            <p class="form-error">Sus datos son incorrectos</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Begin Login -->
+                        <div class="col-xs-12" style="padding: 0 70px;">
+                            <form action="{{ path('public_user_resetting_send_email') }}" method="post" role="form">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><span class="ion-android-mail" style="font-size:9px;"></span></div>
+                                        <input class="form-control" type="email" name="_username" id="username" placeholder="Correo Electrónico">
+                                    </div>
+                                </div>
+                                <hr class="mb20 mt30">
+                                <button id="btnSubmitAceptarLogin"  type="submit" class="btn btn-primary full-btn">Enviar</button>
+                                <hr class="mb20 mt20">
+                            </form><!-- /form -->
+                        </div><!-- /column-->
+                        <!-- End Login -->
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        </div><!-- /container -->
+    </div><!-- /content -->
+    <!-- End Content -->
+
+{% endblock %}

@@ -1,0 +1,35 @@
+<div class="row">
+    <div class="col-xs-12">
+        <h3 class="font-light">
+            <i class="fa fa-photo"></i> Slider de Imágenes
+            <span class="checkbox checkbox-success checkbox-inline"></span>
+        </h3>
+        <hr>
+    </div>
+</div>
+<div class="row">
+    <div class="col-xs-12" id="msgBox2" style="margin-bottom:10px; color:red;"></div>
+    <div class="col-xs-12">
+        <ul id="imagenesContainer">
+            {% if imagenes is defined and imagenes|length>0 %}
+                {% set index=0 %}
+                {% for imagen in imagenes %}
+                    <li style="margin-bottom:10px;" class="ui-state-default columnImgContainer" data-img="{{ imagen.url }}" >
+                        <img class="img-responsive" src="{{ asset(uploads_images_slider_home) }}{{ imagen.url }}" >
+                        <input class="imagenes-name" type="hidden" name="imagenes[]" value="{{ imagen.url }}">
+                        <a href="#" data-img="{{ imagen.url }}" class="btn btn-danger btnRemoveImage"><i class="fa fa-trash"></i> Eliminar</a>
+                    </li>
+                {% endfor %}
+            {% endif %}
+        </ul>
+    </div>
+    <div class="col-xs-12">
+        <div id="progressOuterImg" class="progress progress-striped active" style="display:none;">
+            <div id="progressBarImg" class="progress-bar progress-bar-primary"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12">
+        <a class="btn btn-primary" href="#" id="btnUploadImg"><i class="fa fa-plus-circle"></i> Adicionar Imagen</a>
+    </div>
+</div>

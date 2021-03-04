@@ -1,0 +1,80 @@
+{% extends '::adminTemplate.html.twig' %}
+
+{% block mainMenu %}
+    {% include 'AdministracionBundle:Templates:mainMenu.html.twig' with {'page':'usuarios','subpage':'listado-usuarios'} %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% include 'AdministracionBundle:Templates:breadcrumbs.html.twig' with {'items':[
+    {'raiz':false,'title':'Usuarios','href':'#'},
+    {'raiz':true,'title':'Listado Usuarios'}
+    ]} %}
+{% endblock %}
+
+{% block titulo %}<i class="fa fa-users"></i> Listado de Usuarios{% endblock %}
+{% block subTitulo %}Edición de los usuarios de la Plataforma{% endblock %}
+{% block generalContent %}
+    <div class="content animate-panel">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="hpanel">
+                    <div class="panel-body">
+                        <table id="example1" class="display table table-bordered">
+                                <thead>
+                                <tr>
+                                    <th style="width:50px;"><input type="checkbox" id="selectAllUsuario"/></th>
+                                    <th>Fecha Registro</th>
+                                    <th>E-mail</th>
+                                    <th>Rol</th>
+                                    <th>Estado</th>
+                                </tr>
+                                </thead>
+                            <tbody></tbody>
+                            <tfoot>
+                            <button type="button" id="nuevoUsuario" class="buttonDataTable btn btn-primary"  style="margin-right: 5px;padding: 5px; margin-bottom: 10px;"><i class="fa fa-plus-circle"></i> Nuevo</button>
+                            <button type="button" id="editarUsuario" class="buttonDataTable btn btn-primary" disabled  style="margin-right: 5px;padding: 5px; margin-bottom: 10px;"><i class="fa fa-edit"></i> Editar</button>
+                            <button type="button" id="eliminarUsuario" class="buttonDataTable btn btn-danger" disabled  style=" margin-right: 5px; padding: 5px; margin-bottom: 10px;"><i class="fa fa-trash"></i> Eliminar</button>
+                            <button type="button" id="detallesUsuario" class="buttonDataTable btn btn-default" disabled  style="padding: 5px; margin-bottom: 10px;"><i class="fa fa-search"></i> Ver Detalles</button>
+                            </tfoot>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <a id="modal"  class="" style="visibility: hidden" href="#modalEditarUsuario"  data-toggle="modal" ><i class="fa fa-edit"></i> Editar álbum</a>
+    <a id="modalAdicionar"  style="visibility: hidden"  class="" href="#modalAdicionarUsuario"  data-toggle="modal" ><i class="fa fa-edit"></i>DDDDD</a>
+    <a id="modalEliminar"  style="visibility: hidden"  class="" href="#modalEliminarUsuario"  data-toggle="modal" ><i class="fa fa-edit"></i>DDDDD</a>
+    {% include 'AdministracionBundle:Usuario:modalEditar.html.twig'%}
+    {% include 'AdministracionBundle:Usuario:modalAdicionar.html.twig' with {'roles':roles}%}
+    {% include 'AdministracionBundle:Usuario:modalEliminar.html.twig'%}
+
+    <input type="hidden" value="{{ path('administracion_usuario_listar') }}" id="urlListar">
+    <input type="hidden" value="{{ path('administracion_usuario_editar') }}" id="urlEditar">
+    <input type="hidden" value="{{ path('administracion_usuario_detalles') }}" id="urlDetalles">
+
+
+{% endblock  %}
+
+{% block customScripts %}
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/administracionUsuario.js') }}"></script>
+
+    <!-- JQuery Validate -->
+
+    <script src="{{ asset('bundles/administracion/js/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset('bundles/administracion/js/jquery-validate.bootstrap-tooltip.min.js') }}"></script>
+    <script src="{{ asset('bundles/administracion/js/messages_es.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/validators/validatorUsuario.js') }}"></script>
+
+        <script>
+           $('#fechaRegistroAdicionarUsuario').datepicker({
+               format: "dd/mm/yyyy",
+               autoclose: true
+           });
+        </script>
+{% endblock %}

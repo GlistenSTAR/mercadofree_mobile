@@ -1,0 +1,162 @@
+{% extends '::publicTemplate.html.twig' %}
+
+{% block breadcrumbs %}
+    <!-- Begin Page Header -->
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <!-- Breadcrumbs -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li>Perfil del vendedor</li>
+                    </ol>
+                </div><!-- /column -->
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </div><!-- /page header -->
+{% endblock %}
+
+{% block menuPanelUsuario %}
+    {% include 'PublicBundle:Templates:menuPanelUsuario.html.twig' with {'page':'resumen'} %}
+{% endblock %}
+
+{% block generalContent %}
+    <section class="mt30 mb30">
+        <div class="container">		
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="heading mb30">
+                        <h4>{{vendedor.clienteid.nombre}} {{ vendedor.clienteid.apellidos }}</h4>
+                    </div>
+                    <div class="row white-box center-container">
+                        <div class="col-sm-6 text-center">
+                            <div class="content-box content-box-bordered">
+                                <span class="ion-ios7-cart bordered-icon-lg"></span>
+                                <h4 class="pt15">Productos publicados</h4>
+                                <p class="no-margin">{{ vendedor.productos | length }}</p>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-6 text-center">
+                            <div class="content-box content-box-bordered">
+                                <span class="ion-ios7-chatboxes bordered-icon-lg"></span>
+                                <h4 class="pt15">Preguntas respondidas</h4>
+                                <p class="no-margin">{{ preguntasRespondidas | length }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                                
+                <div class="col-lg-4">
+                    <div class="row white-box mt30 mb30" style="margin-left:0;margin-right:0;padding-left:0;padding-right:0">
+                        <div class="col-xs-12">
+                            <div class="heading mb20 mt30-xs">
+                                <h4><span class="ion-ios7-contact-outline"></span>  Información del vendedor</h4>
+                            </div>
+
+                            <p><b><i class="ion-android-location"></i> Ubicación</b></p>
+
+                            {% if direccionVenta %}
+                                <p>{{ direccionVenta.ciudad }}, {{ direccionVenta.provincia }}</p>
+                            {% endif %}
+
+                            <p><b><i class="ion-ios7-star"></i> Nivel: {{ vendedor.nivel }}</b></p>						
+                        </div>
+                    </div>
+
+                    <div class="row white-box mt30 mb30" style="margin-left:0;margin-right:0;padding-left:0;padding-right:0">
+                        <div class="col-xs-12">
+                            <div class="heading mb20 mt30-xs">
+                                <h4><span class="ion-ios7-box"></span>  Formas de entrega</h4>
+                            </div>
+                            
+                            {% for tipoEnvio in vendedor.getTipoenvios() %}
+                                <p><b>{{ tipoEnvio.nombre }}</b></p>
+                                {% if tipoEnvio.esEnvioMercadoFree() %}
+                                    <p style="color:#8F8F8F;">Es el servicio de MercadoFree que te permite recibir tus productos de forma rápida y segura.</p>
+                                {% endif %}
+                                {% if tipoEnvio.esRecogidaEnTienda and direccionVenta%}
+                                    <p style="color:#8F8F8F;">Ubicado en {{ direccionVenta.ciudad }} ({{ direccionVenta.provincia }})</p>
+                                {% endif %}
+                            {% endfor %}
+
+                            
+                        </div>
+
+                        <div class="col-xs-12">
+                            <a href="#">Conocer más sobre formas de envío</a>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+                            
+        <div class="row mb20 mt20">
+            <div class="col-sm-12 background-white white-box" >
+                <div class="heading mb30">
+                    <h4><span class="ion-plus mr15"></span>Otras publicaciones de este usuario:</h4>
+                    <div class="owl-controls">
+                        <div id="customNav" class="owl-nav"></div>
+                    </div>
+                </div>
+                <div id="owl-carousel-thumb" class="owl-carousel carousel-home">
+                    {% for producto in vendedor.productos %}
+                        {% if producto.activo %}
+                            <div class="thumbnail">
+                                <div class="view image-hover-1 no-margin">
+                                    <!-- Blog Thumb -->
+                                    <div class="product-container">
+                                        <img class="img-responsive full-width" src="{% if producto.getImagenDestacada %}{{ asset(uploads_images_productos)~producto.getImagenDestacada() }}{% else %}{{ asset(uploads_images_colecciones)}}no_image.jpg{% endif %}">
+                                        {% if producto.getOfertaActiva %}
+                                            <span class="badge home-badge">
+                                                    {{ producto.getOfertaActiva().porcientodescuento }} OFF
+                                            </span>
+                                        {% endif %}
+                                        {% if vendedor.realizaEnvios() %}
+                                            <span class="badge home-badge transporte" {% if producto.getOfertaActiva %}style="top: 45px;"{% endif %}>
+                                                <i class="fa fa-truck"></i>
+                                            </span>
+                                        {% endif %}
+                                    </div>
+                                    <div class="mask">
+                                        <div class="image-hover-content">
+                                            <!-- Zoom + Blog Link -->
+                                            <a href="{% if producto.getImagenDestacada %}{{ asset(uploads_images_productos)~producto.getImagenDestacada() }}{% else %}{{ asset(uploads_images_colecciones)}}no_image.jpg{% endif %}" class="info image-zoom-link">
+                                                <div class="image-icon-holder"><span class="ion-ios7-search image-icons"></span></div>
+                                            </a>
+                                            <a href="{{ path('public_anuncio_detalles',{'slug':producto.slug}) }}" class="info">
+                                                <div class="image-icon-holder"><span class="ion-link image-icons"></span></div>
+                                            </a>
+                                        </div><!-- /image hover content -->
+                                    </div><!-- /mask-->
+                                </div>
+                                <div class="shop-product content-box-shadow">
+                                    <a class="product-title" href="{{ path('public_anuncio_detalles',{'slug':producto.slug}) }}"><h2 class="product-title">{{ producto.nombre }}</h2></a>
+                                    <div class="row">
+                                        {% if producto.getOfertaActiva %}
+                                            <div class="col-md-5">
+                                                <span class="pull-left label label-default shop-product-price">$ {{ producto.precioOferta | number_format(2,',','.') }}</span>
+                                            </div>
+                                            <div class="col-md-7" style="text-align:left;">
+                                                <span class="precio-anterior pull-left">$ {{ producto.precio | number_format(2,',','.') }}</span>
+                                            </div>
+                                        {% else %}
+                                            <div class="col-md-5">
+                                                <span class="pull-left label label-default shop-product-price">$ {{ producto.precio | number_format(2,',','.') }}</span>
+                                            </div>
+                                            <div class="col-md-7" style="text-align:left;">
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        </div><!-- /container -->
+    </section>
+{% endblock %}

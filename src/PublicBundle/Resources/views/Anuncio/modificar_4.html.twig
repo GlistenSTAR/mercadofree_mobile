@@ -1,0 +1,205 @@
+{% extends '::publicTemplate.html.twig' %}
+
+{% block breadcrumbs %}
+    <!-- Begin Page Header -->
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <!-- Breadcrumbs -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li><span class="ion-home breadcrumb-home"></span><a href="{{ path('public_homepage') }}">Inicio</a></li>
+                        <li><a href="{{ path('public_homepage') }}">Panel de Usuario</a></li>
+                        <li><a href="{{ path('public_panel_usuario_anuncios') }}">Anuncios</a></li>
+                        <li><a href="#">Modificar Anuncio</a></li>                    </ol>
+                </div><!-- /column -->
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </div><!-- /page header -->
+{% endblock %}
+
+{% block generalContent %}
+    <!-- Begin Content -->
+    <form  action="{{ path('public_anuncio_modificar',{'step':'4'}) }}" id="formAnuncio4" role="form" method="post">
+    <div class="content-40mg">
+        <div class="container">
+            {% include 'PublicBundle:Templates:stepsModificar.html.twig' with {'step':4, 'idProducto': producto.id} %}
+
+            <div class="row mb30">
+                <div class="col-xs-12 white-bg-shadow">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="heading mt30">
+                                <h3>¡Ya casi terminamos!</h3>
+                                <p style="font-size: 14px" class="help-text mt20">Necesitamos tus datos personales para publicar tu anuncio</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb30">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                {% if usuario.empresaid is not null %}
+                                    <label for="nombre">CUIT<span class="required">*</span></label>
+                                    <input required="required" type="text" class="form-control" value="{{ usuario.empresaid.cuit }}" name="nombre" id="nombre">
+                                {% else %}
+                                    <label for="nombre">Nombre<span class="required">*</span></label>
+                                    <input required="required" type="text" class="form-control" value="{{ usuario.clienteid.nombre }}" name="nombre" id="nombre">
+                                {% endif %}
+
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                {% if usuario.empresaid is not null %}
+                                    <label for="apellidos">Razon Social<span class="required">*</span></label>
+                                    <input required="required" type="text" class="form-control" value="{{ usuario.empresaid.razonSocial }}" name="apellidos" id="apellidos">
+                                {% else %}
+                                    <label for="apellidos">Apellidos<span class="required">*</span></label>
+                                    <input required="required" type="text" class="form-control" value="{{ usuario.clienteid.apellidos }}" name="apellidos" id="apellidos">
+                                {% endif %}
+                                {#<label for="apellidos">{{ usuario.empresaid?"Razon Social":"Apellidos" }} <span class="required">*</span></label>#}
+                                {#<input required="required" type="text" class="form-control" value="{{ usuario.empresaid?usuario.empresaid.razonSocial:usuario.clienteid.apellidos }}" name="apellidos" id="apellidos">#}
+                            </div>
+                        </div>
+                        {% if usuario.empresaid is null %}
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="dni">DNI <span class="required">*</span></label>
+                                    <input required="required" type="text" class="form-control" value="{{ usuario.clienteid.dni }}" name="dni" id="dni">
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <div class="row mb30">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label for="direccionP">Dirección de venta <span class="required">*</span></label><br/>
+                                {% set flag=false %}
+                                {% for direccion in  usuario.direccion %}
+                                    {% if direccion.direccionVenta==1 %}
+                                        <p  id="direccionP">{{ direccion.calle~(direccion.numero!=""?" No. "~direccion.numero:"")~(direccion.entreCalle!=""?" , entre "~direccion.entreCalle:"")~". "~direccion.provincia.nombre~", "~direccion.ciudad.ciudadNombre~"."}}</p>
+                                        {% set flag=true %}
+                                    {% endif %}
+                                {% endfor %}
+
+                                    <p id="direccionP"></p>
+                                    <a id="addDireccion" href="#modalAdicionarDireccion" data-toggle="modal">{{ usuario.getDireccionVenta!=null?"Cambiar dirección de venta":"Agregar dirección de venta" }}</a>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="telefono">Teléfono <span class="required">*</span></label>
+                                {#<input required="required" type="text" class="form-control" value="{{ usuario.telefono }}" name="telefono" id="telefono">#}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row mb30">
+                        <div class="col-md-8 text-left">
+                            <div class="alert alert-success alert-success-rw" role="alert">
+                                Tu auncio ha sido guardado, puedes completarlo mas tarde si lo deseas desde tu panel de usuario.
+                            </div>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            {#<a href="{{ path('public_anuncio_publicar',{'step':'3', 'nav':'1'}) }}" class="btn btn-rw btn-primary btn-lg"><i class="ion-ios7-arrow-left"></i> Anterior</a>
+                            <a id="nextStep4" href="{{ path('public_anuncio_publicar',{'step':'5', 'nav':'1', 'idProducto': producto.id}) }}" class="btn btn-rw btn-primary btn-lg"><i class="fa fa-check-circle"></i> Terminar y publicar <i class="ion-ios7-arrow-right"></i></a>#}
+                            <a href="{{ path('public_panel_usuario_anuncios') }}" class="btn btn-rw btn-primary btn-lg"> Cancelar </a>
+                            <a id="nextStep4" href="{{ path('public_panel_usuario_anuncios') }}" class="btn btn-rw btn-primary btn-lg"> Aceptar </a>
+
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+            <input type="hidden" id="step" name="step" value="4">
+            <input type="hidden" id="nav" name="nav" value="1">
+            <input type="hidden" id="idProducto" name="idProducto" value="{{ producto.id }}">
+        </div><!-- /container -->
+    </div><!-- /content -->
+
+    </form>
+
+    {% include 'PublicBundle:Anuncio:modalAdicionarDireccion.html.twig' with {'provincias':provincias, 'usuario':usuario, 'ciudades':ciudades} %}
+    <!-- End Content -->
+    <input type="hidden" value="{{ path('public_ciudad_obtenerCiudades') }}" id="urlObtenerCiudades" />
+    <input type="hidden" value="{{ path('public_direccion_obtener') }}" id="urlObtenerDireccion" />
+{% endblock %}
+{% block javascripts %}
+    <!-- jQuery Files -->
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery-2.1.4.min.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/public/js/waitMe/waitMe.min.js') }}"></script>
+
+    <!-- Royal Preloader -->
+    <script type="text/javascript" src="{{ asset('bundles/public/js/royal_preloader.min.js') }}"></script>
+
+    <!-- Javascript Files -->
+    <script type="text/javascript" src="{{ asset('bundles/public/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.easing.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.mixitup.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/scrollReveal.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/owl.carousel.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.magnific-popup.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.snippet.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.fitvids.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/activate-snippet.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/skrollr.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/bootstrap-select.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.validate.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery-validate.bootstrap-tooltip.min.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/public/js/Validators/validatorUsuario.js') }}"></script>
+
+
+    <script type="text/javascript" src="{{ asset('bundles/public/js/main.js') }}"></script>
+
+    <script src="{{ asset('bundles/public/js/publicAnuncioModificar.js') }}"></script>
+
+
+    <!-- On Scroll Animations - scrollReveal.js -->
+    <script>
+        var config = {
+            easing: 'hustle',
+            mobile:  true,
+            delay:  'onload'
+        }
+        window.sr = new scrollReveal( config );
+
+        // Bootstrap Select
+        //$(".colecciones-home-select").selectpicker();
+    </script>
+
+
+    <script>
+        function wait(container){
+            $(container).waitMe({
+                effect: 'facebook',
+                text: 'Por favor, espere...',
+                bg: 'rgba(255,255,255,0.7)',
+                color:'#000',
+                sizeW:'',
+                sizeH:'',
+                source: 'img.svg',
+                onClose: function() {}
+            });
+        }
+
+        function endWait(container){
+            $(container).waitMe('hide');
+        }
+
+
+
+
+    </script>
+
+
+{% endblock %}

@@ -1,0 +1,104 @@
+{% extends '::adminTemplate.html.twig' %}
+
+{% block mainMenu %}
+    {% include 'AdministracionBundle:Templates:mainMenu.html.twig' with {'page':'tiendas'} %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% include 'AdministracionBundle:Templates:breadcrumbs.html.twig' with {'items':[
+    {'raiz':false,'title':'Tienda','href':'#'},
+    {'raiz':true,'title':'Listado Tiendas'}
+    ]} %}
+{% endblock %}
+
+{% block titulo %}<i class="fa fa-shopping-cart"></i> Listado de Tiendas{% endblock %}
+{% block subTitulo %}Edición de las tiendas de la Plataforma{% endblock %}
+{% block generalContent %}
+    <div class="content animate-panel">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="hpanel">
+                    {#<div class="panel-heading">
+                            <div class="panel-tools">
+                                    <a class="showhide"><i class="fa fa-chevron-up"></i></a>
+                                    <a class="closebox"><i class="fa fa-times"></i></a>
+                            </div>
+
+                    </div>#}
+                    <div class="panel-body">
+                        <table id="example1" class="display table table-bordered">
+                            <thead>
+                            <tr>
+                                <th style="width:50px;"><input type="checkbox" id="selectAllTienda"/></th>
+                                <th style="width:50px;">Logo</th>
+                                <th style="width:150px;">Marca</th>
+                                <th style="width:150px;">Nombre</th>
+                                <th style="width:100px;">Usuario</th>
+                                <th style="width:100px;">Visible</th>
+
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot>
+                            <button type="button" id="editarTienda" class="buttonDataTable btn btn-primary" disabled  style="margin-right: 5px;padding: 5px; margin-bottom: 10px;"><i class="fa fa-edit"></i> Editar</button>
+                            <button type="button" id="eliminarTienda" class="buttonDataTable btn btn-danger" disabled  style="margin-right: 5px;padding: 5px; margin-bottom: 10px;"><i class="fa fa-trash"></i> Eliminar</button>
+                            <button type="button" id="detallesTienda" class="buttonDataTable btn btn-default" disabled  style="padding: 5px; margin-bottom: 10px;"><i class="fa fa-search"></i> Ver Detalles</button>
+
+                            </tfoot>
+                        </table>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    <a id="modal"  class="" style="visibility: hidden" href="#modalEditarTienda"  data-toggle="modal" ><i class="fa fa-edit"></i> DDD</a>
+    <a id="modalEliminar"  style="visibility: hidden"  class="" href="#modalEliminarTienda"  data-toggle="modal" ><i class="fa fa-edit"></i>DDDDD</a>
+    {% include 'AdministracionBundle:Tienda:modalEditar.html.twig'%}
+    {#{% include 'AdministracionBundle:Usuario:modalAdicionar.html.twig' with {'roles':roles}%}#}
+    {% include 'AdministracionBundle:Tienda:modalEliminar.html.twig'%}
+
+    <input type="hidden" value="{{ path('administracion_tienda_listar') }}" id="urlListar">
+    <input type="hidden" value="{{ path('administracion_tienda_editar') }}" id="urlEditar">
+    <input type="hidden" value="{{ path('administracion_tienda_detalles',{slug: "slug"}) }}" id="urlDetalles">
+    <input type="hidden" value="{{ asset(uploads_images_tiendas) }}" id="urlImagen">
+
+{% endblock  %}
+
+{% block customScripts %}
+
+    <!-- Vendor scripts -->
+
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery-ui.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.slimscroll.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/metisMenu.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/metisMenu.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/icheck.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/sparkline/index.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/index.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/dataTables.bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap.min.js') }}"></script>
+
+    <!-- App scripts -->
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/homer.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/vue.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/vue-resource.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/administracionTienda.js') }}"></script>
+
+    <script>
+        $('#fechaRegistroAdicionarUsuario').datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true
+        });
+
+
+
+    </script>
+{% endblock %}

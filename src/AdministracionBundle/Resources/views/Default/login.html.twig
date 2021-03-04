@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!-- Page title -->
+    <title>MercadoFree | Panel de Administración</title>
+    <!-- Vendor styles -->
+    <link href="{{ asset('bundles/administracion/css/font-awesome.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/administracion/css/metisMenu.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/administracion/css/animate.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/administracion/css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/administracion/css/dataTables.bootstrap.css') }}" rel="stylesheet">
+
+
+    <!-- App styles -->
+    <link href="{{ asset('bundles/administracion/css/pe-icon-7-stroke.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/administracion/css/helper.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/administracion/css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/administracion/css/waitMe/waitMe.min.css') }}" rel="stylesheet">
+
+</head>
+<body class="blank">
+
+
+
+<div class="login-container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center m-b-md">
+                <img style="max-width:70%;margin:0 auto 20px;" src="{{ asset('bundles/administracion/img/logo.png') }}" class="img-responsive">
+                <p style="margin-top:10px">Entre los datos de acceso para entrar al Panel de Administración</p>
+            </div>
+            <div class="hpanel">
+                <div class="panel-body">
+                    {% if error %}
+                        <p class="login-error">{{ error.message }}</p>
+                    {% endif %}
+                    <form action="{{ path('administracion_login_check') }}" method="post">
+                        <div class="form-group">
+                            <label class="control-label" for="username">Correo Electrónico</label>
+                            <input type="text"  title="Entre su correo electrónico" required="" value="{{ last_username }}"  name="_username" id="username" class="form-control">
+                            <span class="help-block small">Correo electrónico con el que se registró en la aplicación</span>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="password">Contraseña</label>
+                            <input type="password" title="Entre su contraseña"  required="" value="" name="_password" id="password" class="form-control">
+                            <span class="help-block small">Contraseña de acceso al sistema</span>
+                        </div>
+                        <button  id="btnSubmitAceptarLogin" name="login" class="btn btn-success btn-block">Acceder</button>
+                    </form>
+                </div>
+                <div class="panel-footer" hidden style="background-color: red ; margin-top: 10px;" id="usuarioIncorrecto">
+                    <span style="color: white">La contraseña o el usuario tienen problemas, corrijalos e intentelo de nuevo.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input id="urlHome" type="hidden" value="{{ path('administracion_homepage') }}">
+</div>
+
+<!-- Vendor scripts -->
+
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery-ui.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.slimscroll.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/metisMenu.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/metisMenu.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/icheck.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/sparkline/index.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/index.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.dataTables.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/dataTables.bootstrap.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap.min.js') }}"></script>
+
+
+<!-- App scripts -->
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/homer.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/vue.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/vue-resource.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/administracionUsuario.js') }}"></script>
+
+<!-- JQuery Validate -->
+
+<script src="{{ asset('bundles/administracion/js/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('bundles/administracion/js/jquery-validate.bootstrap-tooltip.min.js') }}"></script>
+<script src="{{ asset('bundles/administracion/js/messages_es.js') }}"></script>
+
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/validators/validatorUsuario.js') }}"></script>
+
+</body>
+</html>

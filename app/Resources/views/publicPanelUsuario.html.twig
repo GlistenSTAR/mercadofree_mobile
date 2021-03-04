@@ -1,0 +1,71 @@
+{% extends '::publicTemplate.html.twig' %}
+
+{% block breadcrumbs %}
+    <!-- Begin Page Header -->
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <!-- Breadcrumbs -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li><span class="ion-home breadcrumb-home"></span><a href="{{ path('public_homepage') }}">Inicio</a></li>
+                        <li><a href="{{ path('public_panel_usuario_resumen') }}">Panel de Usuario</a></li>
+                        {% block breadcrumbPanelUsuario %}{% endblock %}
+                    </ol>
+                </div><!-- /column -->
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </div><!-- /page header -->
+{% endblock %}
+
+{% block generalContent %}
+    <!-- Begin Content -->
+    <div class="content-40mg">
+        <div class="container" id="wait">
+            <div class="row mb30">
+                <div class="col-lg-2 col-xs-12">
+                    {% block menuPanelUsuario %}{% endblock %}
+                </div>
+
+                <div class="col-lg-7 col-xs-12">
+                    <div class="heading mb30">
+                        {% block headerCenterContent %}{% endblock %}
+                    </div>
+                    <div class="row white-box center-container">
+                        {% block centerContent %}{% endblock %}
+                    </div>
+                    {% block includes %}{% endblock %}
+                </div>
+
+                <div class="col-lg-3 col-xs-12">
+                    {{ render(controller("PublicBundle:Objetivo:barside")) }}
+                </div>
+            </div>
+
+        </div><!-- /container -->
+    </div><!-- /content -->
+    <!-- End Content -->
+
+    {% block hiddensPanelUsuario %}{% endblock %}
+
+
+{% endblock %}
+{% block customScripts %}
+
+
+    {% block customScriptsPanelUsuario %}{% endblock %}
+
+    <!-- On Scroll Animations - scrollReveal.js -->
+    <script>
+        var config = {
+            easing: 'hustle',
+            mobile:  true,
+            delay:  'onload'
+        }
+        window.sr = new scrollReveal( config );
+
+    </script>
+
+
+
+{% endblock %}

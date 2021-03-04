@@ -1,0 +1,41 @@
+{% extends '::publicTemplate.html.twig' %}
+
+
+{% block generalContent %}
+    <!-- Begin Content -->
+    <div class="content-40mg">
+        <div class="container">
+
+            <div class="row mb30" style="text-align:center;">
+                <div class="col-xs-12 col-sm-6 col-sm-offset-3 white-bg-shadow">
+                    <div class="row">
+
+                        {% if error is defined %}
+                            <div class="alert alert-danger alert-dismissable">
+                                <button class="close" aria-hidden="true" data-dismiss="alert" type="button">x</button>
+                                {{ error.message }}
+                            </div>
+                        {% endif %}
+                        <div class="col-xs-12" style="padding: 20px 45px;">
+                            <h3 class="mb10" style="font-weight:10;text-align: left">Email enviado</h3>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- Begin Login -->
+                        <div class="col-xs-12" style="padding: 0 45px 25px;">
+                                <p class="form-error" style="text-align: center">Se ha enviado un correo a la dirección proporcionada, con un enlace para modificar la contraseña,
+                                    una vez accedido a ese enlace, y modificada su contraseña, podrá entrar a su cuenta.</p>
+                        </div><!-- /column-->
+                        <!-- End Login -->
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        </div><!-- /container -->
+    </div><!-- /content -->
+    <!-- End Content -->
+{% endblock %}

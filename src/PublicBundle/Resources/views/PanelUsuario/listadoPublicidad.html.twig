@@ -1,0 +1,129 @@
+{% extends '::publicPanelUsuario.html.twig' %}
+
+{% block breadcrumbPanelUsuario %}
+    <li>Campañas de publicidad</li>
+{% endblock %}
+
+{% block menuPanelUsuario %}
+    {% include 'PublicBundle:Templates:menuPanelUsuario.html.twig' with {'page':'publicidad'} %}
+{% endblock %}
+
+{% block headerCenterContent %}
+    <h4>Campañas de publicidad</h4>
+{% endblock %}
+
+{% block centerContent %}
+    {% if campannas|length ==0 %}
+        <div class="col-xs-12">
+            <div class="alert alert-info" role="alert">
+                No tienes campañas de publicidad por el momento, puedes crear una en el botón de abajo
+            </div>
+        </div>
+        <div class="col-xs-12" style="text-align: center; margin-bottom: 5px">
+            <a class="btn btn-primary" href="{{ path('public_publicidad_planes') }}">Crear campaña</a>
+        </div>
+    {% endif %}
+    {% if productos|length ==0 %}
+        <div class="col-xs-12">
+            <div class="alert alert-info" role="alert">
+                No tienes anuncios para publicitar en una campaña, crea tu primer anuncio y luego crea tu campaña
+            </div>
+        </div>
+        <div class="col-xs-12" style="text-align: center ;margin-bottom: 5px">
+            <a class="btn btn-primary" href="{{ path('public_anuncio_publicar') }}">Crear anuncio</a>
+        </div>
+    {% endif %}
+
+    {% if campannas|length >0 %}
+        <div class="col-xs-12 hidden-xs">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Plan</th>
+                    <th>Productos</th>
+                    <th>Inversion</th>
+                    <th>Estado</th>
+                </tr>
+                </thead><!-- /table header -->
+                <tbody>
+                {% for i in informacion %}
+                    <tr>
+                        <td><a href="{{ path('public_panel_usuario_publicidad_detalle',{'slug': i.slug}) }}" data-toggle="tooltip" title="Ver detalles de campaña">{{ i.nombre }}</a></td>
+                        <td>{{ i.cantProductos }}</td>
+                        <td>$ {{ i.inversion }}</td>
+                        <td><span class="label label-success">{{ i.estadoCampanna }}</span></td>
+                    </tr>
+                {% endfor %}
+                </tbody><!-- /table body -->
+            </table><!-- /hover table -->
+        </div>
+        <div class="col-xs-12 visible-xs">
+            {% for i in informacion %}
+            <div class="panel">
+                <div class="panel-heading" style="background: #ececec;">
+                    <h4>
+                        <a href="{{ path('public_panel_usuario_publicidad_detalle',{'slug': i.slug}) }}" data-toggle="tooltip" title="Ver detalles de campaña">{{ i.nombre }}</a>
+                        <span class="label label-success pull-right">{{ i.estadoCampanna }}</span>
+                    </h4>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label>Productos: </label>
+                        {{ i.cantProductos }}
+                    </div>
+                    <div class="form-group">
+                        <label>Inversión: </label>
+                        $ {{ i.inversion }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-xs-12">
+            <a class="btn btn-primary" href="{{ path('public_publicidad_planes') }}"><i class="fa fa-plus-circle"></i> Adicionar campaña</a>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block customScriptsPanelUsuario %}
+    <script src="{{ asset('bundles/public/js/publicAnuncioAdicionar.js') }}"></script>
+{% endblock %}
+
+{% block javascripts %}
+    <!-- jQuery Files -->
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery-2.1.4.min.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/public/js/waitMe/waitMe.min.js') }}"></script>
+
+    <!-- Royal Preloader -->
+    <script type="text/javascript" src="{{ asset('bundles/public/js/royal_preloader.min.js') }}"></script>
+
+    <!-- Javascript Files -->
+    <script type="text/javascript" src="{{ asset('bundles/public/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.easing.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.mixitup.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/scrollReveal.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/owl.carousel.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.magnific-popup.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.snippet.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.fitvids.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/activate-snippet.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/skrollr.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/bootstrap-select.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/public/js/main.js') }}"></script>
+
+    <script src="{{ asset('bundles/public/js/publicAnuncioAdicionar.js') }}"></script>
+
+    <!-- On Scroll Animations - scrollReveal.js -->
+    <script>
+        var config = {
+            easing: 'hustle',
+            mobile:  true,
+            delay:  'onload'
+        }
+        window.sr = new scrollReveal( config );
+
+    </script>
+
+{% endblock %}

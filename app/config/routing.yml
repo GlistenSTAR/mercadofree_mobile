@@ -1,0 +1,14 @@
+public:
+    resource: "@PublicBundle/Resources/config/routing.yml"
+    prefix:   /
+
+administracion:
+    resource: "@AdministracionBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: '@AppBundle/Controller/'
+    type: annotation
+
+payum_all:
+    resource: "@PayumBundle/Resources/config/routing/all.xml"

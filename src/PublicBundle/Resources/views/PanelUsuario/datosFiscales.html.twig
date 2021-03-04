@@ -1,0 +1,199 @@
+{% extends '::publicPanelUsuario.html.twig' %}
+
+{% block breadcrumbPanelUsuario %}
+    <li><a href="{{ path('public_panel_usuario_editar_perfil') }}">Editar Perfil</a></li>
+    <li>Adicionar Datos Fiscales</li>
+{% endblock %}
+
+{% block menuPanelUsuario %}
+    {% include 'PublicBundle:Templates:menuPanelUsuario.html.twig' with {'page':'editarPerfil'} %}
+{% endblock %}
+
+{% block headerCenterContent %}
+    <h4>Mis Datos</h4>
+{% endblock %}
+
+{% block centerContent %}
+    <div class="col-xs-8">
+        <h4>Datos Fiscales</h4>
+    </div>
+    <form action="{{ path('public_panel_usuario_datos_fiscales') }}" id="formDatosFiscales" role="form" method="post">
+    <div class="col-xs-12 mt10 mb30">
+        <div id="alertError" hidden style="color: red;">Debe completar los datos correctamente.</div>
+        <div class="form-group">
+            <label for="tipoContribuyente">¿Qué tipo de contribuyente eres? </label>
+            <select class="form-control" id="tipoContribuyente" name="tipoContribuyente">
+                {% if informacionfiscal!=null and informacionfiscal.tipoContribuyente!=null %}
+                    <option value="">Seleccione</option>
+                    {% for tc in tipoContribuyente %}
+                        {% if informacionfiscal.tipoContribuyente.id ==tc.id %}
+                             <option selected value="{{ tc.id }}">{{ tc.nombre }}</option>
+                            {% else %}
+                            <option value="{{ tc.id }}">{{ tc.nombre }}</option>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                <option value="">Seleccione</option>
+                {% for tc in tipoContribuyente %}
+                    <option value="{{ tc.id }}">{{ tc.nombre }}</option>
+                {% endfor %}
+                {% endif %}
+
+            </select>
+        </div>
+        {% if informacionfiscal!=null and informacionfiscal.tipoContribuyente.id!=3 %}
+            <div id="exclusionIVAQuestion" class="form-group">
+                <label for="exclusionIVA">¿Tenés alguna exclusión de IVA? </label>
+                <select class="form-control" id="exclusionIVA" name="exclusionIVA">
+                    <option value="">Seleccione</option>
+                    <option {{ (informacionfiscal!=null and informacionfiscal.certificadoExclusion!=null)?"selected":"" }} value="1">Si</option>
+                    <option {{ (informacionfiscal!=null and informacionfiscal.regimenIngresosBrutos!=null)?"selected":"" }} value="0">No</option>
+                </select>
+            </div>
+            {% elseif informacionfiscal==null or informacionfiscal.tipoContribuyente.id!=3 %}
+                <div id="exclusionIVAQuestion" class="form-group">
+                    <label for="exclusionIVA">¿Tenés alguna exclusión de IVA? </label>
+                    <select class="form-control" id="exclusionIVA" name="exclusionIVA">
+                        <option value="">Seleccione</option>
+                        <option {{ (informacionfiscal!=null and informacionfiscal.certificadoExclusion!=null)?"selected":"" }} value="1">Si</option>
+                        <option {{ (informacionfiscal!=null and informacionfiscal.regimenIngresosBrutos!=null)?"selected":"" }} value="0">No</option>
+                    </select>
+                </div>
+            {% elseif informacionfiscal!=null and informacionfiscal.tipoContribuyente.id==3  %}
+                <div id="exclusionIVAQuestion" class="form-group" style="display: none">
+                    <label for="exclusionIVA">¿Tenés alguna exclusión de IVA? </label>
+                    <select class="form-control" id="exclusionIVA" name="exclusionIVA">
+                        <option value="">Seleccione</option>
+                        <option  value="1">Si</option>
+                        <option  value="0">No</option>
+                    </select>
+                </div>
+            {% endif %}
+        <div style="display: {{ (informacionfiscal!=null and informacionfiscal.certificadoExclusion!=null)?"inline":"none" }};" id="certificadoExclusionIva" class="form-group">
+            <label>Adjuntá el certificado de exclusión de IVA </label>
+            <p class="help-block">Asegurate de que sea legible, en formato .JPG o .PDF y hasta 5 MB.</p>
+            <label id="urlFichero">{{ (informacionfiscal!=null and informacionfiscal.certificadoExclusion!=null)?informacionfiscal.certificadoExclusion:"" }}</label>
+            <p id="msgBox2" style="color: red;padding-left: 16px;font-weight: bold;"></p>
+            <div id="progressOuter" class="progress progress-striped active" style="display:none;">
+                <div id="progressBar" class="progress-bar progress-bar-primary"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                </div>
+            </div>
+            <a id="btnUpload" class="btn btn-primary"><i class="fa fa-upload"></i> {{ (informacionfiscal!=null and informacionfiscal.certificadoExclusion!=null)?"Cambiar archivo":"Subir archivo" }}</a>
+            <input type="hidden" id="certificadoIVA" name="certificadoIVA" value="{{ (informacionfiscal!=null and informacionfiscal.certificadoExclusion!=null)?informacionfiscal.certificadoExclusion:"" }}">
+        </div>
+        <div style="display: {{ (informacionfiscal!=null and informacionfiscal.fechaIniValidezCert!=null)?" block; margin-top:5px":"none" }};" id="validezCertificadoExclusionIva" class="form-group">
+            <label>Validez </label>
+            <div class="form-inline">
+                <input required="required" class="form-control fecha" type="text" name="fechaInicio" id="fechaInicio" value="{{ (informacionfiscal!=null and informacionfiscal.fechaIniValidezCert!=null)?informacionfiscal.fechaIniValidezCert|date('Y-m-d'):"" }}" placeholder="Desde" >
+
+                <input required="required" class="form-control fecha" type="text" name="fechaFin" id="fechaFin" value="{{ (informacionfiscal!=null and informacionfiscal.fechaFinValidezCert!=null)?informacionfiscal.fechaFinValidezCert|date('Y-m-d'):"" }}" placeholder="Hasta">
+
+            </div>
+        </div>
+
+        <div style="display: {{ (informacionfiscal!=null and informacionfiscal.regimenIngresosBrutos!=null)?"inline":"none" }};" id="regimenIngresosBrutosContainer" class="form-group">
+            <label for="regimenIngresosBrutos">¿A qué régimen de ingresos brutos pertenecés?</label>
+            <select class="form-control" id="regimenIngresosBrutos" name="regimenIngresosBrutos">
+                {% if informacionfiscal!=null and informacionfiscal.regimenIngresosBrutos!=null %}
+                <option value="">Seleccione</option>
+                    {% for ib in regimenIngresoBrutos %}
+                        {% if informacionfiscal.regimenIngresosBrutos.id ==ib.id %}
+                            <option selected value="{{ ib.id }}">{{ ib.nombre }}</option>
+                        {% else %}
+                            <option value="{{ ib.id }}">{{ ib.nombre }}</option>
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    <option value="">Seleccione</option>
+                    {% for ib in regimenIngresoBrutos %}
+                        <option value="{{ ib.id }}">{{ ib.nombre }}</option>
+                    {% endfor %}
+                {% endif %}
+
+            </select>
+        </div>
+
+        <div style="display: {{ (informacionfiscal!=null and informacionfiscal.regimenIngresosBrutos!=null)?"inline; margin-top: 5px":"none" }}" id="formInscripcionIngresosBrutos" class="form-group">
+            <label>Adjuntá el Formulario de Inscripción de ingresos brutos</label>
+            <p class="help-block">Asegurate de que sea legible, en formato .JPG o .PDF y hasta 5 MB.</p>
+            <label id="urlFicheroIngresosBrutos">{{ (informacionfiscal!=null and informacionfiscal.formInscripcionIngresosBrutos!=null)?informacionfiscal.formInscripcionIngresosBrutos:"" }}</label>
+            <p id="msgBox2IngresosBrutos" style="color: red;padding-left: 16px;font-weight: bold;"></p>
+            <div id="progressOuterIngresosBrutos" class="progress progress-striped active" style="display:none;">
+                <div id="progressBarIngresosBrutos" class="progress-bar progress-bar-primary"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                </div>
+            </div>
+            <a id="btnIngresosBrutos" class="btn btn-primary"><i class="fa fa-upload"></i> {{ (informacionfiscal!=null and informacionfiscal.formInscripcionIngresosBrutos!=null)?"Cambiar archivo":"Subir archivo" }}</a>
+            <input type="hidden" id="certificadoIngresosBrutos" name="certificadoIngresosBrutos" value="{{ (informacionfiscal!=null and informacionfiscal.formInscripcionIngresosBrutos!=null)?informacionfiscal.formInscripcionIngresosBrutos:"" }}">
+
+            <input type="hidden" name="certificadoExclusionHidden" id="certificadoExclusionHidden" value="{{ (informacionfiscal!=null and informacionfiscal.certificadoExclusion!=null)?informacionfiscal.certificadoExclusion:"" }}">
+            <input type="hidden" name="formInscripcionIngresosBrutosHidden" id="formInscripcionIngresosBrutosHidden" value="{{ (informacionfiscal!=null and informacionfiscal.formInscripcionIngresosBrutos!=null)?informacionfiscal.formInscripcionIngresosBrutos:"" }}">
+
+        </div>
+
+        <hr/>
+
+        <a id="btnSubmitDatosFiscales" href="{{ path('public_panel_usuario_editar_perfil') }}" class="btn btn-primary">Aceptar</a>
+    </div>
+
+    </form>
+
+    <input type="hidden" name="img-upload-path" id="img-upload-path" value="{{ path('public_imagen_adicionar') }}">
+
+    <input type="hidden" id="fechaFinHidden" value="{{ (informacionfiscal!=null)?informacionfiscal.fechaFinValidezCert|date('Y-m-d'):"" }}">
+    <input type="hidden" id="fechaInicioHidden" value="{{ (informacionfiscal!=null)?informacionfiscal.fechaIniValidezCert|date('Y-m-d'):"" }}">
+    <input type="hidden" id="exclusionIVAHidden" value="{{ (informacionfiscal!=null?(informacionfiscal.formInscripcionIngresosBrutos!=null?"0":(informacionfiscal.certificadoExclusion!=null?"1":"")):"")}}">
+    <input type="hidden" id="tipoContribuyenteHidden" value="{{ (informacionfiscal!=null)?informacionfiscal.tipoContribuyente.id:"" }}">
+    <input type="hidden" id="regimenIngresosBrutosHidden" value="{{ (informacionfiscal!=null and informacionfiscal.regimenIngresosBrutos!=null )?informacionfiscal.regimenIngresosBrutos.id:"" }}">
+    <input type="hidden" id="urlDatosEmpresa" value="{{ path('public_panel_usuario_editar_perfil') }}">
+
+
+{% endblock %}
+
+    {% block customScriptsPanelUsuario %}
+        <!-- Simple Ajax Uploader -->
+
+        <script type="text/javascript" src="{{ asset('bundles/public/js/simpleAjaxUploader/SimpleAjaxUploader.min.js') }}"></script>
+
+        <script type="text/javascript" src="{{ asset('bundles/public/js/publicPanelUsuarioInformacionFiscal.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/public/js/Validators/validatorUsuario.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.min.js') }}"></script>
+
+
+
+    <script>
+
+        function toggleCertExclusionIva(show) {
+            if(show){
+                $('#certificadoExclusionIva').fadeIn();
+                $('#validezCertificadoExclusionIva').fadeIn();
+            }
+            else{
+                $('#certificadoExclusionIva').hide();
+                $('#validezCertificadoExclusionIva').hide();
+            }
+
+        }
+
+        function toggleRegimenIngresosBrutos(show){
+            if(show){
+                $('#regimenIngresosBrutosContainer').fadeIn();
+                $('#formInscripcionIngresosBrutos').fadeIn();
+            }
+            else{
+                $('#regimenIngresosBrutosContainer').hide();
+                $('#formInscripcionIngresosBrutos').hide();
+            }
+        }
+
+
+
+        $('.fecha').datepicker({
+            format: "yyyy-mm-dd",
+            autoclose: true
+        });
+
+
+    </script>
+
+    {% endblock %}

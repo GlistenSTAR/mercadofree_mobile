@@ -1,0 +1,86 @@
+{% extends '::adminTemplate.html.twig' %}
+
+{% block customStyles %}
+    <link href="{{ asset('bundles/administracion/css/iconSelect.css') }}" rel="stylesheet">
+    <link href="{{ asset('bundles/administracion/css/ionicons.min.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block mainMenu %}
+    {% include 'AdministracionBundle:Templates:mainMenu.html.twig' with {'page':'notificaciones'} %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% include 'AdministracionBundle:Templates:breadcrumbs.html.twig' with {'items':[
+    {'raiz':false,'title':'Notificación','href':'#'},
+    {'raiz':true,'title':'Listado Notificaciones'}
+    ]} %}
+{% endblock %}
+
+{% block titulo %}<i class="fa fa-bell"></i> Listado de Notificaciones{% endblock %}
+{% block subTitulo %}Edición de las notificaciones de la Plataforma{% endblock %}
+{% block generalContent %}
+    <div class="content animate-panel">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="hpanel">
+                    {#<div class="panel-heading">
+                            <div class="panel-tools">
+                                    <a class="showhide"><i class="fa fa-chevron-up"></i></a>
+                                    <a class="closebox"><i class="fa fa-times"></i></a>
+                            </div>
+
+                    </div>#}
+                    <div class="panel-body">
+                        <table id="example1" class="display table table-bordered">
+                            <thead>
+                            <tr>
+                                <th style="width:50px;"><input type="checkbox" id="selectAllNotificacion"/></th>
+                                <th style="width:150px;">Icono</th>
+                                <th style="width:150px;">Título</th>
+                                <th style="width:150px;">Mensaje</th>
+                                <th style="width:50px;">Habilitado</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot>
+                            <button type="button" id="editarNotificacion" class="buttonDataTable btn btn-primary" disabled  style="margin-right: 5px;padding: 5px; margin-bottom: 10px;"><i class="fa fa-edit"></i> Editar</button>
+
+                            </tfoot>
+                        </table>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    <a id="modalEditar"  class="" style="visibility: hidden" href="#modalEditarNotificacion"  data-toggle="modal" ><i class="fa fa-edit"></i> DDD</a>
+    <a id="modalEliminar"  style="visibility: hidden"  class="" href="#modalEliminarNotificacion"  data-toggle="modal" ><i class="fa fa-edit"></i>DDDDD</a>
+    <a id="modalAdicionarNotificacionId"  style="visibility: hidden"   class="" href="#modalAdicionarNotificacion"  data-toggle="modal" ><i class="fa fa-edit"></i>DDDDD</a>
+    {% include 'AdministracionBundle:Templates:modalSeleccionarIconoIonic.html.twig' %}
+    {% include 'AdministracionBundle:Notificacion:modalAdicionar.html.twig'%}
+    {% include 'AdministracionBundle:Notificacion:modalEliminar.html.twig'%}
+    {% include 'AdministracionBundle:Notificacion:modalEditar.html.twig'%}
+
+    <input type="hidden" value="{{ path('administracion_notificacion_listar') }}" id="urlListar">
+    <input type="hidden" value="{{ path('administracion_notificacion_editar') }}" id="urlEditar">
+    <input type="hidden" value="{{ path('administracion_oferta_bloquear') }}" id="urlBloquear">
+    <input type="hidden" value="{{ path('administracion_oferta_producto_detalles') }}" id="urlDetallesProductos">
+    <a id="paginaDetalles"  class="visibility: hidden" style="" href="" ><i class="fa fa-edit"></i> DDD</a>
+    {#<input type="hidden" value="{{ path('administracion_oferta_editar') }}" id="urlEditar">#}
+
+
+{% endblock  %}
+
+{% block customScripts %}
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/administracionNotificacion.js') }}"></script>
+
+    <script>
+        $('#fechaRegistroAdicionarUsuario').datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true
+        });
+    </script>
+{% endblock %}

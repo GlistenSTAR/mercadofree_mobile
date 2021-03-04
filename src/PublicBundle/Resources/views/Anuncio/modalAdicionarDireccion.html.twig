@@ -1,0 +1,87 @@
+<div class="modal fade" id="modalAdicionarDireccion" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="loginLabel"><i class="fa fa-plus-circle"></i> Adicionar dirección de venta</h4>
+            </div>
+            <div class="modal-body" id="containerDireccion">
+                <form action="{{ path('public_direccion_adicionar') }}" id="formDireccionVenta2" role="form" method="post">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Calle <span class="required">*</span></label>
+                                <input required="required" class="form-control" type="text" name="calle" id="calle" value="{{ usuario.getDireccionVenta!=null?usuario.getDireccionVenta.calle:"" }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="numero">Número</label>
+                                <input  class="form-control" type="number" name="numero" id="numero" value="{{ usuario.getDireccionVenta!=null?usuario.getDireccionVenta.numero:"" }}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="datosAdicionales">Datos adicionales</label>
+                                <input  class="form-control" type="text" placeholder="Ejemplo: Piso 2, departamento 3" name="datosAdicionales" id="datosAdicionales" value="{{ usuario.getDireccionVenta!=null?usuario.getDireccionVenta.otrosDatos:"" }}">
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Entre calles</label>
+                                <input  class="form-control" type="text" name="entreCalles" id="entreCalles" value="{{ usuario.getDireccionVenta!=null?usuario.getDireccionVenta.entreCalle:"" }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="provincia">Provincia <span class="required">*</span></label>
+                                <select required="required" class="form-control" required="required" name="provincia" id="provincia">
+                                    <option value="">Seleccione Provincia</option>
+                                    {% if usuario.getDireccionVenta==null %}
+                                            {% for provincia in provincias %}
+                                                    <option value="{{ provincia.id }}">{{ provincia.nombre }}</option>
+                                            {% endfor %}
+                                        {% else %}
+                                            {% for provincia in provincias %}
+                                                {% if usuario.getDireccionVenta.provincia.id==provincia.id %}
+                                                         <option value="{{ provincia.id }}" selected>{{ provincia.nombre }}</option>
+                                                    {% else %}
+                                                         <option value="{{ provincia.id }}">{{ provincia.nombre }}</option>
+                                                {% endif %}
+                                            {% endfor %}
+                                    {% endif %}
+
+
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="ciudad">Ciudad <span class="required">*</span></label>
+                                {% if ciudades==null %}
+                                <select required="required" class="form-control" required="required" name="ciudad" id="ciudad">
+                                    <option value=""></option>
+
+                                </select>
+                                {% else %}
+                                    <select required="required" class="form-control" required="required" name="ciudad" id="ciudad">
+                                        <option value="">Seleccione Ciudad</option>
+                                        {% for ciudad in ciudades %}
+                                            {% if usuario.getDireccionVenta.ciudad.id==ciudad.id %}
+                                                <option value="{{ ciudad.id }}" selected>{{ ciudad.ciudadNombre }}</option>
+                                            {% else %}
+                                                <option value="{{ ciudad.id }}">{{ ciudad.ciudadNombre }}</option>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </select>
+
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a id="btnSubmitDireccionVenta" class="btn btn-rw btn-primary">Aceptar <img id="submitEditLoading" style="display: none;" class="img-responsive" src=""></a>
+                <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
+
+            </div>
+        </div><!-- /modal content -->
+    </div><!-- /modal dialog -->
+</div><!-- /modal holder -->

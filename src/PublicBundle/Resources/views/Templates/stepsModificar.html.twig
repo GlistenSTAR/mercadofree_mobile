@@ -1,0 +1,48 @@
+<div class="row mb20">
+    <div class="col-md-12 without-padding-right without-padding-left">
+        <ul class="steps nav nav-pills">
+            <li role="presentation" class="{{ step is defined and step==1?'active':'' }} first">
+                <a href="{{ path('public_anuncio_modificar',{'step':'1', 'idProducto': idProducto}) }}">
+                    1
+                </a>
+                <span>Selecciona la categoría</span>
+            </li>
+            <li class="{{ usuarioVacio is defined and usuarioVacio==true?'divider':'divider-3-steps' }}">
+                            <span>
+                                <hr class="hr-solid">
+                            </span>
+            </li>
+            <li role="presentation" class="{{ step is defined and step==2?'active':'' }}">
+                <a href="{{ path('public_anuncio_modificar',{'step':'2', 'idProducto': idProducto}) }}">
+                    2
+                </a>
+                <span>Descripción</span>
+            </li>
+            <li class="{{ usuarioVacio is defined and usuarioVacio==true?'divider':'divider-3-steps' }}">
+                            <span>
+                                <hr class="hr-solid">
+                            </span>
+            </li>
+            <li role="presentation" class="{{ step is defined and step==3?'active':'' }}">
+                <a href="{{ path('public_anuncio_modificar',{'step':'3', 'idProducto': idProducto}) }}">
+                    3
+                </a>
+                <span>Precio, cantidad, envío</span>
+            </li>
+
+            {% if usuarioVacio is defined and usuarioVacio==true %}
+                <li class="divider">
+                            <span>
+                                <hr class="hr-solid">
+                            </span>
+                </li>
+                <li role="presentation" class="{{ step is defined and step==4?'active':'' }}">
+                    <a href="{{ path('public_anuncio_modificar',{'step':'4', 'idProducto': idProducto}) }}">
+                        4
+                    </a>
+                    <span>Datos personales</span>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>

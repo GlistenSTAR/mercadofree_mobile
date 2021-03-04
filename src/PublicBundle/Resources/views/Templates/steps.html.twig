@@ -1,0 +1,47 @@
+<div class="row mb20" id="steps-publicar-anuncio-container">
+    <div class="col-md-12 without-padding-right without-padding-left {{ usuarioVacio is defined and usuarioVacio==true?'with-4-steps':'' }}">
+        <ul class="steps nav nav-pills">
+            <li role="presentation" class="{{ step is defined and step==1?'active':'' }} first">
+                <a href="#">
+                    1
+                </a>
+                <span>Selecciona la categoría</span>
+            </li>
+            <li class="{{ usuarioVacio is defined and usuarioVacio==true?'divider':'divider-3-steps' }}">
+                            <span>
+                                <hr class="hr-solid">
+                            </span>
+            </li>
+            <li role="presentation" class="{{ step is defined and step==2?'active':'' }}">
+                <a href="#">
+                    2
+                </a>
+                <span>Descripción</span>
+            </li>
+            <li class="{{ usuarioVacio is defined and usuarioVacio==true?'divider':'divider-3-steps' }}">
+                            <span>
+                                <hr class="hr-solid">
+                            </span>
+            </li>
+            <li role="presentation" class="{{ step is defined and step==3?'active':'' }}">
+                <a href="#">
+                    3
+                </a>
+                <span>Precio, cantidad, envío</span>
+            </li>
+            {% if usuarioVacio is defined and usuarioVacio==true %}
+                <li class="divider">
+                            <span>
+                                <hr class="hr-solid">
+                            </span>
+                </li>
+                <li role="presentation" class="{{ step is defined and step==4?'active':'' }}">
+                    <a href="#">
+                        4
+                    </a>
+                    <span>Datos personales</span>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</div>

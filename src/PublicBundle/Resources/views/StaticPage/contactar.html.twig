@@ -1,0 +1,101 @@
+{% extends '::publicTemplate.html.twig' %}
+
+{% block breadcrumbs %}
+    <!-- Begin Page Header -->
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <!-- Breadcrumbs -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li><span class="ion-home breadcrumb-home"></span><a href="{{ path('public_homepage') }}">Inicio</a></li>
+                        <li>Contactar</li>
+                    </ol>
+                </div><!-- /column -->
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </div><!-- /page header -->
+{% endblock %}
+
+{% block generalContent %}
+    <!-- Begin Content -->
+    <div class="content-40mg">
+        <div class="container">
+            <div class="row mb30">
+                <div class="col-xs-12 white-bg-shadow">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="heading mt30">
+                                <h3>Contactar con MercadoFree</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt30">
+                        <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+                            <h4>¿Tienes algún problema?</h4>
+                            <p>Prueba nuestra <a href="http://help.mercadofree.com.ar">sección de ayuda</a>, puede que encuentres la respuesta a lo que buscas.</p>
+                        </div>
+                    </div>
+                    <div class="row mt30 mb30">
+                        <!-- Begin Form -->
+
+                        <div class="col-sm-8 col-sm-offset-2 col-xs-12">
+                            {% for message in app.session.flashbag.get('info') %}
+                                <div class="alert alert-success alert-success-rw mb30" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+
+                            {% for message in app.session.flashbag.get('error') %}
+                                <div class="alert alert-danger alert-danger-rw mb30" role="alert">
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+
+                            <h4 class="mb20">En otro caso, nos puedes enviar un mensaje mediante este formulario</h4>
+                            <form role="form" action="{{ path('public_static_contactar') }}" method="post" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <input required type="text" value="{{ app.user!=null and app.user.clienteid!=null?app.user.clienteid.nombre:'' }}" placeholder="Nombre" class="form-control" id="nombre" name="nombre">
+                                </div>
+                                <div class="form-group">
+                                    <input required type="text" value="{{ app.user!=null and app.user.clienteid!=null?app.user.clienteid.apellidos:'' }}" placeholder="Apellidos" class="form-control" id="apellidos" name="apellidos">
+                                </div>
+                                <div class="form-group">
+                                    <input required type="email" value="{{ app.user!=null?app.user.email:'' }}" placeholder="Correo Electrónico" class="form-control" id="email" name="email">
+                                </div>
+                                <div class="form-group">
+                                    <textarea required class="form-control" placeholder="Escribe tu mensaje" id="message" name="message" rows="7"></textarea>
+                                </div>
+                                <div class="form-group" id="inputFilesContainer">
+                                    <p class="help-block">Adjuntar documentos o fotos</p>
+                                    <input type="file" class="form-control" placeholder="Enviar documentos o imágenes" name="files[]">
+                                </div>
+                                <a id="linkAdicionarArchivos" href="#">Adjuntar más archivos</a>
+                                <br><br>
+                                <button type="submit" class="btn btn-rw btn-primary">Enviar</button>
+                            </form>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div><!-- /container -->
+    </div><!-- /content -->
+    <!-- End Content -->
+
+{% endblock %}
+
+{% block customScripts %}
+    <script type="text/javascript">
+        $(document).ready(function (){
+            $("#linkAdicionarArchivos").on('click',function (e){
+                e.preventDefault();
+                var newInput = "<input style='margin-top: 10px;' type=\"file\" class=\"form-control\" placeholder=\"Enviar documentos o imágenes\" name=\"files[]\">";
+                $('#inputFilesContainer').append($(newInput));
+            });
+        });
+    </script>
+{% endblock %}

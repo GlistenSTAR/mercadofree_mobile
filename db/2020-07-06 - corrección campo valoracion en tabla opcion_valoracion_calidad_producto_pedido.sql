@@ -1,0 +1,1 @@
+ALTER TABLE opcion_valoracion_calidad_producto_pedido CHANGE valoracion valor int

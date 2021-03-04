@@ -1,0 +1,102 @@
+<div class="row user-panel-menu hidden-xs">
+    <div class="col-xs-12">
+        <h4><a class="{{ page is defined and page=='resumen'?'active':'' }}" href="{{ path('public_panel_usuario_resumen') }}">Resumen</a></h4>
+    </div>
+    <div class="col-xs-12">
+        <h4><a class="{{ page is defined and page=='finanzas'?'active':'' }}" href="{{ path('public_finanzas_index') }}">Mis Finanzas</a></h4>
+    </div>
+    {#<div class="col-xs-12">
+        <h4><a class="{{ page is defined and page=='reputacion'?'active':'' }}" href="#">Reputación</a></h4>
+    </div>#}
+    <div class="col-xs-12">
+        <h4>Compras</h4>
+        <p><a class="{{ page is defined and page=='favoritos'?'active':'' }}" href="{{ path('public_panel_usuario_favoritos') }}">Favoritos</a></p>
+        <p><a class="{{ page is defined and page=='preguntas-comprador'?'active':'' }}" href="{{ path('public_panel_usuario_preguntas_comprador') }}">Preguntas</a></p>
+        {#<p><a class="{{ page is defined and page=='cotizaciones'?'active':'' }}" href="#">Cotizaciones</a></p>#}
+        <p><a class="{{ page is defined and page=='pedidos_comprador'?'active':'' }}" href="{{ path('public_panel_usuario_compras') }}">Compras</a></p>
+        {#<p><a class="{{ page is defined and page=='subastas'?'active':'' }}" href="#">Subastas</a></p>#}
+    </div>
+    <div class="col-xs-12 mt30">
+        <h4>Ventas</h4>
+        <p><a class="{{ page is defined and page=='publicaciones'?'active':'' }}" href="{{ path('public_panel_usuario_anuncios') }}">Publicaciones</a></p>
+        <p><a class="{{ page is defined and page=='preguntas-vendedor'?'active':'' }}" href="{{ path('public_panel_usuario_preguntas_vendedor') }}">Preguntas</a></p>
+        <p><a class="{{ page is defined and page=='pedidos_vendedor'?'active':'' }}" href="{{ path('public_panel_usuario_ventas') }}">Ventas</a></p>
+        {#<p><a class="{{ page is defined and page=='interesados'?'active':'' }}" href="#">Datos de mis interesados</a></p>#}
+        {#<p><a class="{{ page is defined and page=='publicidad'?'active':'' }}" href="{{ path('public_panel_usuario_publicidad') }}">Campañas de publicidad</a></p>#}
+        <p><a class="{{ page is defined and page=='envios'?'active':'' }}" href="{{ path('public_panel_usuario_envios') }}">Métodos de envío</a></p>
+        <p><a class="{{ page is defined and page=='garantia'?'active':'' }}" href="{{ path('public_panel_usuario_garantia') }}">Garantía de Productos</a></p>
+    </div>
+
+    <div class="col-xs-12 mt30">
+        <h4>Configuración</h4>
+        <p><a class="{{ page is defined and page=='editarPerfil'?'active':'' }}" href="{{ path('public_panel_usuario_editar_perfil') }}">Mis datos</a></p>
+        <p><a class="{{ page is defined and page=='emails'?'active':'' }}" href="{{ path('public_panel_usuario_emails') }}">Emails</a></p>
+        <p><a class="{{ page is defined and page=='tienda'?'active':'' }}" data-toggle="modal" href="{{ path('public_panel_usuario_tienda') }}">Mi tienda</a></p>
+    </div>
+</div>
+
+<div class="row user-panel-menu visible-xs">
+    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="panelHeader">
+                <h4 class="panel-title">
+                    <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        <h4>Menú de Opciones</h4>
+                    </a>
+                </h4>
+            </div>
+            <div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <h4><a class="{{ page is defined and page=='resumen'?'active':'' }}" href="{{ path('public_panel_usuario_resumen') }}">Resumen</a></h4>
+                    </li>
+                    <li class="list-group-item">
+                        <h4><a class="{{ page is defined and page=='facturacion'?'active':'' }}" href="#">Facturación</a></h4>
+                    </li>
+                    <li class="list-group-item">
+                        <h4><a class="{{ page is defined and page=='reputacion'?'active':'' }}" href="#">Reputación</a></h4>
+                    </li>
+                    <li class="list-group-item"><h4>Compras</h4></li>
+                    <li>
+                        <p style="padding-left: 16px;"><a class="{{ page is defined and page=='favoritos'?'active':'' }}" href="{{ path('public_panel_usuario_favoritos') }}">Favoritos</a></p>
+                    </li>
+                    <li>
+                        <p style="padding-left: 16px;"><a class="{{ page is defined and page=='preguntas-comprador'?'active':'' }}" href="{{ path('public_panel_usuario_preguntas_comprador') }}">Preguntas</a></p>
+                    </li>
+                    <li>
+                        <p style="padding-left: 16px;"><a class="{{ page is defined and page=='pedidos_comprador'?'active':'' }}" href="{{ path('public_panel_usuario_compras') }}">Compras</a></p>
+                    </li>
+                    <li class="list-group-item"><h4>Ventas</h4></li>
+                    <li>
+                        <p style="padding-left: 16px;"><a class="{{ page is defined and page=='publicaciones'?'active':'' }}" href="{{ path('public_panel_usuario_anuncios') }}">Publicaciones</a></p>
+                    </li>
+                    <li>
+                        <p style="padding-left: 16px;"><a class="{{ page is defined and page=='preguntas-vendedor'?'active':'' }}" href="{{ path('public_panel_usuario_preguntas_vendedor') }}">Preguntas</a></p>
+                    </li>
+                    <li>
+                        <p style="padding-left: 16px;"><a class="{{ page is defined and page=='pedidos_vendedor'?'active':'' }}" href="{{ path('public_panel_usuario_ventas') }}">Ventas</a></p>
+                    </li>
+                    <li>
+                        <p style="padding-left: 16px;"><a class="{{ page is defined and page=='publicidad'?'active':'' }}" href="{{ path('public_panel_usuario_publicidad') }}">Campañas de publicidad</a></p>
+                    </li>
+                    <li>
+                        <p style="padding-left: 16px;"><a class="{{ page is defined and page=='envios'?'active':'' }}" href="{{ path('public_panel_usuario_envios') }}">Métodos de envío</a></p>
+                    </li>
+                    <li>
+                        <p style="padding-left: 16px;"><a class="{{ page is defined and page=='garantia'?'active':'' }}" href="{{ path('public_panel_usuario_garantia') }}">Garantía de Productos</a></p>
+                    </li>
+                    <li class="list-group-item"><h4>Configuración</h4></li>
+                    <li>
+                        <p style="padding-left: 16px;"><a class="{{ page is defined and page=='editarPerfil'?'active':'' }}" href="{{ path('public_panel_usuario_editar_perfil') }}">Mis datos</a></p>
+                    </li>
+                    <li>
+                        <p style="padding-left: 16px;"><a class="{{ page is defined and page=='emails'?'active':'' }}" href="{{ path('public_panel_usuario_emails') }}">Emails</a></p>
+                    </li>
+                    <li>
+                        <p style="padding-left: 16px;"><a class="{{ page is defined and page=='tienda'?'active':'' }}" data-toggle="modal" href="{{ path('public_panel_usuario_tienda') }}">Mi tienda</a></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

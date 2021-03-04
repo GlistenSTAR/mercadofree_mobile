@@ -1,0 +1,26 @@
+<div class="modal fade" id="modalEliminarColeccion" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="loginLabel"><i class="fa fa-trash"></i> Eliminar Colección</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="formEliminarColeccion" action="{{ path('administracion_coleccion_eliminar') }}" method="post">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3><span><i class="fa fa-warning"></i></span> Esta seguro que desea continuar con esta acción?</h3>
+                        </div>
+                    </div>
+                    <input type="hidden" name="idColeccionEliminar" id="idColeccionEliminar" value="">
+
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a id="btnSubmitColeccionEliminar" class="btn btn-rw btn-primary">Aceptar <img id="submitEditLoading" style="display: none;" class="img-responsive" src=""></a>
+                <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
+
+            </div>
+        </div><!-- /modal content -->
+    </div><!-- /modal dialog -->
+</div><!-- /modal holder -->

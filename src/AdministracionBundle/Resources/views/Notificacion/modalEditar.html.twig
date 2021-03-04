@@ -1,0 +1,52 @@
+<div class="modal fade" id="modalEditarNotificacion" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="loginLabel"><i class="fa fa-edit"></i> Editar Notificación</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="formEditarNotificacion" action="{{ path('administracion_notificacion_editar') }}" method="post">
+                    <div class="row">
+                        <div class="col-md-5">
+                            <div class="form-group">
+                                <label for="iconoNotificacionEditar">Icono<span class="required">*</span></label>
+                                <input required="required" class="form-control" type="text" name="iconoNotificacionEditar" id="iconoNotificacionEditar">
+                            </div>
+                        </div>
+                        <div class="col-xs-1" style="padding-top: 27px;text-align: center;">
+                            <i id="iconoContainerNotificacionEditar" style="font-size: 24px;"></i>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nombreNotificacionEditar">Título<span class="required">*</span></label>
+                                <input required="required" class="form-control" type="text" name="nombreNotificacionEditar" id="nombreNotificacionEditar">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="mensajeNotificacionEditar">Mensaje<span class="required">*</span></label>
+                                <textarea required="required" class="form-control" name="mensajeNotificacionEditar" id="mensajeNotificacionEditar"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="enabledNotificacionEditar">Habilitado<span class="required">*</span></label>
+                                <input type="checkbox" id="enabledNotificacionEditar" name="enabledNotificacionEditar">
+                            </div>
+                        </div>
+                    </div>
+                    <input class="form-control" type="hidden" name="editarNotificacion" id="editarNotificacion" value="true">
+                    <input class="form-control" type="hidden" name="idNotificacion" id="idNotificacion" value="">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a id="btnSubmitNotificacionEditar" class="btn btn-rw btn-primary">Aceptar <img id="submitEditLoading" style="display: none;" class="img-responsive" src="spinner.gif"></a>
+                <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
+            </div>
+        </div><!-- /modal content -->
+    </div><!-- /modal dialog -->
+</div><!-- /modal holder -->
+<!-- End Register -->

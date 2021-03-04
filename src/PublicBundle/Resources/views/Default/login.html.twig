@@ -1,0 +1,96 @@
+{% extends '::publicTemplate.html.twig' %}
+
+{% block breadcrumbs %}
+    <!-- Begin Page Header -->
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <!-- Breadcrumbs -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li><span class="ion-home breadcrumb-home"></span><a href="{{ path('public_homepage') }}">Inicio</a></li>
+                        <li>Acceder</li>
+                    </ol>
+                </div><!-- /column -->
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </div><!-- /page header -->
+{% endblock %}
+
+
+{% block generalContent %}
+
+    <!-- Begin Content -->
+    <div class="content-40mg">
+        <div class="container">
+
+            <div class="row mb30" style="text-align:center;">
+                <div class="col-xs-12 col-sm-6 col-sm-offset-3 white-bg-shadow">
+                    <div class="row">
+                        {% if error %}
+                            <div class="alert alert-danger alert-dismissable">
+                                <button class="close" aria-hidden="true" data-dismiss="alert" type="button">x</button>
+                                {{ error.message }}
+                            </div>
+                        {% endif %}
+                        <div class="col-xs-12" style="padding: 20px 70px;">
+                            <h1 class="mb30" style="font-weight:200;">¿No tienes cuenta?</h1>
+                            <a style="width:100%;" class="btn btn-primary btn-lg" href="{{ path('public_usuario_registrar') }}">Regístrate aquí</a>
+
+                            <hr>
+
+                            <h4>O si ya tienes una cuenta, entra con tus datos de acceso</h4>
+                        </div>
+                    </div>
+
+                    <div class="row" style="display:none;">
+                        <div class="col-xs-12" style="padding: 0 70px;">
+                            <p class="form-error">Sus datos son incorrectos</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Begin Login -->
+                        <div class="col-xs-12" style="padding: 0 70px;">
+                            <form id="loginForm" action="{{ path('public_login_check') }}" method="post" role="form">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><span class="ion-android-mail" style="font-size:9px;"></span></div>
+                                        <input class="form-control" type="email" name="_username" id="username" placeholder="Correo Electrónico">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><span class="ion-ios7-locked"></span></div>
+                                        <input type="password" class="form-control" name="_password" id="password" placeholder="Clave">
+                                    </div>
+                                </div>
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox"  id="no_cerrar" name="_remember_me"> Recordame
+                                    </label>
+                                </div>
+                                <hr class="mb20 mt15">
+                                <button id="btnSubmitAceptarLogin"  type="submit" class="btn btn-primary full-btn">Acceder</button>
+                                <p class="mt15" style="text-align:center;"><a href="{{ path('public_user_resetting_request') }}">¿Olvidaste tu clave?</a></p>
+                            </form><!-- /form -->
+                        </div><!-- /column-->
+                        <!-- End Login -->
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        </div><!-- /container -->
+    </div><!-- /content -->
+    <!-- End Content -->
+
+{% endblock %}
+
+{% block customScripts %}
+    <script type="text/javascript" src="{{ asset('bundles/public/js/hideShowPassword.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/hideShowPasswordTranslate.js') }}"></script>
+    <script src="{{ asset('bundles/public/js/publicLogin.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,47 @@
+<div class="modal fade" id="modalEditarCostoEnvio" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="loginLabel"><i class="fa fa-edit"></i> Editar Costo de Envío</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="formEditarCostoEnvio" action="{{ path('administracion_costoenvio_editar') }}" method="post">
+                    <div class="row" id="containerEditarCostoEnvio">
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                                <label for="nombreProvinciaEditar">Provincia<span class="required">*</span></label>
+                                <select required="required" name="nombreProvinciaEditar" id="nombreProvinciaEditar" class="form-control">
+
+
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                                <label for="nombreCiudadEditar">Ciudad<span class="required">*</span></label>
+                                <select  name="nombreCiudadEditar" id="nombreCiudadEditar" class="form-control">
+
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="input-group">
+                                <label for="nombreCostoEnvioEditar">Costo de Envío<span class="required">*</span></label>
+                                <input required="required" class="form-control" type="text" name="nombreCostoEnvioEditar" id="nombreCostoEnvioEditar">
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="idCostoEnvio" id="idCostoEnvioEditar" value="">
+                    <input type="hidden" name="editarCostoEnvio" id="editarCostoEnvio" value="true">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a id="btnSubmitCostoEnvioEditar" class="btn btn-rw btn-primary">Aceptar <img id="submitEditLoading" style="display: none;" class="img-responsive" src=""></a>
+                <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
+
+            </div>
+        </div><!-- /modal content -->
+    </div><!-- /modal dialog -->
+</div><!-- /modal holder -->

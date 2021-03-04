@@ -1,0 +1,1 @@
+ALTER TABLE usuario ADD COLUMN email_paypal VARCHAR(255) NULL;

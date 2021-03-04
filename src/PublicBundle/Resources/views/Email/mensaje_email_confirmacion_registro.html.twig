@@ -1,0 +1,32 @@
+{% extends '::emails.html.twig' %}
+
+{%  block body %}
+    <tr>
+        <td valign="top">
+            <h2 class="h2" style="color:#444444;
+			display:block;
+			font-family:Open Sans;
+			font-size:30px;
+			font-weight: 400;
+			line-height:100%;
+			margin-top:2%;
+			margin-right:0;
+			margin-bottom:1%;
+			margin-left:0;
+			text-align:left;">Confirmación de registro</h2>
+            <br />
+            <div class="textdark" style="color: #444444;
+			font-family: Open Sans;
+			font-size: 17px;
+			line-height: 150%;
+			text-align: left;">
+                Hola {{ user_firstname }}, bienvenido a MercadoFree, su cuenta se ha creado con éxito. <br/><br/>
+                Es necesario que termine de completar sus datos desde su Panel de Usuario,
+                para que pueda comenzar a vender y comprar en nuestra plataforma.
+            </div>
+        </td>
+    </tr>
+
+
+{% endblock %}
+

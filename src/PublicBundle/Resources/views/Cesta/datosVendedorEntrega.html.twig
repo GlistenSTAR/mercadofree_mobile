@@ -1,0 +1,41 @@
+{% extends '::publicTemplate.html.twig' %}
+
+{% block generalContent %}
+    <!-- Begin Content -->
+    <div class="content-40mg">
+        <div class="container">
+            <div class="row mb30">
+                <div class="col-xs-12 white-bg-shadow" style="min-height: 300px;padding-top:20px;">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="content-box content-box-bordered success" style="min-height: 260px;">
+                                <span class="fa fa-check-circle bordered-icon-lg"></span>
+                                <h3 class="pt15">Tu pedido se ha procesado con éxito</h3>
+                                {% if pedido.seRecogeEnTienda() %}
+                                    <p class="no-margin">
+                                        Gracias por tu compra, te hemos enviado un correo con los datos del vendedor, para que puedas recoger tu pedido sin problemas.
+                                    </p>
+                                    <p class="no-margin">
+                                        Aquí te dejamos la referencia de tu pedido, por si lo necesitas en algún momento: {{ pedido.codigo }}.
+                                    </p>
+                                {% else %}
+                                    <p class="no-margin">
+                                        Gracias por tu compra, te enviaremos un correo cuando tu pedido sea enviado por el vendedor.
+                                    </p>
+                                    <p class="no-margin">
+                                        Aquí te dejamos la referencia de tu pedido, por si lo necesitas en algún momento: {{ pedido.codigo }}
+                                    </p>
+                                {% endif %}
+                                <a class="btn btn-primary btn-lg mt30" href="{{ path('public_panel_usuario_compras_detalle',{'codPedido':pedido.codigo}) }}">Ver detalles de la compra</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /container -->
+    </div><!-- /content -->
+    <!-- End Content -->
+
+{% endblock %}
+

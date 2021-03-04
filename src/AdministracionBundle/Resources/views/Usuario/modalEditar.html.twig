@@ -1,0 +1,57 @@
+<div class="modal fade" id="modalEditarUsuario" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="loginLabel"><i class="fa fa-edit"></i> Editar Usuario</h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="formEditarUsuario" action="{{ path('administracion_usuario_editar') }}" method="post">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="tituloAlbum">Email <span class="required">*</span></label>
+                                <input  disabled required="required" class="form-control" type="text" name="emailEditarUsuario" id="emailEditarUsuario">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Rol <span class="required">*</span></label>
+                                    <select required="required" name="rolEditarUsuario" id="rolEditarUsuario" class="form-control ">
+                                        <option value="">Seleccionar Rol</option>
+                                    </select>
+
+                            </div>
+                            <div class="form-group">
+                                <label>Estado <span class="required">*</span></label>
+                                <select required="required" name="estadoEditarUsuario" id="estadoEditarUsuario" class="form-control ">
+                                    <option value="">Seleccionar Estado</option>
+                                </select>
+
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="autorAlbum">Fecha Registro<span class="required">*</span></label>
+                                <div class="input-group">
+                                    <div  class="input-group-addon"><i class="fa fa-calendar"></i></div>
+                                    <input disabled type="text" name="fechaRegistroEditarUsuario" id="fechaRegistroEditarUsuario" value="" class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="autorAlbum">Contraseña<span class="required">*</span></label>
+                                <input type="password" name="passwordEditarUsuario" id="passwordEditarUsuario" value="" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <input type="hidden" name="idUsuarioEditar" id="idUsuarioEditar" value="">
+                    <input type="hidden" name="editarUsuario" id="editarUsuario" value="true">
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a id="btnSubmitUsuarioEditar" class="btn btn-rw btn-primary">Aceptar <img id="submitEditLoading" style="display: none;" class="img-responsive" src=""></a>
+                <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
+
+            </div>
+        </div><!-- /modal content -->
+    </div><!-- /modal dialog -->
+</div><!-- /modal holder -->

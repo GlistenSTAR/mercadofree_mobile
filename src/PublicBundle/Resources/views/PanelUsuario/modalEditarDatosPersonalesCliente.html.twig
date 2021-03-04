@@ -1,0 +1,46 @@
+<div class="modal fade" id="modalEditarDatosPersonales" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="loginLabel"><i class="fa fa-plus-circle"></i> Adicionar dirección de venta</h4>
+            </div>
+            <div class="modal-body" id="containerDireccion">
+                <form action="{{ path('public_panel_usuario_editar_perfil') }}" id="formDatosPersonales" role="form" method="post">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="nombreC">Nombre y Apellidos <span class="required">*</span></label>
+                                <input required="required" class="form-control" type="text" name="nombreC" id="nombreC" value="{{ usuario.clienteid.nombre?usuario.clienteid.nombre:""}}">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="dniC">DNI</label>
+                                <input  class="form-control" type="text" name="dniC" id="dniC" value="{{ usuario.clienteid.dni?usuario.clienteid.dni:"" }}">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+                                <label for="apellidosC"> Apellidos <span class="required">*</span></label>
+                                <input required="required" class="form-control" type="text" name="apellidosC" id="apellidosC" value="{{ usuario.clienteid.apellidos?usuario.clienteid.apellidos:"" }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="telefonoC">Telefono</label>
+                                <input  class="form-control" type="text" name="telefonoC" id="telefonoC" value="{{ usuario.telefono?usuario.telefono:""}}">
+                            </div>
+
+                            <input type="hidden" name="modificar" id="modificar" value="2">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a id="btnSubmitEditarPersonalesCliente" class="btn btn-rw btn-primary">Aceptar <img id="submitEditLoading" style="display: none;" class="img-responsive" src=""></a>
+                <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
+
+            </div>
+        </div><!-- /modal content -->
+    </div><!-- /modal dialog -->
+</div><!-- /modal holder -->

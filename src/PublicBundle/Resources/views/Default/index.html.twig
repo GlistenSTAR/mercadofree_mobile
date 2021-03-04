@@ -1,0 +1,577 @@
+{% extends '::publicTemplate.html.twig' %}
+
+{% block generalContent %}
+
+    <!-- Start Slider Revolution -->
+    <div class="rev_slider_wrapper">
+        <div class="rev_slider" data-version="5.0" id="slider1">
+            <ul>
+                {% if imagenesSlider|length > 0 %}
+                    {% for imagen in imagenesSlider %}
+                    <!-- Slide 1 -->
+                    <li data-delay="9000"
+                        data-description="Raleway Bootstrap Template"
+                        data-easein="default"
+                        data-easeout="default"
+                        data-masterspeed="default"
+                        data-param1="test"
+                        data-rotate="0"
+                        data-slotamount="default"
+                        data-title="Raleway Intro"
+                        data-thumb="{{ asset(uploads_images_slider_home)~imagen.url }}"
+                        data-transition="slideremoveup">
+
+                        <!-- MAIN IMAGE -->
+                        <img alt=""
+                             data-bgfit="cover"
+                             data-bgposition="center center"
+                             data-bgrepeat="no-repeat"
+                             data-no-retina=""
+                             height="340"
+                             src="{{ asset(uploads_images_slider_home)~imagen.url }}"
+                             style="background-color:#000;"
+                             width="1600">
+                    </li>
+                    {% endfor %}
+                    {% else %}
+                        <li data-delay="9000"
+                            data-description="Raleway Bootstrap Template"
+                            data-easein="default"
+                            data-easeout="default"
+                            data-masterspeed="default"
+                            data-param1="test"
+                            data-rotate="0"
+                            data-slotamount="default"
+                            data-title="Raleway Intro"
+                            data-thumb=""
+                            data-transition="slideremoveup">
+
+                            <!-- MAIN IMAGE -->
+                            <img alt=""
+                                 data-bgfit="cover"
+                                 data-bgposition="center center"
+                                 data-bgrepeat="no-repeat"
+                                 data-no-retina=""
+                                 height="340"
+                                 src=""
+                                 style="background-color:#000;"
+                                 width="1600">
+
+
+                        </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div><!-- /rev slider -->
+    <!-- End Slider Revolution -->
+
+    {% if productosOfertas|length !=0 %}
+    <!-- Begin Ofertas de la semana -->
+    <section class="mt30 mb30">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="heading mb30">
+                        <h4><span class="ion-plus mr15"></span>Ofertas de la semana</h4>
+                        <div class="owl-controls">
+                            <div id="customNav" class="owl-nav"></div>
+                        </div>
+                    </div>
+                    <div id="owl-carousel-thumb" class="owl-carousel carousel-home">
+                        {% for producto in productosOfertas %}
+                            <div class="thumbnail">
+                                <div class="view image-hover-1 no-margin">
+                                    <!-- Blog Thumb -->
+                                    <div class="product-container">
+                                        <img class="img-responsive full-width" src="{{ asset(uploads_images_productos)~producto.getImagenDestacada }}" alt="...">
+                                        <span class="badge home-badge">
+                                            {{ producto.ofertaid[0].porcientodescuento }}% OFF
+                                            </span>
+                                        <span class="badge home-badge transporte">
+                                                <i class="fa fa-truck"></i>
+                                            </span>
+                                    </div>
+                                    <div class="mask">
+                                        <div class="image-hover-content">
+                                            <!-- Zoom + Blog Link -->
+                                            <a href="images/shop/product2.jpg" class="info image-zoom-link">
+                                                <div class="image-icon-holder"><span class="ion-ios7-search image-icons"></span></div>
+                                            </a>
+                                            <a href="shop-single-product.html" class="info">
+                                                <div class="image-icon-holder"><span class="ion-link image-icons"></span></div>
+                                            </a>
+                                        </div><!-- /image hover content -->
+                                    </div><!-- /mask-->
+                                </div>
+                                <div class="shop-product content-box-shadow">
+                                    <a class="product-title" href="shop-single-product.html"><h2 class="product-title">{{ producto.nombre }}</h2></a>
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <span class="pull-left label label-default shop-product-price"> $ {{  producto.precio-((producto.precio*producto.ofertaid[0].porcientodescuento)/100)}}</span>
+                                        </div>
+                                        <div class="col-md-7" style="text-align:left;">
+                                            <span class="precio-anterior pull-left">$ {{ producto.precio }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /container -->
+    </section><!-- /section -->
+    <!-- End Ofertas -->
+    {% endif %}
+    {% if productoBanner %}
+    <section class="content-render-right content-render-1">
+        <div class="container">
+
+            <!-- Begin Freebie -->
+            <div class="row">
+                <!-- Video -->
+                <div class="col-sm-8 text-white fadeInRight-animated fadeInRight animated">
+                    <h3 class="text-white">{{ productoBanner.nombre }}</h3>
+                    <p>{{ productoBanner.descripcion }}</p>
+                    <a href="#" class="btn btn-rw btn-clear mt10">
+                        Ver oferta
+                    </a>
+                </div><!-- /column -->
+            </div><!-- /row -->
+            <!-- End Freebie -->
+
+        </div><!-- /container -->
+    </section>
+    {% endif %}
+
+    {% if productoInteres|length!=0 %}
+    <!-- Begin Accordion + IMG  -->
+    <div class="mt40 mb40">
+        <div class="container">
+
+            <!-- Begin Title -->
+            <div class="row">
+                <div class="col-sm-12 mb20">
+                    <div class="heading"><h4>Te puede interesar</h4></div>
+                </div>
+            </div>
+
+
+            <!-- Begin Accordion Row -->
+            <div class="row">
+
+                {% for pi in productoInteres %}
+                <div class="col-sm-6 white-bg-shadow featured-product-container-column {{ loop.index==1?'first':'' }}" data-sr="enter left">
+
+                    <div class="row">
+                        <div class="col-xs-6" style=" margin-bottom: 10px;margin-top: 10px;">
+                            <img src="{{ asset(uploads_images_productos)~pi.getImagenDestacada }}" class="img-responsive">
+                        </div>
+                        <div class="col-xs-6 featured-product-container">
+                            <h3>{{ pi.nombre }}</h3>
+                            <p>{{ pi.descripcion }}</p>
+                            <!-- Button -->
+                            <a href="#" class="btn btn-rw btn-primary">
+                                Ver más
+                            </a>
+
+                        </div>
+                    </div>
+
+                </div><!-- /column -->
+                {% endfor%}
+
+            </div><!-- /row -->
+            <!-- End Accordion Row -->
+
+
+        </div><!-- /container -->
+    </div><!-- /content -->
+    <!-- End Accordion + IMG -->
+    {% endif %}
+    {% if historial|length >0 %}
+    <!-- Begin Historial -->
+    <section class="mt30 mb30">
+        <div class="container">
+            {% for h in historial %}
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="heading mb30">
+                        <h4><span class="ion-plus mr15"></span>Relacionado con tus visitas en {{ h[0] }}</h4>
+                        <div class="owl-controls">
+                            <div id="n{{ loop.index }}" class="owl-nav"></div>
+                        </div>
+                    </div>
+                    <div id="c{{ loop.index }}" class="owl-carousel carousel-home">
+                        {% for p in h[1]  %}
+
+                        <div class="thumbnail">
+                            <div class="view image-hover-1 no-margin">
+                                <!-- Blog Thumb -->
+                                <div class="product-container">
+                                    <img class="img-responsive full-width" src="{{ asset(uploads_images_productos)~p.getImagenDestacada }}" alt="...">
+                                    <span class="badge home-badge">
+											12% OFF
+										</span>
+                                    <span class="badge home-badge transporte">
+											<i class="fa fa-truck"></i>
+										</span>
+                                </div>
+                                <div class="mask">
+                                    <div class="image-hover-content">
+                                        <!-- Zoom + Blog Link -->
+                                        <a href="{{ asset(uploads_images_productos)~p.getImagenDestacada }}" class="info image-zoom-link">
+                                            <div class="image-icon-holder"><span class="ion-ios7-search image-icons"></span></div>
+                                        </a>
+                                        <a href="{{ path('public_anuncio_detalles',{'idProducto':p.id}) }}" class="info">
+                                            <div class="image-icon-holder"><span class="ion-link image-icons"></span></div>
+                                        </a>
+                                    </div><!-- /image hover content -->
+                                </div><!-- /mask-->
+                            </div>
+                            <div class="shop-product content-box-shadow">
+                                <a class="product-title" href="{{ path('public_anuncio_detalles',{'idProducto':p.id}) }}"><h2 class="product-title">{{ p.nombre }}</h2></a>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <span class="pull-left label label-default shop-product-price"> $ {{ p.precio }}</span>
+                                    </div>
+                                    <div class="col-md-7" style="text-align:left;">
+                                        <span class="precio-anterior pull-left">$ 20.000</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+
+        </div><!-- /container -->
+    </section><!-- /section -->
+    {% endif %}
+    <!-- End Historial -->
+
+    {% if colecciones|length >0 %}
+    <!-- Begin Accordion + IMG  -->
+    <div class="mt40 mb40">
+        <div class="container">
+
+            <!-- Begin Title -->
+            <div class="row">
+                <div class="col-sm-12 mb20">
+                    <div class="heading">
+                        <h4>Colecciones:
+                            <select class="form-control colecciones-home-select" id="selectColeccion">
+                                {% for coleccion in colecciones %}
+                                    <option value="{{ coleccion.id }}">{{ coleccion.nombre }}</option>
+                                {% endfor %}
+                            </select>
+                        </h4>
+
+                    </div>
+                </div>
+            </div>
+        <div id="coleccionHome">
+            <!-- Begin Accordion Row -->
+            <div class="row">
+                <div class="col-sm-4 white-bg-shadow coleccion-img-container" data-sr="enter left">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <img src="{{ asset(uploads_images_colecciones)~coleccion[0].imagen }}" class="img-responsive" style="margin-top: 15px">
+                        </div>
+                        <div class="col-xs-12 featured-product-container">
+                            <div class="row">
+                                <div class="col-xs-5">
+                                    <h3>{{ coleccion[0].nombre }}</h3>
+                                </div>
+                                <div class="col-xs-7">
+                                    <!-- Button -->
+                                    <a href="#" class="btn btn-rw btn-primary">
+                                        Ver más
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- /column -->
+
+                <div class="col-sm-8" data-sr="enter left">
+                    <div class="row mb10">
+                        {% for producto in coleccion[0].productos%}
+                            {% if loop.index<=4 %}
+                                <div class="col-xs-3">
+                                    <div class="white-bg-shadow coleccion-item">
+                                        <a href="#">
+                                            <img src="{{ asset(uploads_images_productos)~producto.getImagenDestacada }}" class="img-responsive">
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    <div class="row">
+                        {% for producto in coleccion[0].productos%}
+                            {% if loop.index>4 and loop.index<=8%}
+                                <div class="col-xs-3">
+                                    <div class="white-bg-shadow coleccion-item">
+                                        <a href="#">
+                                            <img src="{{ asset(uploads_images_productos)~producto.getImagenDestacada }}" class="img-responsive">
+                                        </a>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+
+                </div><!-- /column -->
+            </div>
+
+            </div><!-- /row -->
+            <!-- End Accordion Row -->
+
+        </div><!-- /container -->
+    </div><!-- /content -->
+    <!-- End Accordion + IMG -->
+    {% endif %}
+
+
+
+    <!-- Begin Carousel + Intro -->
+    <div class="background-light-grey pt40 pb40 border-top">
+        <div class="container">
+            <!-- Begin Carousel + Content -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="heading mb30">
+                        <h4><span class="ion-android-social-user mr15"></span>Categorías Populares</h4>
+                        <div class="owl-controls">
+                            <div id="customNav" class="owl-nav"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div><!-- /row -->
+            <!-- End Carousel + Content -->
+
+            <div class="row">
+                <!--=== Content 1 ===-->
+                <div class="col-sm-3 text-center">
+                    <div class="content-box content-box-bordered white-bg-shadow">
+                        <span class="ion-ios7-monitor-outline bordered-icon-lg"></span>
+                        <h4 class="pt15">Computación</h4>
+                    </div>
+                </div>
+                <!--=== Content 2 ===-->
+                <div class="col-sm-3 text-center">
+                    <div class="content-box content-box-bordered white-bg-shadow">
+                        <span class="ion-model-s bordered-icon-lg"></span>
+                        <h4 class="pt15">Vehículos</h4>
+                    </div>
+                </div>
+                <!--=== Content 3 ===-->
+                <div class="col-sm-3 text-center">
+                    <div class="content-box content-box-bordered white-bg-shadow">
+                        <span class="ion-android-book bordered-icon-lg"></span>
+                        <h4 class="pt15">Libros</h4>
+                    </div>
+                </div>
+                <!--=== Content 4 ===-->
+                <div class="col-sm-3 text-center">
+                    <div class="content-box content-box-bordered white-bg-shadow">
+                        <span class="ion-bag bordered-icon-lg"></span>
+                        <h4 class="pt15">Moda</h4>
+                    </div>
+                </div>
+
+            </div><!-- /row -->
+
+        </div><!-- /container -->
+    </div><!-- /content -->
+    <!-- End Carousel + Intro -->
+    <input type="hidden" id="urlObtenerColeccion" value="{{ path('public_coleccion_obtener') }}">
+    <input type="hidden" id="imgColeccion" value="{{ asset(uploads_images_colecciones) }}">
+    <input type="hidden" id="imgProducto" value="{{ asset(uploads_images_productos) }}">
+
+    <input type="hidden" value="{{ path('public_anuncio_listar',{'slug':'0'}) }}" id="urlBuscarProductos2">
+
+{% endblock %}
+{% block javascripts %}
+    <!-- jQuery Files -->
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery-2.1.4.min.js') }}"></script>
+
+    <!-- Royal Preloader -->
+    <script type="text/javascript" src="{{ asset('bundles/public/js/royal_preloader.min.js') }}"></script>
+
+    <!-- Javascript Files -->
+    <script type="text/javascript" src="{{ asset('bundles/public/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.easing.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.mixitup.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/scrollReveal.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/owl.carousel.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.magnific-popup.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.snippet.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.fitvids.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/activate-snippet.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/skrollr.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/bootstrap-select.js') }}"></script>
+
+
+    <!-- Slider Revolution JS -->
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.themepunch.tools.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.themepunch.revolution.min.js') }}"></script>
+
+
+    <!-- Slider Revolution Extensions (Load Extensions only on Local File Systems The following part can be removed on Server for On Demand Loading) -->
+    <script type="text/javascript" src="{{ asset('bundles/public/js/revolution/revolution.extension.actions.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/revolution/revolution.extension.carousel.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/revolution/revolution.extension.kenburn.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/revolution/revolution.extension.layeranimation.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/revolution/revolution.extension.migration.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/revolution/revolution.extension.navigation.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/revolution/revolution.extension.parallax.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/revolution/revolution.extension.slideanims.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/revolution/revolution.extension.video.min.js') }}"></script>
+
+
+    <script type="text/javascript" src="{{ asset('bundles/public/js/main.js') }}"></script>
+
+    <!-- On Scroll Animations - scrollReveal.js -->
+    <script>
+        var config = {
+            easing: 'hustle',
+            mobile:  true,
+            delay:  'onload'
+        }
+        window.sr = new scrollReveal( config );
+
+        // Bootstrap Select
+        //$(".colecciones-home-select").selectpicker();
+    </script>
+
+    <script src="{{ asset('bundles/public/js/publicHome.js') }}"></script>
+    <script type="text/javascript" >
+        $('#btnBuscarProductos').on('click', function (e) {
+
+            e.preventDefault();
+
+            if($('#containerProducto').length==0)
+            {
+                var url = $('#urlBuscarProductos2').val() + '?valorSearch=' + $('#general-search').val();
+                window.location.replace(url);
+            }
+
+        });
+    </script>
+
+    <!-- Slider Revolution Main -->
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+
+
+            var c=0;
+
+            $('.owl-carousel').each(function () {
+                c++;
+                //owl carousel thumbnail caption slider
+                $('#c'+c).owlCarousel({
+                    loop: true,
+                    margin: 30,
+                    nav: true,
+                    dots: false,
+                    navContainer: '#n'+c,
+                    navText: ["<span><</span>", "<span>></span>"],
+                    responsive: {
+                        0: {
+                            items: 1
+                        },
+                        600: {
+                            items: 1
+                        },
+                        1000: {
+                            items: 4
+                        }
+                    }
+                });
+
+            });
+
+
+
+
+            jQuery("#slider1").revolution({
+                sliderType:"standard",
+                startDelay:2500,
+                spinner:"spinner2",
+                sliderLayout:"auto",
+                viewPort:{
+                    enable:false,
+                    outof:'wait',
+                    visible_area:'100%'
+                }
+                ,
+                delay:9000,
+                navigation: {
+                    keyboardNavigation:"off",
+                    keyboard_direction: "horizontal",
+                    mouseScrollNavigation:"off",
+                    onHoverStop:"off",
+                    arrows: {
+                        style:"erinyen",
+                        enable:true,
+                        hide_onmobile:true,
+                        hide_under:600,
+                        hide_onleave:true,
+                        hide_delay:200,
+                        hide_delay_mobile:1200,
+                        tmp:'<div class="tp-title-wrap">  	<div class="tp-arr-imgholder"></div>    <div class="tp-arr-img-over"></div>	<span class="tp-arr-titleholder">fnrufnrufn</span> </div>',
+                        left: {
+                            h_align:"left",
+                            v_align:"center",
+                            h_offset:30,
+                            v_offset:0
+                        },
+                        right: {
+                            h_align:"right",
+                            v_align:"center",
+                            h_offset:30,
+                            v_offset:0
+                        }
+                    }
+                    ,
+                    touch:{
+                        touchenabled:"on",
+                        swipe_treshold : 75,
+                        swipe_min_touches : 1,
+                        drag_block_vertical:false,
+                        swipe_direction:"horizontal"
+                    }
+                    ,
+                    bullets: {
+                        enable:true,
+                        hide_onmobile:true,
+                        hide_under:600,
+                        style:"hermes",
+                        hide_onleave:true,
+                        hide_delay:200,
+                        hide_delay_mobile:1200,
+                        direction:"horizontal",
+                        h_align:"center",
+                        v_align:"bottom",
+                        h_offset:0,
+                        v_offset:30,
+                        space:5
+                    }
+                },
+                gridwidth:1240,
+                gridheight:497
+            });
+
+
+        });
+    </script>
+
+{% endblock %}

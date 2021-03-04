@@ -1,0 +1,69 @@
+{#<div class="row white-box" style="margin-top:75px;margin-left:0;margin-right:0;padding-left:0;padding-right:0">
+    <div class="col-xs-12">
+        <div class="hidden-xs">
+            <h3 class="progress-head mb30 basic-level">Nivel {{ nivel }} </h3>
+            <div class="progress" data-sr="enter right move 100px over 1s">
+                <div class="progress-bar {{ porcientoNivel<=33?'progress-bar-danger':(porcientoNivel<=66?'progress-bar-warning':(porcientoNivel<=100?'progress-bar-success':"")) }}" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: {{ porcientoNivel<9?9:porcientoNivel }}%">
+                    <span class="progress-bar-tooltip" style="opacity: 1;">{{ porcientoNivel }}%</span>
+                </div>
+            </div>
+        </div>
+        <div class="visible-xs">
+            <h3 style="margin-bottom: 10px !important;" class="progress-head mb30 basic-level">Nivel {{ nivel }}</h3>
+            <p style="font-weight: bold;font-size: 20px;">{{ porcientoNivel }} %</p>
+        </div>
+        <a href="{{ help_url }}cuenta-de-usuario/como-subir-de-nivel/" target="_blank">¿Cómo subir de nivel?</a>
+    </div>
+</div>#}
+
+<div class="row white-box" style="margin-top:25px;margin-left:0;margin-right:0;padding-left:0;padding-right:0">
+    <div class="col-xs-12">
+        <div class="hidden-xs">
+            <div class="heading mb20 mt30-xs">
+                <h4 class=""><i class="fa fa-credit-card" style="margin-right:15px;"></i>Saldo MercadoFree</h4>
+            </div>
+            <h2>$ {{ saldo | number_format(2, '.', ',') }}</h2>
+            <p><a href="{{ path('public_finanzas_agregar') }}"><button style="width:100%" class="btn btn-primary"><i class="ion-ios7-redo"></i> Agregar Fondos</button></a></p>
+        </div>
+        <div class="visible-xs">
+            <h3 style="margin-bottom: 10px !important;" class="progress-head mb30 basic-level">Nivel {{ nivel }}</h3>
+            <p style="font-weight: bold;font-size: 20px;">{{ porcientoNivel }} %</p>
+        </div>
+        <a href="{{ path('public_finanzas_index') }}" target="_blank">Ver movimientos de mi cuenta</a>
+    </div>
+</div>
+{#
+<div class="row white-box mt30 mb30" style="margin-left:0;margin-right:0;padding-left:0;padding-right:0">
+    <div class="col-xs-12">
+        <div class="heading mb20 mt30-xs">
+            <h4><span class="ion-android-note"></span>  Tus objetivos</h4>
+        </div>
+        {% for cao in categoriaObjetivo %}
+            <div>
+                <p class="progress-head basic-level"><a style="color:#424242" href="#"> {{ cao.nombre }}</a></p>
+
+                #}
+{#<p>{{ cao.descripcion }}</p>#}{#
+
+
+                {% if porcientoCategorias[loop.index0]!=null %}
+                    <div class="progress" data-sr="enter right move 100px over 1s">
+                        <div class=" {{ porcientoCategorias[loop.index0]==null?'progress':(porcientoCategorias[loop.index0]<=33?'progress-bar progress-bar-danger':(porcientoCategorias[loop.index0]<=66?'progress-bar progress-bar-warning':(porcientoCategorias[loop.index0]<=100?'progress-bar progress-bar-success':""))) }}"
+                             role="progressbar" aria-valuemin="0" aria-valuemax="100"
+                             style="{{ porcientoCategorias[loop.index0]==null?'padding-left:10px;':'width: '~porcientoCategorias[loop.index0]~'%' }}">{{ porcientoCategorias[loop.index0]!=null?porcientoCategorias[loop.index0]:0 }}
+                            %
+                        </div>
+                    </div>
+                {% else %}
+                   <p> {{ porcientoCategorias[loop.index0]!=null?porcientoCategorias[loop.index0]:0 }}%</p>
+                {% endif %}
+
+            </div>
+        {% endfor %}
+
+
+        <p>
+            <a href="{{ path('public_panel_usuario_objetivos') }}"> Ver todos los objetivos</a>
+        </p>
+    </div>
+</div>#}

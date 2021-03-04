@@ -1,0 +1,72 @@
+{% extends '::publicPanelUsuario.html.twig' %}
+
+{% block breadcrumbPanelUsuario %}
+    <li>Objetivos</li>
+{% endblock %}
+
+{% block menuPanelUsuario %}
+    {% include 'PublicBundle:Templates:menuPanelUsuario.html.twig' %}
+{% endblock %}
+
+{% block headerCenterContent %}
+    <h4>Todos los Objetivos</h4>
+{% endblock %}
+
+{% block centerContent %}
+    <p><b>Los objetivos marcados con (<i class="fa fa-check"></i>) son los que ya tienes cumplidos</b></p>
+
+    {% for obj in objetivos %}
+            <div class="col-sm-4 text-center item-objetivo">
+                <div class="content-box content-box-bordered">
+                    <p class="puntos-objetivos">
+                        {% for objUser in objetivosUsuario  %}
+                            {% if objUser.objetivoid.id == obj.id %}
+                                <span class="label label-primary pull-left"><i class="fa fa-check"></i></span>
+                            {% endif %}
+                        {% endfor %}
+                        <span class="label label-success">+{{ obj.puntos }}</span>
+                    </p>
+                    <span class=" {{ obj.icono }} bordered-icon-sm"></span>
+                    <h5 class="pt15">{{ obj.nombre }}</h5>
+                    {% if obj.descripcion!=null and obj.descripcion!="" %}
+                        <p class="no-margin descripcion-objetivo">{{ obj.descripcion }}</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            {% if loop.index % 3==0 %}
+                <div class="clearfix"></div>
+            {% endif %}
+    {% endfor %}
+
+
+{% endblock %}
+
+
+{% block customScriptsPanelUsuario %}
+    <script type="text/javascript">
+        $(document).ready(function(){
+            var $titleItemObj=$('.item-objetivo h5');
+
+            var $iconItemObjetivo=$('.item-objetivo .bordered-icon-sm');
+
+            $titleItemObj.on('mouseover',function(){
+                $(this).siblings('.descripcion-objetivo').slideDown();
+            });
+
+            $titleItemObj.on('mouseleave',function(){
+                $(this).siblings('.descripcion-objetivo').slideUp();
+            });
+
+            $iconItemObjetivo.on('mouseover',function(){
+                $(this).siblings('.descripcion-objetivo').slideDown();
+            });
+
+            $iconItemObjetivo.on('mouseleave',function(){
+                $(this).siblings('.descripcion-objetivo').slideUp();
+            });
+
+
+        });
+    </script>
+{% endblock %}

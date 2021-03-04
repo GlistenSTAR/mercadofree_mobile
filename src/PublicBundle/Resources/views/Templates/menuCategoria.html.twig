@@ -1,0 +1,13 @@
+<ul class="dropdown-menu dropdown-subhover mega-dropdown-menu row dropdown-animation animated fadeIn" id="containerCategoria"><!-- Control Animations by changing "fadeIn" to another property from animate.css, check animations page in features / ALSO dropdown-animation class controls the duration, ajust if need -->
+    {% for  categoria in categorias %}
+        <li class="col-lg-2 col-md-3 col-sm-6">
+            <ul>
+                <li class="dropdown-header " style="border-bottom: 0;"><a style="font-weight: bold;border-bottom: 0" class="categoria-menu" data-slug="{{ categoria.slug }}" href="{{ path('public_anuncio_listar', {'slug': categoria.slug, 'tipo': 'c'}) }}">{{ categoria.nombre }}</a></li>
+                {% for  catHija in categoria.categoriaHijas %}
+                    <li><a class="categoria-menu catHija" style="border-bottom: 0;padding: 2px 0 !important;" data-slug="{{ categoria.slug }}" href="{{ path('public_anuncio_listar', {'slug': catHija.slug, 'tipo': 'c'}) }}">{{ catHija.nombre }}</a></li>
+                {% endfor %}
+            </ul>
+        </li>
+    {% endfor %}
+
+</ul>

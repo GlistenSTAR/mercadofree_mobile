@@ -1,0 +1,237 @@
+{% extends '::adminTemplate.html.twig' %}
+
+{% block mainMenu %}
+    {% include 'AdministracionBundle:Templates:mainMenu.html.twig' with {'page':'configuracion'} %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% include 'AdministracionBundle:Templates:breadcrumbs.html.twig' with {'items':[
+    {'raiz':true,'title':'Configuraciones'},
+    ]} %}
+{% endblock %}
+
+{% block titulo %}<i class="fa fa-cogs"></i> Configuracion del sistema{% endblock %}
+{% block subTitulo %}En esta sección usted podrá establecer las configuraciones globales del sistema{% endblock %}
+{% block generalContent %}
+    <div class="content animate-panel" id="containerConfiguracion">
+        <div class="row" >
+            <div class="col-lg-12">
+                <div class="hpanel">
+                    <div class="panel-body">
+                        <form role="form" action="{{ path('administracion_configuracion_guardar') }}" id="formConfiguracion" method="post">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <h3 class="font-light"><i class="fa fa-cog"></i> Configuraciones generales</h3>
+                                    <hr>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-4">
+                                    <div class="form-group">
+                                        <label for="email_admin"><i class="fa fa-envelope"></i> Email de administración</label>
+                                        <p class="help-block">A esta dirección de correo electrónico llegarán todas las notificaciones
+                                            del sistema.
+                                        </p>
+                                        <input type="email" class="form-control" name="email_admin" id="email_admin" placeholder="Entre un email válido" value="{{ configuracion!=null?configuracion.emailAdministrador:"" }}">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="tiempo_expiracion"><i class="fa fa-check-square"></i> Tiempo de expiración de publicaciones</label>
+                                        <p class="help-block">Defina la cantidad maxima de meses que estará activa una publicacíon (mayor o igual que 1).</p>
+                                        <p class="help-block"><i class="fa fa-info-circle"></i> Recuerde que esta configuración puede ser redefinida en las categorías de productos.</p>
+                                        <input type="number" class="form-control" name="tiempo_expiracion" id="tiempo_expiracion" placeholder="Entre un número" value="{{ configuracion!=null?configuracion.tiempoExpiracion: 1 }}">
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <label for="email_admin"><i class="fa fa-shopping-cart"></i> Cantidad Mínima de Productos por tienda</label>
+                                        <p class="help-block">Defina la cantidad mínima (mayor o igual que 0) de productos que debe tener una tienda para poder registrarse.
+                                        </p>
+                                        <input type="number" class="form-control" name="cantidad_minima_productos" id="cantidad_minima_productos" placeholder="Entre un número" value="{{ configuracion!=null?configuracion.cantidadMinimaProductos:0 }}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="indice_popularidad_categorias"><i class="fa fa-bar-chart"></i> Índice de popularidad de categorías</label>
+                                        <p class="help-block">Defina el indice a tener en cuenta para obtener el nivel de popularidad
+                                            de las categorías, basándonos en la cantidad de visitas realizadas por los usuarios.
+                                        </p>
+                                        <input type="number" min="10" class="form-control" name="indice_popularidad_categorias" id="indice_popularidad_categorias" placeholder="Entre un valor mayor que 10" value="{{ configuracion!=null?configuracion.indicePopularidadCat:"" }}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="indice_popularidad_categorias"><i class="fa fa-check"></i> Garantía MercadoFree</label>
+                                        <p class="help-block">Indique si se muestra o no la garantía de MercadoFree para los productos publicados,
+                                            y el texto a mostrar
+                                        </p>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="checkbox checkbox-inline checkbox-primary">
+                                            <input type="checkbox" name="mostrarGarantia" {{ configuracion.mostrarGarantia?'checked':'' }} value="1">
+                                            <label>Mostrar Garantía de MercadoFree</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="textoGarantia">Texto de la Garantía</label>
+                                        <textarea class="form-control" name="textoGarantia" id="textoGarantia">{{ configuracion.textoGarantia }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12 col-md-4">
+                                    <div class="form-group">
+                                        <label for="indice_popularidad_categorias"><i class="fa fa-bullhorn"></i> Planes de Publicidad para Anuncios</label>
+                                        <p class="help-block">Indique si se muestran o no los planes de publicidad al finalizar la publicación de un anuncio, para posicionar los anuncios en los listados
+                                        </p>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div class="checkbox checkbox-inline checkbox-primary">
+                                            <input type="checkbox" name="mostrarPlanPublicidad" {{ configuracion.mostrarPaquetesPublicidad?'checked':'' }} value="1">
+                                            <label>Mostrar Planes de Publicidad</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                            
+                            <div class="row">
+                                <div class="col-xs-12 col-md-4">
+                                    <div class="form-group">
+                                        <label for="maximo_incidencias_contacto"><i class="fa fa-exclamation"></i> Máximo de incidencias de contacto</label>
+                                        <p class="help-block">Número de intento repetido en el que se le envía mail al administrador avisando que el usuario intenta dar a conocer otro medio de contacto fuera de la plataforma
+                                        </p>
+                                        <input type="number" min="1" class="form-control" name="maximo_incidencias_contacto" id="maximo_incidencias_contacto" placeholder="Entre un valor mayor que 0" value="{{ configuracion!=null?configuracion.maximoIncidenciasContacto: 1 }}">
+                                    </div>
+                                </div>
+                            </div>
+                                    
+                            <div class="row">
+                                <div class="col-xs-12 col-md-4">
+                                    <div class="form-group">
+                                        <label for="aprobar_automaticamente_retiros"><i class="fa fa-money"></i> Aprobar automáticamente el Retiro de Fondos</label>
+                                        <p class="help-block">
+                                            Indique si la aprobación de retiros se realiza de forma automática o requiere la aprobación del usuario administrador.
+                                        </p>
+                                    </div>
+                                    
+                                    <div class="form-group">
+                                        <div class="checkbox checkbox-inline checkbox-primary">
+                                            <input type="checkbox" name="aprobar_automaticamente_retiros" id="aprobar_automaticamente_retiros" {{ configuracion.aprobarAutomaticamenteRetiros?'checked':'' }} value="1">
+                                            <label>Aprobar automaticamente los retiros solicitados</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-4">
+                                    <div class="form-group">
+                                            <label for="dias_valoracion_pedido"><i class="fa fa-cart-plus"></i> Máximo de días para evaluar un pedido</label>
+                                        <p class="help-block">
+                                            Indique la cantidad de días para evaluar un pedido realizado.
+                                        </p>
+                                        <input type="number" min="1" class="form-control" name="dias_valoracion_pedido" id="dias_valoracion_pedido" placeholder="Entre un valor mayor que 0" value="{{ configuracion.limiteDiasValoracionPedido }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <h3 class="font-light"><i class="fa fa-envelope"></i> Datos de Contacto</h3>
+                                    <hr>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-4">
+                                    <div class="form-group">
+                                        <label for="email_contacto"><i class="fa fa-envelope"></i> Email de contacto</label>
+                                        <p class="help-block">A esta dirección de correo electrónico llegarán los mensajes de contacto enviado por
+                                            los usuarios de la plataforma.
+                                        </p>
+                                        <input type="email" class="form-control" name="email_contacto" id="email_contacto" placeholder="Entre un email válido" value="{{ configuracion!=null?configuracion.contactoConfiguracionId.email:"" }}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="telefono_contacto"><i class="fa fa-phone"></i> Teléfono de contacto</label>
+                                        <p class="help-block">Entre un teléfono de contacto para que los usuarios puedan obtener soporte vía telefónica
+                                            fácilmente
+                                        </p>
+                                        <input type="tel" class="form-control" name="telefono_contacto" id="telefono_contacto" placeholder="Entre un número telefónico sin el código del país" value="{{ configuracion!=null?configuracion.contactoConfiguracionId.telefono:"" }}">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <h3 class="font-light"><i class="fa fa-comments-o"></i> Redes sociales</h3>
+                                    <p class="help-block">Entre las urls de sus perfiles de redes sociales.
+                                    </p>
+                                    <hr>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-md-4">
+                                    <div class="form-group">
+                                        <label for="facebook"><i class="fa fa-facebook"></i> Facebook</label>
+                                        <input type="text" class="form-control" name="facebook" id="facebook" value="{{ configuracion!=null?configuracion.contactoConfiguracionId.facebook:"" }}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label for="instagram"><i class="fa fa-instagram"></i> Instagram</label>
+                                        <input type="text" class="form-control" name="instagram" id="instagram" value="{{ configuracion!=null?configuracion.contactoConfiguracionId.instagram:"" }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <button type="" class="btn btn-primary" id="submitBtnConfiguracion"><i class="fa fa-save"></i> Guardar Cambios</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock  %}
+
+{% block customScripts %}
+
+    <!-- Vendor scripts -->
+
+    {#<script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.min.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery-ui.min.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.slimscroll.min.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/administracion/js/metisMenu.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/administracion/js/metisMenu.min.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/administracion/js/icheck.min.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/administracion/js/sparkline/index.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/administracion/js/index.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.dataTables.min.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/administracion/js/dataTables.bootstrap.min.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap.min.js') }}"></script>#}
+
+    <!-- App scripts -->
+
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/homer.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/vue.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/vue-resource.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/administracionConfiguracion.js') }}"></script>
+
+    <script>
+        $('#fechaRegistroAdicionarUsuario').datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true
+        });
+
+
+
+    </script>
+{% endblock %}

@@ -1,0 +1,113 @@
+{% extends '::publicPanelUsuario.html.twig' %}
+
+{% block breadcrumbPanelUsuario %}
+    <li>Preguntas como comprador</li>
+{% endblock %}
+
+{% block menuPanelUsuario %}
+    {% include 'PublicBundle:Templates:menuPanelUsuario.html.twig' with {'page':'preguntas-comprador'} %}
+{% endblock %}
+
+{% block headerCenterContent %}
+    <h4>Preguntas</h4>
+{% endblock %}
+
+{% block centerContent %}
+
+    {% if productos|length >0 %}
+
+    {% for pro in productos %}
+        {% set imagenDestacada = pro.getImagenDestacada %}
+        {% if imagenDestacada == "" %}
+            {% set imagenDestacada = pro.imagenes[0].url %}
+        {% endif %}
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="col-md-2">
+                    <img class="img-responsive"
+                         src="{{ asset(uploads_images_productos)~ imagenDestacada }}">
+                </div>
+                <div class="col-md-10">
+                    <a href="{{ path('public_anuncio_detalles',{'slug': pro.slug}) }}">{{ pro.nombre }}</a>
+                    <p>$ {{ pro.precio }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 mt10">
+            {% if pro.preguntas|length > 0 %}
+
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th>Preguntas</th>
+                        <th></th>
+                    </tr>
+                    </thead><!-- /table header -->
+                    <tbody id="tableBody{{ pro.id }}" class="tableD">
+
+                    {% for pre in pro.preguntas %}
+
+                    {% if pre.usuarioid is not null and  pre.usuarioid.id == app.user.id %}
+                        <tr id="tr{{ pre.id }}">
+                            <td>
+                                <p><i class="ion-chatbox"></i> {{ pre.pregunta }}</p>
+                                {% if pre.respuesta!=null and pre.respuesta!="" %}
+                                    <p><i class="ion-chatboxes"></i> {{ pre.respuesta }}</p>
+                                {% endif %}
+                            </td>
+                            <td>
+                                <a id="e{{ pre.id }}" class="btn btn-danger eliminarPre" data-toggle="modal"
+                                   href="#dangerMessage-eliminarPregunta"><i class="fa fa-trash"></i> Eliminar</a>
+                            </td>
+                        </tr>
+                    {% endif %}
+                    {% endfor %}
+                    </tbody><!-- /table body -->
+                </table><!-- /hover table -->
+
+                <a id="b{{ pro.id }}" href="#realizarPreguntaProducto" data-toggle="modal"
+                   class="btn btn-primary preguntaP"><i class="fa fa-plus-circle"></i> Hacer nueva pregunta</a>
+                <hr class="double-hr-solid mt50 mb50"/>
+            {% else %}
+
+                <div class="alert alert-info-rw " role="alert" style="margin: 5px">
+                    No tiene Preguntas.
+                </div>
+
+            {% endif %}
+        </div>
+    {% endfor %}
+    {% else %}
+        <div class="alert alert-success" role="alertdialog" style="margin-top: 20px;margin-bottom: 10%;">
+            No existen preguntas del comprador.
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block includes %}
+    <div class="row">
+        <div class="col-xs-12">
+            {% include 'PublicBundle:Templates:modalRealizarPreguntaProducto.html.twig' %}
+
+            {% include 'PublicBundle:Templates:dangerMessage.html.twig' with {
+            'id':'eliminarPregunta',
+            'title':'¿Está seguro de eliminar esta pregunta?',
+            'message':'Se eliminará la pregunta y su respuesta en caso que la tenga, de forma permanente.'
+            } %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block hiddensPanelUsuario %}
+    <input type="hidden" id="urlAdicionarPreguntas" value="{{ path('public_pregunta_adicionar') }}">
+    <input type="hidden" id="urlObtenerPreguntas" value="{{ path('public_pregunta_obtener') }}">
+    <input type="hidden" id="urlEliminarPreguntas" value="{{ path('public_pregunta_eliminar') }}">
+    <input type="hidden" id="productoid" value="">
+    <input type="hidden" id="preguntaid" value="">
+{% endblock %}
+
+{% block customScriptsPanelUsuario %}
+    <script type="text/javascript"
+            src="{{ asset('bundles/public/js/publicPanelUsuarioPreguntasComprador.js') }}"></script>
+{% endblock %}
+

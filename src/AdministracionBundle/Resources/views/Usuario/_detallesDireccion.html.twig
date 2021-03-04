@@ -1,0 +1,20 @@
+<div id="direccionVenta">
+    {% if usuario.getDireccionVenta() %}
+        {% set direccionVenta = usuario.getDireccionVenta() %}
+        <label>{{ direccionVenta.calle }} ({{ direccionVenta.numero }}) </label>
+        {{ direccionVenta.getProvincia() }}, {{ direccionVenta.getCiudad() }} -
+        <span class="label label-default">Venta</span><br><br>
+    {% else %}
+        <h3>El usuario no dispone de una dirección de venta</h3>
+    {% endif %}
+</div>
+<div id="direccionCompra">
+    {% if usuario.getDireccionCompra() %}
+        {% set direccionCompra = usuario.getDireccionCompra() %}
+        <label>{{ direccionCompra.calle }} ({{ direccionCompra.numero }}) </label>
+        {{ direccionCompra.getProvincia() }}, {{ direccionCompra.getCiudad() }} -
+        <span class="label label-default">Compra</span><br><br>
+    {% else %}
+        <h3>El usuario no dispone de una dirección de compra</h3>
+    {% endif %}
+</div>

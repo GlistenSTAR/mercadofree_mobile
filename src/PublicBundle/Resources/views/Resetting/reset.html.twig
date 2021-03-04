@@ -1,0 +1,82 @@
+{% extends '::publicTemplate.html.twig' %}
+
+{% block breadcrumbs %}
+    <!-- Begin Page Header -->
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <!-- Breadcrumbs -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li><span class="ion-home breadcrumb-home"></span><a href="{{ path('public_homepage') }}">Inicio</a></li>
+                        <li>Acceder</li>
+                    </ol>
+                </div><!-- /column -->
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </div><!-- /page header -->
+{% endblock %}
+
+
+{% block generalContent %}
+
+    <!-- Begin Content -->
+    <div class="content-40mg">
+        <div class="container">
+
+            <div class="row mb30" style="text-align:center;">
+                <div class="col-xs-12 col-sm-6 col-sm-offset-3 white-bg-shadow">
+                    <div class="row">
+                        {#{% if error %}#}
+                            {#<div class="alert alert-danger alert-dismissable">#}
+                                {#<button class="close" aria-hidden="true" data-dismiss="alert" type="button">x</button>#}
+                                {#{{ error.message }}#}
+                            {#</div>#}
+                        {#{% endif %}#}
+                        <div class="col-xs-12" style="padding: 20px 70px;">
+                            <h1 class="mb30" style="font-weight:200;">Cambiar contraseña</h1>
+                        </div>
+                    </div>
+
+                    <div class="row" style="display:none;">
+                        <div class="col-xs-12" style="padding: 0 70px;">
+                            <p class="form-error">Sus datos son incorrectos</p>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Begin Login -->
+                        <div class="col-xs-12" style="padding: 0 70px;">
+                            <form action="{{ path('public_user_resetting_reset',{'token': token}) }}" method="post" role="form">
+                                <input type="hidden" name="_token" value="{{ token }}">
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><span class="ion-ios7-locked"></span></div>
+                                        <input type="password" class="form-control" name="_password" id="password" placeholder="Contraseña">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="input-group">
+                                        <div class="input-group-addon"><span class="ion-ios7-locked"></span></div>
+                                        <input type="password" class="form-control" name="_second_password" id="_second_password" placeholder="Confirme contraseña">
+                                    </div>
+                                </div>
+
+                                <hr class="mb20 mt15">
+                                <button id="btnSubmitAceptarLogin"  type="submit" class="btn btn-primary full-btn">Cambiar</button>
+                                <hr class="mb20 mt15">
+                            </form><!-- /form -->
+                        </div><!-- /column-->
+                        <!-- End Login -->
+                    </div>
+
+                </div>
+            </div>
+
+
+
+        </div><!-- /container -->
+    </div><!-- /content -->
+    <!-- End Content -->
+
+{% endblock %}

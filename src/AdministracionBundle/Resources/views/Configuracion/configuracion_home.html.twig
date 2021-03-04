@@ -1,0 +1,222 @@
+{% extends '::adminTemplate.html.twig' %}
+
+{% block mainMenu %}
+    {% include 'AdministracionBundle:Templates:mainMenu.html.twig' with {'page':'contenidos-home'} %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% include 'AdministracionBundle:Templates:breadcrumbs.html.twig' with {'items':[
+    {'raiz':true,'title':'Contenidos de la Home del Front-end'},
+    ]} %}
+{% endblock %}
+
+{% block titulo %}<i class="fa fa-home"></i> Contenidos de la home del front-end{% endblock %}
+{% block subTitulo %}En esta sección usted podrá activar o desactivar los contenidos de la home del front-end, asi como gestionar las imagenes
+del slider de imagenes del encabezado{% endblock %}
+{% block generalContent %}
+    <div class="content animate-panel" id="containerConfiguracion">
+        <div class="row" >
+            <div class="col-lg-12">
+                <div class="hpanel">
+                    <div class="panel-body">
+                        <form role="form" action="{{ path('administracion_contenidos_home') }}" id="formConfiguracionHome" method="post">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <h3 class="font-light">
+                                        <i class="fa fa-photo"></i> Slider de Imágenes
+                                        <span class="checkbox checkbox-success checkbox-inline"></span>
+                                    </h3>
+                                    <hr>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12" id="msgBox2" style="margin-bottom:10px; color:red;"></div>
+                                <div class="col-xs-12">
+                                    <ul id="imagenesContainer">
+                                        {% if imagenes is defined and imagenes|length>0 %}
+                                            {% set index=0 %}
+                                            {% for imagen in imagenes %}
+                                                <li style="margin-bottom:10px;" class="ui-state-default columnImgContainer" data-img="{{ imagen.url }}" >
+                                                    <img class="img-responsive" src="{{ asset(uploads_images_slider_home) }}{{ imagen.url }}" >
+                                                    <input class="imagenes-name" type="hidden" name="imagenes[]" value="{{ imagen.url }}">
+                                                    <a href="#" data-img="{{ imagen.url }}" class="btn btn-danger btnRemoveImage"><i class="fa fa-trash"></i> Eliminar</a>
+                                                </li>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </ul>
+                                </div>
+                                <div class="col-xs-12">
+                                    <div id="progressOuterImg" class="progress progress-striped active" style="display:none;">
+                                        <div id="progressBarImg" class="progress-bar progress-bar-primary"  role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 0%">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12">
+                                    {#<a class="btn btn-primary" id="addImagenSlider" href="#modalSubirImagenSlider" data-toggle="modal"><i class="fa fa-plus-circle"></i> Adicionar Imagen</a>#}
+                                    <a class="btn btn-primary" href="#" id="btnUploadImg"><i class="fa fa-plus-circle"></i> Adicionar Imagen</a>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top:30px;">
+                                <div class="col-xs-12">
+                                    <h3 class="font-light">
+                                        <i class="fa fa-columns"></i> Otras secciones de la home
+                                        <span class="checkbox checkbox-success checkbox-inline"></span>
+                                    </h3>
+                                    <hr>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Ofertas de la semana</label>
+                                </div>
+
+                                <div class="col-xs-3">
+                                    <div class="checkbox checkbox-inline checkbox-primary">
+                                        <input type="checkbox" name="secciones_home[]" {{ configuracion.ofertasSemana?'checked':'' }} value="ofertas_semana">
+                                        <label>Activo</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 15px;">
+                                <div class="col-md-4">
+                                    <label>Cantidad de ofertas de la semana</label>
+                                </div>
+
+                                <div class="col-xs-3">
+                                    <div class="input-group" >
+                                        <input type="number" name="cantOfertasSemana" value="{{ configuracion.cantOfertasSemana? configuracion.cantOfertasSemana:0 }}" >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top:20px;">
+                                <div class="col-xs-4">
+                                    <label>Publicidad Oferta</label>
+                                </div>
+                                <div class="col-xs-3">
+                                    <div class="checkbox checkbox-inline checkbox-primary">
+                                        <input type="checkbox" name="secciones_home[]" {{ configuracion.publicidadOferta?'checked':'' }} value="publicidad_oferta">
+                                        <label>Activo</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top:20px;">
+                                <div class="col-xs-4">
+                                    <label>Publicidad Producto</label>
+                                </div>
+                                <div class="col-xs-3">
+                                    <div class="checkbox checkbox-inline checkbox-primary">
+                                        <input type="checkbox" name="secciones_home[]" {{ configuracion.publicidadProducto?'checked':'' }} value="publicidad_producto">
+                                        <label>Activo</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top:20px;">
+                                <div class="col-xs-4">
+                                    <label>Historial Visitas Categoria </label>
+                                </div>
+                                <div class="col-xs-3">
+                                    <div class="checkbox checkbox-inline checkbox-primary">
+                                        <input type="checkbox" name="secciones_home[]" {{ configuracion.historialVisitasCategoria?'checked':'' }} value="historial_visitas_categoria">
+                                        <label>Activo</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top:20px;">
+                                <div class="col-xs-4">
+                                    <label>Colecciones </label>
+                                </div>
+                                <div class="col-xs-3">
+                                    <div class="checkbox checkbox-inline checkbox-primary">
+                                        <input type="checkbox" name="secciones_home[]" {{ configuracion.colecciones?'checked':'' }} value="colecciones">
+                                        <label>Activo</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" style="margin-top:20px;">
+                                <div class="col-xs-4">
+                                    <label>Productos favoritos</label>
+                                </div>
+                                <div class="col-xs-3">
+                                    <div class="checkbox checkbox-inline checkbox-primary">
+                                        <input type="checkbox" name="secciones_home[]" {{ configuracion.historialUltimasCategorias?'checked':'' }} value="historial_categorias_favoritos">
+                                        <label>Activo</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {#<div class="row" style="margin-top:20px;">#}
+                                {#<div class="col-xs-4">#}
+                                    {#<label>Mostrar historial completo </label>#}
+                                {#</div>#}
+                                {#<div class="col-xs-3">#}
+                                    {#<div class="checkbox checkbox-inline checkbox-primary">#}
+                                        {#<input type="checkbox" name="secciones_home[]" {{ configuracion.mostrarHistorial?'checked':'' }} value="mostrar_historial">#}
+                                        {#<label>Activo</label>#}
+                                    {#</div>#}
+                                {#</div>#}
+                            {#</div>#}
+                            <div class="row" style="margin-top:30px">
+                                <div class="col-xs-12">
+                                    <button type="button" class="btn btn-primary" id="submitBtnConfiguracionHome"><i class="fa fa-save"></i> Guardar Cambios</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        {% include 'AdministracionBundle:Imagen:modalEliminar.html.twig' %}
+                        {% include 'AdministracionBundle:Configuracion:modalSubirImagenSlider.html.twig' %}
+                        <input type="hidden" name="img-upload-path" id="img-upload-path" value="{{ path('administracion_imagen_adicionar') }}">
+                        <input type="hidden" name="img-remove-path" id="img-remove-path" value="{{ path('administracion_imagen_eliminar') }}">
+                        <input type="hidden" name="img-route" id="img-route" value="{{ asset(uploads_images_temp) }}">
+                        <input type="hidden" name="directorioImagenesPublic" id="directorioImagenesPublic" value="{{ asset(directorio_imagenes_public) }}">
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock  %}
+
+{% block customScripts %}
+
+    <!-- Vendor scripts -->
+
+    {#<script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.min.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery-ui.min.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.slimscroll.min.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/administracion/js/metisMenu.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/administracion/js/metisMenu.min.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/administracion/js/icheck.min.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/administracion/js/sparkline/index.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/administracion/js/index.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.dataTables.min.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/administracion/js/dataTables.bootstrap.min.js') }}"></script>#}
+    {#<script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap.min.js') }}"></script>#}
+
+    <!-- Simple Ajax Uploader -->
+
+{#    <script type="text/javascript" src="{{ asset('bundles/administracion/js/simpleAjaxUploader/SimpleAjaxUploader.min.js') }}"></script>#}
+
+    <!-- App scripts -->
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/homer.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/vue.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/vue-resource.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/administracionConfiguracion.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/administracionImagen.js') }}"></script>
+
+
+
+
+{% endblock %}

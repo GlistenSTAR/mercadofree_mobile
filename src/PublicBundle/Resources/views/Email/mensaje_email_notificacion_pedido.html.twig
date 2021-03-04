@@ -1,0 +1,62 @@
+{% extends '::emails.html.twig' %}
+
+{%  block body %}
+    <tr>
+        <td valign="top">
+            <h2 class="h2" style="color:#444444;
+			display:block;
+			font-family:Open Sans;
+			font-size:30px;
+			font-weight: 400;
+			line-height:100%;
+			margin-top:2%;
+			margin-right:0;
+			margin-bottom:1%;
+			margin-left:0;
+			text-align:left;">Tienes un nuevo Pedido</h2>
+            <br />
+            <div class="textdark" style="color: #444444;
+			font-family: Open Sans;
+			font-size: 17px;
+			line-height: 150%;
+			text-align: left;">
+                Hola {{ user_firstname }}, te enviamos este correo porque tienes un nuevo Pedido pendiente. <br/><br/>
+                A continuación te resumimos los datos del pedido, aunque podrás ver toda la información desde el apartado
+                "Ventas" de tu Panel de Usuario.
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td valign="top">
+            <div class="textdark" style="color: #444444;
+			font-family: Open Sans;
+			font-size: 17px;
+			line-height: 150%;
+			text-align: left;">
+                <b>Cod. Pedido: </b>{{ pedido.codigo }} <br/>
+                <b>Estado: </b>{{ pedido.estado.nombre }} <br/>
+                <b>Fecha: </b>{{ pedido.fecha | date('d/m/Y') }} <br/>
+                <b>Método de Pago: </b>{{ pedido.metodoPago.nombre }} <br/>
+            </div>
+        </td>
+    </tr>
+
+    <tr>
+        <td valign="top">
+            <div class="textdark" style="color: #444444;
+			font-family: Open Sans;
+			font-size: 17px;
+			line-height: 150%;
+			text-align: left;">
+                <b>Producto: </b>{{ pedido.producto.nombre }} <br/>
+                <b>Envío: </b>{{ pedido.costoEnvio | number_format(2,',','.') }} <br/>
+                <b>Subtotal: </b>{{ pedido.subtotal | number_format(2,',','.') }} <br/>
+                <b>Total: </b>{{ pedido.total | number_format(2,',','.') }} <br/>
+            </div>
+        </td>
+    </tr>
+
+
+{% endblock %}
+

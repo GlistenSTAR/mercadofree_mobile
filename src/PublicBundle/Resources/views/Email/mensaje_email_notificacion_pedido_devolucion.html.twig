@@ -1,0 +1,30 @@
+{% extends '::emails.html.twig' %}
+
+{%  block body %}
+    <tr>
+        <td valign="top">
+            <h2 class="h2" style="color:#444444;
+			display:block;
+			font-family:Open Sans;
+			font-size:30px;
+			font-weight: 400;
+			line-height:100%;
+			margin-top:2%;
+			margin-right:0;
+			margin-bottom:1%;
+			margin-left:0;
+			text-align:left;">Devolución de pedido {{ pedido.codigo }}</h2>
+            <br />
+            <div class="textdark" style="color: #444444;
+			font-family: Open Sans;
+			font-size: 17px;
+			line-height: 150%;
+			text-align: left;">
+                <p>Hola, solo queremos notificarte que el pedido <b>{{ pedido.codigo }}</b> ha sido CERRADO por el vendedor</p>
+                <p>El monto del pedido ($ {{ pedido.getTotal() | number_format(2, '.', ',') }} ) ha sido devuelto a tu cuenta MercadoFree.</p><br/><br/>
+            </div>
+        </td>
+    </tr>
+
+{% endblock %}
+

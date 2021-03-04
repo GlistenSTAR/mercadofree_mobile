@@ -1,0 +1,65 @@
+<div id="navigation">
+    <ul class="nav" id="side-menu">
+        <li class="{{ page is defined and page=='home'?'active':'' }}">
+            <a href="{{ path('administracion_homepage') }}"> <span class="nav-label"><i class="fa fa-dashboard"></i> Panel de control</span></a>
+        </li>
+        <li class="{{ page is defined and page=='pedidos'?'active':'' }}">
+            <a href="{{ path('administracion_pedido_listar') }}"> <span class="nav-label"><i class="fa fa-truck"></i> Pedidos</span></a>
+        </li>
+        <li class="{{ page is defined and page=='anuncios'?'active':'' }}">
+            <a href="#"><span class="nav-label"><i class="fa fa-bullhorn"></i> Anuncios</span><span class="fa arrow"></span> </a>
+            <ul class="nav nav-second-level">
+                <li class="{{ subpage is defined and subpage=='listado-anuncios'?'active':'' }}"><a href="{{ path('administracion_anuncio_listar') }}"><i class="fa fa-list"></i> Listado de anuncios</a></li>
+                <li class="{{ subpage is defined and subpage=='listado-categorias'?'active':'' }}"><a href="{{ path('administracion_categoria_listar') }}"><i class="fa fa-tag"></i> Categorías</a></li>
+                <li class="{{ subpage is defined and subpage=='adicionar-categoria'?'active':'' }}"><a href="{{ path('administracion_categoria_adicionar', {'modoAdicionar': 2}) }}"  data-toggle="modal"><i class="fa fa-plus-circle"></i> Adicionar Categoría</a></li>
+            </ul>
+        </li>
+        <li class="{{ page is defined and page=='colecciones'?'active':'' }}">
+            <a href="{{ path('administracion_coleccion_listar') }}"><span class="nav-label"><i class="fa fa-bookmark"></i> Colecciones</span></a>
+        </li>
+        <li class="{{ page is defined and page=='ofertas'?'active':'' }}">
+            <a href="{{ path('administracion_oferta_listar') }}"> <span class="nav-label"><i class="fa fa-bolt"></i> Ofertas</span></a>
+        </li>
+        <li class="{{ page is defined and page=='tiendas'?'active':'' }}">
+            <a href="{{ path('administracion_tienda_listar') }}"> <span class="nav-label"><i class="fa fa-shopping-cart"></i> Tiendas</span></a>
+        </li>
+        <li class="{{ page is defined and page=='usuarios'?'active':'' }}">
+            <a href="#"><span class="nav-label"><i class="fa fa-users"></i> Usuarios</span><span class="fa arrow"></span> </a>
+            <ul class="nav nav-second-level">
+                <li class="{{ subpage is defined and subpage=='listado-usuarios'?'active':'' }}"><a href="{{ path('administracion_usuario_listar') }}"><i class="fa fa-list"></i> Listado de usuarios</a></li>
+                <li class="{{ subpage is defined and subpage=='adicionar-usuario'?'active':'' }}"><a href="{{ path('administracion_usuario_adicionar', {'modoAdicionar': 2}) }}"  data-toggle="modal"><i class="fa fa-plus-circle"></i> Adicionar usuario</a></li>
+            </ul>
+        </li>
+        <li class="{{ page is defined and page=='notificaciones'?'active':'' }}">
+            <a href="{{ path('administracion_notificacion_listar') }}"><i class="fa fa-bell"></i> Notificaciones</a>
+        </li>
+        <li class="{{ page is defined and page=='objetivos'?'active':'' }}">
+            <a href="{{ path('administracion_objetivo_listar') }}"><span class="nav-label"><i class="fa fa-trophy"></i> Objetivos</span> </a>
+
+        </li>
+        <li class="{{ page is defined and page=='categorias-objetivos'?'active':'' }}">
+            <a href="{{ path('administracion_categoriaObjetivo_listar') }}"><span class="nav-label"><i class="fa fa-tag"></i> Categorias de Objetivos</span> </a>
+
+        </li>
+
+        <li class="{{ page is defined and page=='contenidos-home'?'active':'' }}">
+            <a href="{{ path('administracion_contenidos_home') }}"> <span class="nav-label"><i class="fa fa-home"></i> Contenidos de la HOME</span></a>
+        </li>
+        <li class="{{ page is defined and page=='costos-envio'?'active':'' }}">
+            <a href="#"><span class="nav-label"><i class="fa fa-truck"></i> Costos de Envío</span><span class="fa arrow"></span> </a>
+            <ul class="nav nav-second-level">
+                <li class="{{ subpage is defined and subpage=='listado-costo-envio'?'active':'' }}"><a href="{{ path('administracion_costoenvio_listar') }}"><i class="fa fa-list"></i> Listado de Costos de Envío</a></li>
+                <li class="{{ subpage is defined and subpage=='adicionar-costo-envio'?'active':'' }}"><a  href="{{ path('administracion_costoenvio_adicionar') }}"  data-toggle="modal"><i class="fa fa-plus-circle"></i> Adicionar costo de envío</a></li>
+            </ul>
+        </li>
+        <li class="{{ page is defined and page=='solicitud-retiro'?'active':'' }}">
+            <a href="{{ path('administracion_solicitudretiro_listar') }}"> <span class="nav-label"><i class="fa fa-usd"></i> Solicitudes de Retiro</span></a>
+        </li>
+        <li class="{{ page is defined and page=='configuracion'?'active':'' }}">
+            <a href="{{ path('administracion_configuracion_configuracion') }}"> <span class="nav-label"><i class="fa fa-cogs"></i> Configuraciones</span></a>
+        </li>
+        <li class="{{ page is defined and page == 'comisiones' ? 'active' : '' }}">
+            <a href="{{ path('administracion_comisiones_index') }}"> <span class="nav-label"><i class="fa fa-usd"></i> Comisiones</span></a>
+        </li>
+    </ul>
+</div>

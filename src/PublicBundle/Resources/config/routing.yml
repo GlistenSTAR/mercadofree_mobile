@@ -1,0 +1,422 @@
+public_homepage:
+    path:     /
+    defaults: { _controller: PublicBundle:Default:index }
+public_login:
+    path:     /login
+    defaults: { _controller: PublicBundle:Default:login }
+public_login_check:
+    path: /login_check
+public_logout:
+    path: /logout
+
+public_user_resetting_request:
+    path: /request
+    defaults: { _controller: PublicBundle:Resetting:request }
+
+public_user_resetting_send_email:
+    path: /send-email
+    defaults: { _controller: PublicBundle:Resetting:sendEmail }
+
+public_user_resetting_check_email:
+    path: /check-email
+    defaults: { _controller: PublicBundle:Resetting:checkEmail }
+
+public_user_resetting_reset:
+    path: /reset/{token}
+    defaults: { _controller: PublicBundle:Resetting:reset }
+
+public_reset_password:
+    path: /request_reset_password
+    defaults: { _controller: PublicBundle:Default:requestResetPassword }
+
+public_imagen_adicionar:
+    path:     /imagen/adicionar/
+    defaults: { _controller: PublicBundle:Imagen:adicionar}
+public_imagen_eliminar:
+    path:     /imagen/eliminar/
+    defaults: { _controller: PublicBundle:Imagen:eliminarImagen}
+
+
+public_anuncio_favorito:
+    path:     /anuncios/marcar-favorito/
+    defaults: { _controller: PublicBundle:Anuncio:favorito }
+
+public_anuncio_publicar:
+    path:     /anuncios/publicar/{step}
+    defaults: { _controller: PublicBundle:Anuncio:publicar, step: 1 }
+
+
+public_anuncio_modificar:
+    path:     /anuncios/modificar/{step}
+    defaults: { _controller: PublicBundle:Anuncio:modificar, step: 1 }
+
+public_anuncio_listar:
+    path:     /anuncios/listado
+    defaults: { _controller: PublicBundle:Anuncio:listar }
+
+public_anuncio_buscar:
+    path:     /anuncios/busqueda
+    defaults: { _controller: PublicBundle:Anuncio:buscar }
+    
+public_anuncio_busqueda_general:
+    path:     /anuncios/busquedageneral
+    defaults: { _controller: PublicBundle:Anuncio:busquedageneral }
+
+public_anuncio_filtrar:
+    path:     /anuncios/filtro
+    defaults: { _controller: PublicBundle:Anuncio:listarBusqueda }
+
+public_anuncio_listarPaginado:
+    path:     /anuncios/paginado/
+    defaults: { _controller: PublicBundle:Anuncio:paginar}
+
+public_anuncio_pausado:
+    path:     /anuncios/pausar/
+    defaults: { _controller: PublicBundle:Anuncio:pausar}
+
+public_usuario_registrar:
+    path:     /registrar/
+    defaults: { _controller: PublicBundle:Usuario:registrar }
+
+public_usuario_registro_existe_email:
+    path:     /registrar/validar-existe-email
+    defaults: { _controller: PublicBundle:Usuario:checkEmailExist }
+
+public_empresa_registrar:
+    path:     /registrar_empresa/
+    defaults: { _controller: PublicBundle:Usuario:registrar_empresa }
+public_categoria_obtener:
+    path:     /categoria/obtener/
+    defaults: { _controller: PublicBundle:Categoria:obtener }
+public_coleccion_obtener:
+    path:     /coleccion/obtener/
+    defaults: { _controller: PublicBundle:Coleccion:obtener }
+public_categoria_tener:
+    path:     /categoria/tener/
+    defaults: { _controller: PublicBundle:Categoria:tener }
+public_anuncio_detalles:
+    path:     /anuncios/detalles/{slug}
+    defaults: { _controller: PublicBundle:Anuncio:detalles }
+
+public_anuncio_vendedor_tiene_direccion_venta:
+    path:     /anuncios/vendedor-tiene-direccion-venta/
+    defaults: { _controller: PublicBundle:Anuncio:vendedorTieneDireccionVenta }
+
+public_cesta_adicionar_producto:
+    path:     /carrito/adicionar-producto/
+    defaults: { _controller: PublicBundle:Cesta:adicionarProducto }
+
+public_cesta_comprar_ahora:
+    path:     /carrito/comprar-ahora/
+    defaults: { _controller: PublicBundle:Cesta:comprarAhora }
+
+public_cesta_confirmar_pedido:
+    path:     /carrito/confirmar-pedido/
+    defaults: { _controller: PublicBundle:Cesta:confirmarPedido }
+
+public_cesta_eliminar_producto:
+    path:     /carrito/productos/eliminar
+    defaults: { _controller: PublicBundle:Cesta:eliminarProducto }
+
+public_cesta_envio:
+    path:     /carrito/configuracion-envio/
+    defaults: { _controller: PublicBundle:Cesta:configurarEnvio }
+
+public_cesta_envio_actualizarCostoEnvio:
+    path:     /carrito/configuracion-envio/actualizar-costo-envio
+    defaults: { _controller: PublicBundle:Cesta:calcularCostoEnvio }
+
+public_cesta_metodo_pago:
+    path:     /carrito/metodo-pago/
+    defaults: { _controller: PublicBundle:Cesta:metodoPago }
+
+public_cesta_modificar_cantidad:
+    path:     /carrito/productos/modificar-cantidad
+    defaults: { _controller: PublicBundle:Cesta:modificarCantidad }
+
+public_cesta_listar:
+    path:     /carrito/productos/
+    defaults: { _controller: PublicBundle:Cesta:listar }
+
+public_cesta_resumen:
+    path:     /carrito/resumen/
+    defaults: { _controller: PublicBundle:Cesta:resumen }
+    
+public_cesta_pago_paypal:
+    path:     /carrito/pagopaypaldone
+    defaults: { _controller: PublicBundle:Cesta:pagopedidopaypal }
+    
+
+public_direccion_adicionar:
+    path:     /direccion/adicionar/
+    defaults: { _controller: PublicBundle:Direccion:adicionar }
+
+public_direccion_adicionarpanelusuario:
+    path:     /direccion/adicionarpanelusuario/
+    defaults: { _controller: PublicBundle:Direccion:panelusuarioadicionar }
+
+public_ciudad_obtenerCiudades:
+    path:     /ciudad/obtener/
+    defaults: { _controller: PublicBundle:Ciudad:obtenerCiudades }
+
+public_direccion_obtener:
+    path:     /direccion/obtener/
+    defaults: { _controller: PublicBundle:Direccion:obtener }
+public_direccion_obtenerid:
+    path:     /direccion/obtenerid/
+    defaults: { _controller: PublicBundle:Direccion:obtenerid }
+public_direccion_eliminar:
+    path:     /direccion/eliminar/
+    defaults: { _controller: PublicBundle:Direccion:eliminar }
+
+public_direccion_modificar:
+    path:     /direccion/modificar/
+    defaults: { _controller: PublicBundle:Direccion:modificar }
+
+public_panel_usuario_anuncios:
+    path:     /panel-usuario/anuncios
+    defaults: { _controller: PublicBundle:PanelUsuario:anuncios }
+
+public_panel_usuario_compras:
+    path:     /panel-usuario/compras
+    defaults: { _controller: PublicBundle:PanelUsuario:pedidosComprador }
+
+public_panel_usuario_compras_detalle:
+    path:     /panel-usuario/compras/{codPedido}
+    defaults: { _controller: PublicBundle:Pedido:detalleCompra }
+    
+public_panel_usuario_valoracion_compra:
+    path:     /panel-usuario/valoracion-compra
+    defaults: { _controller: PublicBundle:Pedido:valoracionCompra }
+
+public_panel_usuario_historial:
+    path:     /panel-usuario/historial
+    defaults: { _controller: PublicBundle:PanelUsuario:historial }
+public_panel_usuario_editar_perfil:
+    path:     /panel-usuario/perfil/editar/
+    defaults: { _controller: PublicBundle:PanelUsuario:editarPerfil }
+
+public_panel_usuario_editar_cuenta:
+    path:     /panel-usuario/cuenta-bancaria/editar/
+    defaults: { _controller: PublicBundle:PanelUsuario:editarCuenta }
+    
+public_panel_usuario_editar_cuenta_paypal:
+    path:     /panel-usuario/cuenta-paypal/editar/
+    defaults: { _controller: PublicBundle:PanelUsuario:editarCuentaPaypal }
+
+public_panel_usuario_datos_fiscales:
+    path:     /panel-usuario/perfil/editar/datos-fiscales
+    defaults: { _controller: PublicBundle:PanelUsuario:datosFiscales }
+
+public_panel_usuario_emails:
+    path:     /panel-usuario/emails
+    defaults: { _controller: PublicBundle:PanelUsuario:emails }
+
+public_panel_usuario_envios:
+    path:     /panel-usuario/envios
+    defaults: { _controller: PublicBundle:PanelUsuario:envios }
+
+public_panel_usuario_favoritos:
+    path:     /panel-usuario/favoritos/
+    defaults: { _controller: PublicBundle:PanelUsuario:favoritos }
+
+public_panel_usuario_garantia:
+    path:     /panel-usuario/garantia-productos/
+    defaults: { _controller: PublicBundle:PanelUsuario:garantia }
+
+public_panel_usuario_objetivos:
+    path:     /panel-usuario/objetivos
+    defaults: { _controller: PublicBundle:PanelUsuario:objetivos }
+
+public_panel_usuario_preguntas_comprador:
+    path:     /panel-usuario/preguntas/comprador
+    defaults: { _controller: PublicBundle:PanelUsuario:preguntasComprador }
+
+public_panel_usuario_preguntas_vendedor:
+    path:     /panel-usuario/preguntas/vendedor
+    defaults: { _controller: PublicBundle:PanelUsuario:preguntasVendedor }
+
+public_panel_usuario_publicidad:
+    path:     /panel-usuario/publicidad/
+    defaults: { _controller: PublicBundle:PanelUsuario:publicidad }
+
+public_panel_usuario_publicidad_detalle:
+    path:     /panel-usuario/publicidad/{slug}
+    defaults: { _controller: PublicBundle:PanelUsuario:publicidadDetalle }
+
+public_panel_usuario_resumen:
+    path:     /panel-usuario/
+    defaults: { _controller: PublicBundle:PanelUsuario:resumen }
+
+public_panel_usuario_tienda:
+    path:     /panel-usuario/tienda/
+    defaults: { _controller: PublicBundle:PanelUsuario:tienda }
+
+public_panel_usuario_ventas:
+    path:     /panel-usuario/ventas
+    defaults: { _controller: PublicBundle:PanelUsuario:pedidosVendedor }
+
+public_panel_usuario_ventas_detalle:
+    path:     /panel-usuario/ventas/{codPedido}
+    defaults: { _controller: PublicBundle:Pedido:detalle }
+
+public_anuncio_paginadoanuncio:
+    path:     /anuncio/panelusuarioanuncio
+    defaults: { _controller: PublicBundle:Anuncio:panelusuarioanuncio }
+
+public_anuncio_panelusuarioeliminar:
+    path:     /anuncio/panelusuarioeliminar
+    defaults: { _controller: PublicBundle:Anuncio:panelusuarioeliminar }
+
+public_anuncio_cambiarestado:
+    path:     /anuncio/cambiarestado
+    defaults: { _controller: PublicBundle:Anuncio:cambiarestado }
+
+public_pedido_cambiar_estado:
+    path:     /pedido/cambiar-estado
+    defaults: { _controller: PublicBundle:Pedido:cambiarEstado }
+
+public_pedido_eliminar:
+    path:     /pedido/eliminar
+    defaults: { _controller: PublicBundle:Pedido:eliminar }
+
+public_pedido_paginadopedidocompras:
+    path:     /ventas/panelusuariocompras
+    defaults: { _controller: PublicBundle:Pedido:panelUsuarioPedidoCompras }
+
+public_pedido_paginadopedidoventas:
+    path:     /ventas/panelusuarioventas
+    defaults: { _controller: PublicBundle:Pedido:panelUsuarioPedidoVentas }
+    
+public_pedido_imprimir_etiqueta:
+    path:   /ventas/imprimir-etiqueta/{codigo}/{notificar}
+    defaults: { _controller: PublicBundle:Pedido:imprimirEtiqueta, codigo: 0, notificar: 0 }
+
+public_pregunta_obtener:
+    path:     /pregunta/obtener/
+    defaults: { _controller: PublicBundle:Pregunta:obtener }
+
+public_pregunta_adicionar:
+    path:     /pregunta/adicionar/
+    defaults: { _controller: PublicBundle:Pregunta:adicionar }
+
+public_pregunta_eliminar:
+    path:     /pregunta/eliminar/
+    defaults: { _controller: PublicBundle:Pregunta:eliminar }
+
+public_pregunta_responder:
+    path:     /pregunta/responder/
+    defaults: { _controller: PublicBundle:Pregunta:responder }
+
+public_publicidad_planes:
+    path:     /publicidad/planes/
+    defaults: { _controller: PublicBundle:Publicidad:planes }
+
+public_static_about:
+    path:     /about
+    defaults: { _controller: PublicBundle:StaticPage:about }
+
+public_static_contactar:
+    path:     /contactar
+    defaults: { _controller: PublicBundle:StaticPage:contactar }
+
+public_static_politica_privacidad:
+    path:     /politica-privacidad
+    defaults: { _controller: PublicBundle:StaticPage:politicas }
+
+public_static_terminos_condiciones:
+    path:     /terminos-y-condiciones
+    defaults: { _controller: PublicBundle:StaticPage:terminos }
+
+public_tienda_detalle:
+    path:     /tiendas/{slug}
+    defaults: { _controller: PublicBundle:Tienda:detalle }
+
+public_tienda_listado:
+    path:     /tiendas/
+    defaults: { _controller: PublicBundle:Tienda:listar }
+
+public_valoracion_adicionar:
+    path:     /valoracion/adicionar/
+    defaults: { _controller: PublicBundle:Valoracion:adicionar }
+
+public_valoracion_obtener:
+    path:     /valoracion/obtener/{pag}
+    defaults: { _controller: PublicBundle:Valoracion:obtener, pag:2 }
+
+public_campanna_estado:
+    path:     /campanna/modificar/
+    defaults: { _controller: PublicBundle:Campanna:modificar }
+
+public_campanna_cambiar:
+     path:     /campanna/cambiar/
+     defaults: { _controller: PublicBundle:Campanna:cambiar }
+
+public_anuncio_obtener:
+    path:   /anuncio/obtener/
+    defaults: {_controller: PublicBundle:Anuncio:obtener}
+
+public_anuncio_eliminar:
+    path:   /anuncio/eliminar/
+    defaults: {_controller: PublicBundle:Anuncio:eliminar}
+
+public_anuncio_nocampanna:
+    path:   /anuncio/nocampanna/
+    defaults: {_controller: PublicBundle:Anuncio:nocampanna}
+
+public_oferta_ofertasemana:
+    path:   /oferta/ofertasemana/
+    defaults: {_controller: PublicBundle:Oferta:ofertasemana}
+
+public_costoenvio_agregarcostoenvio:
+    path:   /costoenvio/adicionar/
+    defaults: {_controller: PublicBundle:CostoEnvio:adicionar}
+
+public_costoenvio_eliminarcostoenvio:
+    path:   /costoenvio/eliminar/
+    defaults: {_controller: PublicBundle:CostoEnvio:eliminar}
+
+public_finanzas_index:
+    path: /finanzas
+    defaults: {_controller: PublicBundle:Finanzas:index}
+
+public_finanzas_get_data:
+    path: /finanzas/async/get-data
+    defaults: {_controller: PublicBundle:Finanzas:asyncGetData}
+
+public_finanzas_detalles:
+    path: /finanzas/detalles/{id}
+    defaults: {_controller: PublicBundle:Finanzas:detalles}
+
+public_finanzas_agregar:
+    path: /finanzas/agregar-fondos
+    defaults: {_controller: PublicBundle:Finanzas:agregarFondos}
+
+public_finanzas_retirar:
+    path: /finanzas/retirar-fondos
+    defaults: {_controller: PublicBundle:Finanzas:retirarFondos}
+
+public_finanzas_pagopaypaldone:
+    path: /finanzas/pago-paypal-done
+    defaults: {_controller: PublicBundle:Finanzas:pagopaypaldone}
+    
+public_finanzas_retiropaypaldone:
+    path: /finanzas/retiro-paypal-done
+    defaults: {_controller: PublicBundle:Finanzas:retiropaypaldone}
+
+
+cron_validar_productos_expirados:
+    path: /cron/validarproductosexpirados
+    defaults: {_controller: PublicBundle:Cron:validarproductosexpirados}
+    
+public_usuario_perfil_vendedor:
+    path: /vendedor/{id}
+    defaults: {_controller: PublicBundle:Usuario:perfilVendedor}
+
+public_notificacion_set_leidas:
+    path:     /notificaciones/set-leidas/
+    defaults: { _controller: PublicBundle:Notificacion:setLeidas }
+
+public_notificacion_delete_all:
+    path:     /notificaciones/selete-all/
+    defaults: { _controller: PublicBundle:Notificacion:deleteAll }

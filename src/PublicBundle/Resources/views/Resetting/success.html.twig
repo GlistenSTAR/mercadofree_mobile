@@ -1,0 +1,31 @@
+{% extends '::publicTemplate.html.twig' %}
+
+
+{% block generalContent %}
+    <!-- Begin Content -->
+    <div class="content-40mg">
+        <div class="container">
+
+            <div class="row mb30" style="text-align:center;">
+                <div class="col-xs-12 col-sm-6 col-sm-offset-3 white-bg-shadow">
+
+                    <div class="row">
+                        <!-- Begin Login -->
+                        <div class="col-xs-12" style="padding: 0 45px 25px;">
+                            <h3 style="text-align: center">¡Perfecto! Ya has cambiado tu contraseña, ahora puedes entrar a tu cuenta.</h3>
+                        </div><!-- /column-->
+                        <!-- End Login -->
+                    </div>
+                    <hr class="mb20 mt15">
+                    <a href="{{ path('public_login') }}"  type="submit" class="btn btn-primary full-btn">Ingresar</a>
+                    <hr class="mb20 mt15">
+
+                </div>
+            </div>
+
+
+
+        </div><!-- /container -->
+    </div><!-- /content -->
+    <!-- End Content -->
+{% endblock %}

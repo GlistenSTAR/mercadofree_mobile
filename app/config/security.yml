@@ -1,0 +1,41 @@
+# To get started with security, check out the documentation:
+# https://symfony.com/doc/current/security.html
+security:
+
+    encoders:
+        AdministracionBundle\Entity\Usuario: plaintext
+    providers:
+        usuario:
+            entity: { class:AdministracionBundle\Entity\Usuario, property:email }
+    firewalls:
+        backend:
+            pattern: ^/administracion/panel
+            anonymous: ~
+            form_login:
+                login_path: administracion_login
+                check_path: /administracion/panel/login_check
+                default_target_path: /administracion/panel/
+                use_referer: true
+            logout:
+                path: administracion_logout
+                target: administracion_login
+
+        frontend:
+            pattern: ^/
+            anonymous: ~
+            form_login:
+                login_path: public_login
+                check_path: /login_check
+                default_target_path: /
+                use_referer: true
+            logout:
+                path: public_logout
+                target: public_login
+            remember_me:
+                key: mercadofree8830
+                lifetime: 3600
+
+    access_control:
+        - { path: ^/administracion/panel/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/administracion/panel/*, roles: [ROLE_ADMIN] }
+

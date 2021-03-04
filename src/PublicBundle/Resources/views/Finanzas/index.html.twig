@@ -1,0 +1,58 @@
+{% extends '::publicPanelUsuario.html.twig' %}
+
+{% block breadcrumbPanelUsuario %}
+    <li>Mis Finanzas</li>
+{% endblock %}
+
+{% block menuPanelUsuario %}
+    {% include 'PublicBundle:Templates:menuPanelUsuario.html.twig' with {'page':'finanzas'} %}
+{% endblock %}
+
+{% block headerCenterContent %}
+    <h4>Mis Finanzas</h4>
+{% endblock %}
+
+{% block centerContent %}
+    <div class="row">
+        <div class="col-xs-6">
+            <h4>Saldo <b>$ {{ saldo | number_format(2, '.', ',') }}</b></h4>
+        </div>
+        <div class="col-xs-6 text-right">
+              <a href="{{ path('public_finanzas_agregar') }}" class="btn btn-primary" style="margin: 0 .5em;">Agregar Fondos</a>
+              <a href="{{ path('public_finanzas_retirar') }}" class="btn btn-default" style="margin: 0 .5em;">Retirar Fondos</a>
+        </div>
+    </div>
+    {% if app.session.flashBag.has('success') %}
+        <div class="col-xs-12 col-md-10 col-md-offset-1">
+            <div class="alert alert-success">
+                {% for msg in app.session.flashBag.get('success') %}
+                    {{ msg }}
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+    <br>
+    <div id="lista-movimientos" class="row">
+        <div class="col-xs-12 mt10 table-responsive">
+            <table class="table table-hover">
+                <thead>
+                <tr>
+                    <th>Referencia</th>
+                    <th>Fecha</th>
+                    <th>Monto</th>
+                    <th>Tipo</th>
+                    <th>Concepto</th>
+                    <th></th>
+                </tr>
+                </thead><!-- /table header -->
+                <tbody id="TransaccionesListado">
+
+                </tbody><!-- /table body -->
+            </table><!-- /hover table -->
+        </div>
+    </div>
+{% endblock %}
+
+{% block customScriptsPanelUsuario %}
+    <script src="{{ asset('bundles/public/js/publicFinanzasIndex.js') }}"></script>
+{% endblock %}

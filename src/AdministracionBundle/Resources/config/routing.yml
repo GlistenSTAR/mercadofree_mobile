@@ -1,0 +1,235 @@
+administracion_homepage:
+    path:     /administracion/panel/
+    defaults: { _controller: AdministracionBundle:Default:index }
+administracion_login:
+    path: /administracion/panel/login
+    defaults: { _controller: AdministracionBundle:Default:login }
+
+administracion_login_check:
+    path: /administracion/panel/login_check
+
+administracion_logout:
+    path: /administracion/panel/logout
+administracion_usuario:
+    path:     /administracion/panel/usuario
+    defaults: { _controller: AdministracionBundle:Default:index }
+administracion_usuario_login:
+    path:     /administracion/panel/login/
+    defaults: { _controller: AdministracionBundle:Usuario:login }
+administracion_usuario_listar:
+    path:     /administracion/panel/usuario/listado/
+    defaults: { _controller: AdministracionBundle:Usuario:listar }
+administracion_usuario_editar:
+    path:     /administracion/panel/usuario/editar/
+    defaults: { _controller: AdministracionBundle:Usuario:editar }
+administracion_usuario_adicionar:
+    path:     /administracion/panel/usuario/adicionar/
+    defaults: { _controller: AdministracionBundle:Usuario:adicionar }
+administracion_usuario_eliminar:
+    path:     /administracion/panel/usuario/eliminar/
+    defaults: { _controller: AdministracionBundle:Usuario:eliminar }
+administracion_usuario_detalles:
+    path:     /administracion/panel/usuario/detalles/
+    defaults: { _controller: AdministracionBundle:Usuario:detalles }
+administracion_usuario_finanzas:
+    path:     /administracion/panel/usuario/detalles/finanzas
+    defaults: { _controller: AdministracionBundle:Usuario:finanzasUsuario }
+administracion_usuario_movimiento_cuenta:
+    path:     /administracion/panel/usuario/detalles/movimiento_cuenta/{id}
+    defaults: { _controller: AdministracionBundle:Usuario:detallesFinanzasUsuario }
+administracion_usuario_compras:
+    path:     /administracion/panel/usuario/detalles/compras
+    defaults: { _controller: AdministracionBundle:Usuario:comprasUsuario }
+administracion_usuario_ventas:
+    path: /administracion/panel/usuario/detalles/ventas
+    defaults: { _controller: AdministracionBundle:Usuario:ventasUsuario }
+
+administracion_anuncio_listar:
+    path:     /administracion/panel/anuncio/listado/
+    defaults: { _controller: AdministracionBundle:Producto:listar }
+administracion_anuncio_editar:
+    path:     /administracion/panel/anuncio/editar/
+    defaults: { _controller: AdministracionBundle:Producto:editar }
+administracion_anuncio_eliminar:
+    path:     /administracion/panel/anuncio/eliminar/
+    defaults: { _controller: AdministracionBundle:Producto:eliminar }
+administracion_anuncio_detalles:
+        path:     /administracion/panel/anuncio/detalles/
+        defaults: { _controller: AdministracionBundle:Producto:detalles }
+administracion_tienda_listar:
+    path:     /administracion/panel/tienda/listado/
+    defaults: { _controller: AdministracionBundle:Tienda:listar }
+administracion_tienda_editar:
+    path:     /administracion/panel/tienda/editar/
+    defaults: { _controller: AdministracionBundle:Tienda:editar }
+administracion_tienda_eliminar:
+    path:     /administracion/panel/tienda/eliminar/
+    defaults: { _controller: AdministracionBundle:Tienda:eliminar }
+administracion_tienda_detalles:
+    path:     /administracion/panel/tienda/detalles/{slug}
+    defaults: { _controller: AdministracionBundle:Tienda:detalles }
+
+administracion_tienda_producto_detalles:
+    path:     /administracion/panel/tienda/detalles/productos
+    defaults: { _controller: AdministracionBundle:Tienda:tiendaproductodetallesAction }
+administracion_oferta_listar:
+        path:     /administracion/panel/oferta/listar/
+        defaults: { _controller: AdministracionBundle:Oferta:listar }
+administracion_oferta_bloquear:
+    path:     /administracion/panel/oferta/bloquear/
+    defaults: { _controller: AdministracionBundle:Oferta:bloquear }
+administracion_oferta_eliminar:
+    path:     /administracion/panel/oferta/eliminar/
+    defaults: { _controller: AdministracionBundle:Oferta:eliminar }
+administracion_oferta_detalles:
+        path:     /administracion/panel/oferta/detalles/
+        defaults: { _controller: AdministracionBundle:Oferta:detalles }
+administracion_categoria_listar:
+    path:     /administracion/panel/categoria/listado/
+    defaults: { _controller: AdministracionBundle:Categoria:listar }
+administracion_categoria_adicionar:
+    path:     /administracion/panel/categoria/adicionar/
+    defaults: { _controller: AdministracionBundle:Categoria:adicionar }
+administracion_categoria_adicionar_caracteristicas:
+    path:     /administracion/panel/categoria/caracteristicas/adicionar/
+    defaults: { _controller: AdministracionBundle:Categoria:addcarac }
+administracion_categoria_editar:
+    path:     /administracion/panel/categoria/editar/
+    defaults: { _controller: AdministracionBundle:Categoria:editar }
+administracion_categoria_obtener:
+    path:     /administracion/panel/categoria/obtener/
+    defaults: { _controller: AdministracionBundle:Categoria:obtener }
+administracion_categoria_obtenercaracteristicas:
+    path:     /administracion/panel/categoria/obtenercarateristicas/
+    defaults: { _controller: AdministracionBundle:Categoria:obtenercarateristicas }
+administracion_categoria_eliminar:
+    path:     /administracion/panel/categoria/eliminar/
+    defaults: { _controller: AdministracionBundle:Categoria:eliminar }
+administracion_oferta_producto_detalles:
+    path:     /administracion/panel/oferta/detalles/productos
+    defaults: { _controller: AdministracionBundle:Oferta:ofertaproductodetalles }
+administracion_coleccion_listar:
+    path:     /administracion/panel/coleccion/listar/
+    defaults: { _controller: AdministracionBundle:Coleccion:listar }
+administracion_coleccion_adicionar:
+    path:     /administracion/panel/coleccion/adicionar/
+    defaults: { _controller: AdministracionBundle:Coleccion:adicionar }
+administracion_coleccion_editar:
+    path:     /administracion/panel/coleccion/editar/
+    defaults: { _controller: AdministracionBundle:Coleccion:editar }
+
+administracion_coleccion_eliminar:
+    path: /administracion/panel/coleccion/eliminar/
+    defaults: { _controller: AdministracionBundle:Coleccion:eliminar }
+
+administracion_coleccion_detalles:
+    path: /administracion/panel/coleccion/detalles/
+    defaults: { _controller: AdministracionBundle:Coleccion:detalles }
+administracion_coleccion_producto_detalles:
+    path:     /administracion/panel/coleccion/detalles/productos
+    defaults: { _controller: AdministracionBundle:Coleccion:coleccionproductodetalles }
+
+administracion_configuracion_configuracion:
+    path:     /administracion/panel/configuracion/
+    defaults: { _controller: AdministracionBundle:Configuracion:configuracion }
+administracion_configuracion_guardar:
+    path:     /administracion/panel/guardar/
+    defaults: { _controller: AdministracionBundle:Configuracion:guardar }
+
+administracion_contenidos_home:
+    path:     /administracion/panel/configuracion/public_home/
+    defaults: { _controller: AdministracionBundle:Configuracion:configuracionHome }
+
+
+administracion_imagen_adicionar:
+    path: /administracion/panel/imagenes/adicionar/
+    defaults: { _controller: AdministracionBundle:Imagen:adicionar }
+
+administracion_imagen_eliminar:
+    path: /administracion/panel/imagenes/eliminar/
+    defaults: { _controller: AdministracionBundle:Imagen:eliminar }
+
+administracion_notificacion_listar:
+    path:     /administracion/panel/notificacion/listar/
+    defaults: { _controller: AdministracionBundle:Notificacion:listar }
+administracion_notificacion_adicionar:
+    path:     /administracion/panel/notificacion/adicionar/
+    defaults: { _controller: AdministracionBundle:Notificacion:adicionar }
+administracion_notificacion_eliminar:
+    path:     /administracion/panel/notificacion/eliminar/
+    defaults: { _controller: AdministracionBundle:Notificacion:eliminar }
+administracion_notificacion_editar:
+    path:     /administracion/panel/notificacion/editar/
+    defaults: { _controller: AdministracionBundle:Notificacion:editar }
+administracion_objetivo_editar:
+    path:     /administracion/panel/objetivo/editar/
+    defaults: { _controller: AdministracionBundle:Objetivo:editar }
+administracion_objetivo_listar:
+    path:     /administracion/panel/objetivo/listar/
+    defaults: { _controller: AdministracionBundle:Objetivo:listar }
+
+administracion_categoriaObjetivo_editar:
+    path:     /administracion/panel/categoriaObjetivo/editar/
+    defaults: { _controller: AdministracionBundle:CategoriaObjetivo:editar }
+administracion_categoriaObjetivo_listar:
+    path:     /administracion/panel/categoriaObjetivo/listar/
+    defaults: { _controller: AdministracionBundle:CategoriaObjetivo:listar }
+administracion_costoenvio_listar:
+    path:     /administracion/panel/costoenvio/listar/
+    defaults: { _controller: AdministracionBundle:CostoEnvio:listar }
+administracion_costoenvio_editar:
+    path:     /administracion/panel/costoenvio/editar/
+    defaults: { _controller: AdministracionBundle:CostoEnvio:editar }
+administracion_costoenvio_eliminar:
+    path:     /administracion/panel/costoenvio/eliminar/
+    defaults: { _controller: AdministracionBundle:CostoEnvio:eliminar }
+administracion_costoenvio_adicionar:
+    path:     /administracion/panel/costoenvio/adicionar/
+    defaults: { _controller: AdministracionBundle:CostoEnvio:adicionar }
+administracion_ciudad_obtenerCiudades:
+    path:     /administracion/panel/ciudad/obtenerCiudades/
+    defaults: { _controller: AdministracionBundle:Ciudad:obtenerCiudades }
+administracion_solicitudretiro_listar:
+    path:     /administracion/panel/solicitudretiro/listar/
+    defaults: { _controller: AdministracionBundle:SolicitudRetiro:listar }
+administracion_solicitudretiro_aprobar:
+    path:     /administracion/panel/solicitudretiro/aprobar/
+    defaults: { _controller: AdministracionBundle:SolicitudRetiro:aprobar }
+administracion_solicitudretiro_rechazar:
+    path:     /administracion/panel/solicitudretiro/rechazar/
+    defaults: { _controller: AdministracionBundle:SolicitudRetiro:rechazar }
+administracion_solicitudretiro_detalle:
+    path:     /administracion/panel/solicitudretiro/detalle/
+    defaults: { _controller: AdministracionBundle:SolicitudRetiro:detalle }
+administracion_solicitudretiro_reintentar_pago:
+    path:     /administracion/panel/solicitudretiro/reintentar-pago/
+    defaults: { _controller: AdministracionBundle:SolicitudRetiro:reintentarPago }
+administracion_solicitudretiro_validar_retiros:
+    path:     /administracion/panel/solicitudretiro/validar-retiros
+    defaults: { _controller: AdministracionBundle:SolicitudRetiro:validarRetiros }
+administracion_slug_generar:
+    path:     /administracion/panel/generar-slug/
+    defaults: { _controller: AdministracionBundle:Default:generateSlug }
+
+administracion_comisiones_index:
+    path:     /administracion/panel/comisiones
+    defaults: { _controller: AdministracionBundle:Comisiones:index }
+administracion_comisiones_control:
+    path:     /administracion/panel/comisiones/control
+    defaults: { _controller: AdministracionBundle:Comisiones:control }
+administracion_comisiones_eliminar:
+    path:     /administracion/panel/comisiones/eliminar
+    defaults: { _controller: AdministracionBundle:Comisiones:eliminar }
+administracion_comisiones_guardar:
+    path:     /administracion/panel/comisiones/guardar/{id}
+    defaults: { _controller: AdministracionBundle:Comisiones:guardar, id: null }
+    
+administracion_pedido_listar:
+    path:     /administracion/panel/pedido/listar/
+    defaults: { _controller: AdministracionBundle:Pedido:listar }
+administracion_pedido_detalle:
+    path:     /administracion/panel/pedido/detalle/
+    defaults: { _controller: AdministracionBundle:Pedido:detalle }
+administracion_pedido_liberar_fondos:
+    path:     /administracion/panel/pedido/liberar-fondos
+    defaults: { _controller: AdministracionBundle:Pedido:liberarFondos }

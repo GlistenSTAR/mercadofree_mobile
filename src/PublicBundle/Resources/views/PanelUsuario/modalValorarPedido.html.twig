@@ -1,0 +1,85 @@
+<div class="modal fade" id="modalValorarPedido" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="loginLabel"><i class="fa fa-edit"></i> Calificar compra</h4>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <strong>
+                        Si ya has recibido tu pedido, califica como ha sido el proceso completo
+                    </strong>
+                </div>
+                <form action="{{ path('public_panel_usuario_valoracion_compra') }}" id="formValorarPedido" role="form" method="post">
+                    <input type="hidden" id="codPedido" name="codPedido" />
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="tiempoEntrega">Tiempo de entrega</label>
+                                <div class="row">
+                                {% for opcionValoracionTiempoEntregaPedido in opcionesValoracionTiempoEntregaPedido %}
+                                    <div class="col-xs-3">
+                                        <input class="tiempoEntregaOptions" required type="radio" name="valorTiempoEntrega" value="{{ opcionValoracionTiempoEntregaPedido.id }}"> {{ opcionValoracionTiempoEntregaPedido.detalle }}
+                                    </div>
+                                {% endfor %}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="calidadProducto">Calidad del producto</label>
+                                <div class="row">
+                                {% for opcionValoracionCalidadProductoPedido in opcionesValoracionCalidadProductoPedido %}
+                                    <div class="col-xs-2">
+                                        <input class="calidadProductoOptions" required type="radio" name="valorCalidadProducto" value="{{ opcionValoracionCalidadProductoPedido.id }}"> {{ opcionValoracionCalidadProductoPedido.detalle }}
+                                    </div>
+                                {% endfor %}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="estadoCompra">Estado de la compra</label>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <input required type="radio" name="aceptaCompra" class="btnAceptaCompra" value="Si"> Acepto mi compra como finalizada (Enviar el pago al vendedor)
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <input required type="radio" name="aceptaCompra" class="btnAceptaCompra" value="No"> No estoy satisfecho con mi compra y quiero un reembolso
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row motivo-rechazo-row" style="display: none;">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="motivoRechazo">Motivo de la solicitud de devolución</label>
+                                <div class="row">
+                                    <div class="col-xs-12">
+                                        <textarea type="text" name="motivoRechazo" maxlength="255" style="min-width: 100%"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a id="btnSubmitValorarPedido" class="btn btn-rw btn-primary">Aceptar <img id="submitEditLoading" style="display: none;" class="img-responsive" src=""></a>
+                <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
+
+            </div>
+        </div><!-- /modal content -->
+    </div><!-- /modal dialog -->
+</div><!-- /modal holder -->

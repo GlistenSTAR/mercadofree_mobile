@@ -1,0 +1,47 @@
+{% extends '::emails.html.twig' %}
+
+{%  block body %}
+    <tr>
+        <td valign="top">
+            <h2 class="h2" style="color:#444444;
+			display:block;
+			font-family:Open Sans;
+			font-size:30px;
+			font-weight: 400;
+			line-height:100%;
+			margin-top:2%;
+			margin-right:0;
+			margin-bottom:1%;
+			margin-left:0;
+			text-align:left;">Pedido calificado automáticamente</h2>
+            <br />
+            <div class="textdark" style="color: #444444;
+			font-family: Open Sans;
+			font-size: 17px;
+			line-height: 150%;
+			text-align: left;">
+                Hola {{ user_firstname }}, te enviamos este email para notificarte de que
+                tu pedido <b>{{ pedido.codigo }}</b> ha sido calificado y cerrado automáticamente, ya que
+                se ha cumplido el tiempo estipulado para que dieras tu calificación.<br/><br/>
+            </div>
+        </td>
+    </tr>
+    <tr style="background-color: #e0e0e0;">
+        <td valign="top">
+            <div class="textdark" style="color: #444444;
+			font-family: Open Sans;
+			font-size: 17px;
+			line-height: 150%;
+			text-align: left;">
+                <b>Código pedido: </b>{{ pedido.codigo }} <br/>
+                {% set detallePedido = pedido.detalle %}
+                {% if detallePedido %}
+                <b>Producto:</b> {{ detallePedido.nombre }} - {{ detallePedido.descripcion }}<br/>
+                <b>Cantidad:</b> {{ pedido.cant }} <br/>
+                {% endif %}
+            </div>
+        </td>
+    </tr>
+
+{% endblock %}
+

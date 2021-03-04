@@ -1,0 +1,356 @@
+{% extends '::publicTemplate.html.twig' %}
+
+{% block breadcrumbs %}
+    <!-- Begin Page Header -->
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <!-- Breadcrumbs -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li><span class="ion-home breadcrumb-home"></span><a href="{{ path('public_homepage') }}">Inicio</a></li>
+                        {% if buyNow is defined and buyNow %}
+                            <li>Comprar producto</li>
+                        {% else %}
+                            <li><a href="{{ path('public_cesta_listar') }}">Carrito</a></li>
+                            <li>Método de Pago</li>
+                        {% endif %}
+                    </ol>
+                </div><!-- /column -->
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </div><!-- /page header -->
+{% endblock %}
+
+{% block generalContent %}
+    <!-- Begin Content -->
+    <div class="content-40mg">
+        <div class="container">
+            {% if buyNow is defined and buyNow %}
+                {% include 'PublicBundle:Templates:stepsBuyNow.html.twig' with {'step':3} %}
+            {% else %}
+                {% include 'PublicBundle:Templates:stepsCheckout.html.twig' with {'step':3} %}
+            {% endif %}
+            <div class="row mb30">
+                <div class="col-xs-12 white-bg-shadow">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="heading mt30">
+                                <h3>Selecciona como quieres pagar</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <form id="metodoPagoForm" action="{{ path('public_cesta_metodo_pago') }}" method="post">
+                        {#{{ form_row(formFactura._token) }}#}
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    {#<li class="{{ metodoPago=='' or metodoPago=='tarjeta_credito_mercado_pago'?'active':'' }}"><a class="optionMetodoPago" data-option="tarjeta_credito_mercado_pago" href="#credit-card" role="tab" data-toggle="tab"><span class="fa fa-credit-card"></span>  Tarjeta Crédito</a></li>#}
+                                    {#<li class="{{ metodoPago!='' and metodoPago=='tarjeta_debito_mercado_pago'?'active':'' }}"><a class="optionMetodoPago" data-option="tarjeta_debito_mercado_pago" href="#debit-card" role="tab" data-toggle="tab"><span class="fa fa-credit-card"></span> Tarjeta Débito</a></li>#}
+                                    {#<li class="{{ metodoPago!='' and (metodoPago=='rapipago' or metodoPago=='pago_facil')?'active':'' }}"><a href="#efectivo" role="tab" data-toggle="tab"><span class="fa fa-money"></span> Efectivo en puntos de pago</a></li>#}
+                                    {% if buyNow is defined and buyNow %}
+                                        {% if vendedor != null and vendedor.iban != "" %}
+                                            <li>
+                                                <a href="#transferencia_bancaria" role="tab" data-toggle="tab" class="metodoPago" data-value="transferencia_bancaria">
+                                                    <span class="fa fa-money"></span> Transferencia Bancaria
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                        {% if vendedor != null and vendedor.emailPayPal != "" %}
+                                            <li>
+                                                <a href="#pago_paypal" role="tab" data-toggle="tab" class="metodoPago" data-value="pago-paypal">
+                                                    <span class="fa fa-money"></span> Pago por PayPal
+                                                </a>
+                                            </li>
+                                        {% endif %}
+                                        {% if saldoConta %}
+                                            <li>
+                                                <a href="#pago_saldo" role="tab" data-toggle="tab" class="metodoPago" data-value="pago-saldo">
+                                                    <span class="fa fa-money"></span> Pagar con saldo en cuenta
+                                                </a>
+                                            </li>
+                                        {% endif %}
+{#                                        {% if pedido.tipoEnvio.slug=='recogida-domicilio-vendedor' %}#}
+                                            <li class="active">
+                                                <a href="#pago_entrega" role="tab" data-toggle="tab" class="metodoPago" data-value="pago-entrega">
+                                                    <span class="fa fa-money"></span> Pago en la entrega del producto
+                                                </a>
+                                            </li>
+{#                                        {% endif %}#}
+                                    {% endif %}
+                                </ul>
+                                <div class="tab-content tab-pane-border">
+                                    {#<div class="tab-pane fadeIn-animated {{ metodoPago=='' or metodoPago=='tarjeta_credito_mercado_pago'?'in active':'' }}" id="credit-card">#}
+                                        {#<div class="row">#}
+                                            {#<div class="col-xs-12">#}
+                                                {#<div class="alert alert-info alert-info-rw" role="alert">#}
+                                                    {#Pagarás con tu <b>Tarjeta de Crédito</b> mediante MercadoPago, al hacer clic en <b>Finalizar</b>, en el paso 4#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                        {#</div>#}
+
+                                    {#</div>#}
+                                    {#<div class="tab-pane fadeIn-animated {{ metodoPago!='' and metodoPago=='tarjeta_debito_mercado_pago'?'in active':'' }}" id="debit-card">#}
+                                        {#<div class="row">#}
+                                            {#<div class="col-xs-12">#}
+                                                {#<div class="alert alert-info alert-info-rw" role="alert">#}
+                                                    {#Pagarás con tu <b>Tarjeta de Débito</b> mediante MercadoPago, al hacer clic en <b>Finalizar</b>, en el paso 4#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                    {#<div class="tab-pane fadeIn-animated {{ metodoPago!='' and (metodoPago=='rapipago' or metodoPago=='pago_facil')?'in active':'' }}" id="efectivo">#}
+                                        {#<div class="row">#}
+                                            {#<div class="col-xs-12">#}
+                                                {#<h4>Selecciona uno de los puntos de pago</h4>#}
+                                            {#</div>#}
+                                            {#<div class="col-sm-3 text-center">#}
+                                                {#<div style="{{ metodoPago!='' and metodoPago=='pago_facil'?'border: 2px solid #7f2272;':'' }}" class="content-box content-box-bordered">#}
+                                                    {#<a id="optPagoFacil" href="#" class="optionMetodoPago" data-option="pago_facil">#}
+                                                        {#<img style="max-width: 40%;margin: 0 auto;" class="img-responsive" src="{{ asset(directorio_imagenes_public) }}pagofacil.png">#}
+                                                    {#</a>#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                            {#<div class="col-sm-3 text-center">#}
+                                                {#<div style="{{ metodoPago!='' and metodoPago=='rapipago'?'border: 2px solid #7f2272;':'' }}" class="content-box content-box-bordered">#}
+                                                    {#<a id="optRapiPago" href="#" class="optionMetodoPago" data-option="rapipago">#}
+                                                        {#<img class="img-responsive" src="{{ asset(directorio_imagenes_public) }}rapipago.png">#}
+                                                    {#</a>#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                        {#</div>#}
+                                        {#<div class="row">#}
+                                            {#<div class="col-xs-12">#}
+                                                {#<h4>Completa los datos para tu factura</h4>#}
+                                                {#<div class="alert alert-info alert-info-rw" role="alert">#}
+                                                    {#Con esta información el vendedor completará tu factura, asegúrate que los datos estén correctos#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                            {#<div class="col-md-4 col-xs-12">#}
+                                                {#<div class="form-group">#}
+                                                    {#{{ form_label(formFactura.nombre) }}#}
+                                                    {#{{ form_errors(formFactura.nombre) }}#}
+                                                    {#{{ form_widget(formFactura.nombre) }}#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                            {#<div class="col-md-4 col-xs-12">#}
+                                                {#<div class="form-group">#}
+                                                    {#{{ form_label(formFactura.apellidos) }}#}
+                                                    {#{{ form_errors(formFactura.apellidos) }}#}
+                                                    {#{{ form_widget(formFactura.apellidos) }}#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                            {#<div class="col-xs-12 col-md-8">#}
+                                                {#<div class="form-group">#}
+                                                    {#{{ form_label(formFactura.dni) }}#}
+                                                    {#{{ form_errors(formFactura.dni) }}#}
+                                                    {#{{ form_widget(formFactura.dni) }}#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                            {#<div class="col-xs-12">#}
+                                                {#<h4>Domicilio de facturación</h4>#}
+                                            {#</div>#}
+                                            {#<div class="col-xs-12 col-md-8">#}
+                                                {#<div class="form-group">#}
+                                                    {#{{ form_label(formFactura.calle) }}#}
+                                                    {#{{ form_errors(formFactura.calle) }}#}
+                                                    {#{{ form_widget(formFactura.calle) }}#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                            {#<div class="clearfix"></div>#}
+                                            {#<div class="col-xs-12 col-md-4">#}
+                                                {#<div class="form-group">#}
+                                                    {#{{ form_label(formFactura.numero) }}#}
+                                                    {#{{ form_errors(formFactura.numero) }}#}
+                                                    {#{{ form_widget(formFactura.numero) }}#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                            {#<div class="col-xs-12 col-md-4">#}
+                                                {#<div class="form-group">#}
+                                                    {#{{ form_label(formFactura.pisoApto) }}#}
+                                                    {#{{ form_errors(formFactura.pisoApto) }}#}
+                                                    {#{{ form_widget(formFactura.pisoApto) }}#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                            {#<div class="clearfix"></div>#}
+                                            {#<div class="col-xs-12 col-md-4">#}
+                                                {#<div class="form-group">#}
+                                                    {#{{ form_label(formFactura.codPostal) }}#}
+                                                    {#{{ form_errors(formFactura.codPostal) }}#}
+                                                    {#{{ form_widget(formFactura.codPostal) }}#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                            {#<div class="col-xs-12 col-md-4">#}
+                                                {#<div class="form-group">#}
+                                                    {#{{ form_label(formFactura.provincia) }}#}
+                                                    {#{{ form_errors(formFactura.provincia) }}#}
+                                                    {#{{ form_widget(formFactura.provincia) }}#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                            {#<div class="clearfix"></div>#}
+                                            {#<div class="col-xs-12 col-md-4">#}
+                                                {#<div class="form-group">#}
+                                                    {#{{ form_label(formFactura.localidad) }}#}
+                                                    {#{{ form_errors(formFactura.localidad) }}#}
+                                                    {#{{ form_widget(formFactura.localidad) }}#}
+                                                {#</div>#}
+                                            {#</div>#}
+                                        {#</div>#}
+                                    {#</div>#}
+                                    {% if buyNow is defined and buyNow %}
+                                        {% if vendedor != null and vendedor.iban != "" %}
+                                            <div class="tab-pane fadeIn-animated" id="transferencia_bancaria">
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <div class="alert alert-info alert-info-rw" role="alert">
+                                                            Pagarás mediante <b>Transferencia Bancaria</b> a la siguiente cuenta:
+                                                        </div>
+                                                        <h2>{{ vendedor.iban }}</h2>
+                                                        <p>Asegúrate de indicar en las observaciones al realizar la transferencia, el <b>código de tu pedido: {{ codPedido }}</b></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                        {% if vendedor != null and vendedor.emailPayPal != "" %}
+                                            <div class="tab-pane fadeIn-animated" id="pago_paypal">
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <div class="alert alert-info alert-info-rw" role="alert">
+                                                            Pagarás mediante <b>PayPal</b>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                        {% if saldoConta %}
+                                            <div class="tab-pane fadeIn-animated" id="pago_saldo">
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <div class="alert alert-info alert-info-rw" role="alert">
+                                                            Pagarás con tu <b>Saldo Mercadofree</b>
+                                                        </div>
+                                                        <p><b>Saldo disponible: $ {{ saldo | number_format(2) }}</b></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+{#                                        {% if pedido.tipoEnvio.slug=='recogida-domicilio-vendedor' %}#}
+                                            <div class="tab-pane fadeIn-animated in active" id="pago_entrega">
+                                                <div class="row">
+                                                    <div class="col-xs-12">
+                                                        <div class="alert alert-info alert-info-rw" role="alert">
+                                                            Si seleccionas este método de pago, se le notificará al vendedor que el pago lo realizarás una vez recojas el producto
+                                                            en su domicilio, o te sea entregado por el repartidor, según el caso.
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+{#                                        {% endif %}#}
+                                    {% endif %}
+                                </div>
+                                {#{{ form_widget(formFactura.metodoPago) }}#}
+                            </div>
+                        </div>
+
+                        <div class="row mb30">
+                            <div class="col-sm-12 text-right mt10">
+                                {% if buyNow is defined and buyNow %}
+                                    <a href="{{ path('public_cesta_envio') }}?buyNow=1&idProducto={{ idProducto }}" class="btn btn-rw btn-primary btn-lg"><i class="ion-ios7-arrow-left"></i> Atrás</a>
+                                    {#<a id="btnPagoNext" href="{{ path('public_cesta_resumen') }}?buyNow=1&idProducto={{ idProducto }}" class="btn btn-rw btn-primary btn-lg">Siguiente <i class="ion-ios7-arrow-right"></i></a>#}
+                                    <a id="btnPagoNext" href="#" class="btn btn-rw btn-primary btn-lg">Siguiente <i class="ion-ios7-arrow-right"></i></a>
+                                {% else %}
+                                    <a href="{{ path('public_cesta_envio') }}" class="btn btn-rw btn-primary btn-lg"><i class="ion-ios7-arrow-left"></i> Atrás</a>
+                                    <a id="btnPagoNext" href="{{ path('public_cesta_resumen') }}" class="btn btn-rw btn-primary btn-lg">Siguiente <i class="ion-ios7-arrow-right"></i></a>
+                                {% endif %}
+                            </div>
+                        </div>
+
+                        {% if buyNow is defined and buyNow %}
+                            <input type="hidden" id="buyNow" name="buyNow" value="{{ buyNow }}">
+                            <input type="hidden" id="idProducto" name="idProducto" value="{{ idProducto }}">
+                        {% endif %}
+
+                        <input type="hidden" id="metodoPagoSelected" name="metodoPagoSelected"
+                               value="{{ metodoPago is defined and metodoPago!=null and metodoPago!=''?metodoPago:'recogida-domicilio-vendedor' }}">
+
+                    </form>
+
+                    {% if buyNow is defined and buyNow %}
+                        <input type="hidden" id="urlResumen" value="{{ path('public_cesta_resumen') }}?buyNow={{ buyNow }}&idProducto={{ idProducto }}">
+                    {% else %}
+                        <input type="hidden" id="urlResumen" value="{{ path('public_cesta_resumen') }}">
+                    {% endif %}
+                </div>
+            </div>
+
+        </div><!-- /container -->
+    </div><!-- /content -->
+    <!-- End Content -->
+
+{% endblock %}
+{% block javascripts %}
+    <!-- jQuery Files -->
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery-2.1.4.min.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/public/js/waitMe/waitMe.min.js') }}"></script>
+
+    <!-- Royal Preloader -->
+    <script type="text/javascript" src="{{ asset('bundles/public/js/royal_preloader.min.js') }}"></script>
+
+    <!-- Javascript Files -->
+    <script type="text/javascript" src="{{ asset('bundles/public/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.easing.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.mixitup.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/scrollReveal.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/owl.carousel.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.magnific-popup.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.snippet.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.fitvids.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/activate-snippet.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/skrollr.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/bootstrap-select.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/public/js/main.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.validate.min.js') }}"></script>
+
+    <script src="{{ asset('bundles/public/js/Validators/validatorConfPagoCesta.js') }}"></script>
+    <script src="{{ asset('bundles/public/js/metodoPagoCesta.js') }}"></script>
+
+    <!-- On Scroll Animations - scrollReveal.js -->
+    <script>
+        var config = {
+            easing: 'hustle',
+            mobile:  true,
+            delay:  'onload'
+        }
+        window.sr = new scrollReveal( config );
+
+        // Bootstrap Select
+        //$(".colecciones-home-select").selectpicker();
+    </script>
+
+
+    <!-- Slider Revolution Main -->
+    <script type="text/javascript">
+            function wait(container){
+                $(container).waitMe({
+                    effect: 'facebook',
+                    text: 'Por favor, espere...',
+                    bg: 'rgba(255,255,255,0.7)',
+                    color:'#000',
+                    sizeW:'',
+                    sizeH:'',
+                    source: 'img.svg',
+                    onClose: function() {}
+                });
+            }
+
+            function endWait(container){
+                $(container).waitMe('hide');
+            }
+
+    </script>
+
+
+{% endblock %}

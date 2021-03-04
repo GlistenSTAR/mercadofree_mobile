@@ -1,0 +1,29 @@
+<div class="modal fade" id="modalProductoAnnadido" tabindex="-1" role="dialog" aria-labelledby="largeModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="largeModalLabel"><i class="fa fa-shopping-cart"></i> Producto añadido al carrito</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row mt20">
+                    <div class="col-xs-4">
+                        <img class="img-responsive productImg" src="">
+                    </div>
+                    <div class="col-xs-8">
+                        <h2 id="productTitle"></h2>
+                        <h4 style="font-size: 24px;" id="productPrice"></h4>
+                        <h4 id="productQty"></h4>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12" style="text-align: center;">
+                        <hr/>
+                        <a type="button" data-dismiss="modal" class="btn btn-lg btn-primary">Seguir comprando</a>
+                        <a type="button" href="{{ path('public_cesta_listar') }}" class="btn btn-lg btn-default">Ver carrito</a>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /modal content -->
+    </div><!-- /modal dialog -->
+</div><!-- /modal holder -->

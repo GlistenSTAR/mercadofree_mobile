@@ -1,0 +1,103 @@
+{% extends '::adminTemplate.html.twig' %}
+
+{% block mainMenu %}
+    {% include 'AdministracionBundle:Templates:mainMenu.html.twig' with {'page':'solicitud-retiro'} %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% include 'AdministracionBundle:Templates:breadcrumbs.html.twig' with {'items':[
+    {'raiz':true,'title':'Solicitud de Retiro','href':'#'},
+    ]} %}
+{% endblock %}
+
+{% block titulo %}<i class="fa fa-users"></i> Listado de Solicitudes de Retiro{% endblock %}
+{% block subTitulo %}Edición de las solicitudes de retiro de la Plataforma{% endblock %}
+{% block generalContent %}
+    <div class="content animate-panel">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="hpanel">
+                    <div class="panel-body">
+                        <table id="example1" class="display table table-bordered" data-url="{{ path('administracion_solicitudretiro_listar') }}">
+                            <thead>
+                            <tr>
+                                <th style="width:50px;"><input type="checkbox" id="selectAllSolicitudRetiro"/></th>
+                                <th>Fecha</th>
+                                <th>Email PayPal</th>
+                                <th>Monto</th>
+                                <th>Estado</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot>
+                            <button type="button" id="aprobarSolicitudRetiro" 
+                                    class="buttonDataTable btn btn-success" disabled 
+                                    style="margin-right: 5px;padding: 5px; margin-bottom: 10px;"
+                                    data-url="{{ path('administracion_solicitudretiro_aprobar') }}">
+                                <i class="fa fa-plus-circle"></i> Aprobar
+                            </button>
+                            <button type="button" id="rechazarSolicitudRetiro" 
+                                    class="buttonDataTable btn btn-danger" disabled  
+                                    style="margin-right: 5px;padding: 5px; margin-bottom: 10px;">
+                                <i class="fa fa-minus-circle"></i> Rechazar
+                            </button>
+                            <button type="button" id="verSolicitudRetiro" 
+                                    class="buttonDataTable btn btn-primary" disabled 
+                                    style="margin-right: 5px;padding: 5px; margin-bottom: 10px;"
+                                    data-url="{{ path('administracion_solicitudretiro_detalle') }}">
+                                <i class="fa fa-edit"></i> Ver Detalles
+                            </button>
+                            <button type="button" id="reintentarSolicitudRetiro" 
+                                    class="buttonDataTable btn btn-primary" disabled  
+                                    style="padding: 5px; margin-bottom: 10px;"
+                                    data-url="{{ path('administracion_solicitudretiro_reintentar_pago') }}">
+                                <i class="fa fa-refresh"></i> Reintentar Pago
+                            </button>
+                            <div id="successAlert" class="alert alert-success" role="alert" style="display: none;">
+                            </div>
+                            <div id="warningAlert" class="alert alert-warning" role="alert" style="display: none;">
+                            </div>
+                            </tfoot>
+                        </table>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    <a id="aModalRechazarSolicitudRetiro" style="visibility: hidden"  class=""  href="#modalRechazarSolicitudRetiro"  data-toggle="modal" ><i class="fa fa-edit"></i> Rechazar</a>
+    <a id="aModalDetalleSolicitudRetiro" style="visibility: hidden"  class="" href="#modalDetalleSolicitudRetiro"  data-toggle="modal" ><i class="fa fa-edit"></i>Detalle</a>
+    {% include 'AdministracionBundle:SolicitudRetiro:modalRechazar.html.twig'%}
+    {% include 'AdministracionBundle:SolicitudRetiro:modalDetalle.html.twig'%}
+
+{% endblock  %}
+
+{% block customScripts %}
+
+    <!-- Vendor scripts -->
+
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery-ui.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.slimscroll.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/metisMenu.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/metisMenu.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/icheck.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/sparkline/index.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/index.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/dataTables.bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap.min.js') }}"></script>
+
+
+    <!-- App scripts -->
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/homer.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/vue.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/vue-resource.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/administracionSolicitudRetiro.js') }}"></script>
+
+{% endblock %}

@@ -1,0 +1,132 @@
+<div class="modal fade" id="modalEditarCategoria" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="loginLabel"><i class="fa fa-edit"></i> Editar Categoría</h4>
+            </div>
+            <div class="modal-body" >
+                <form role="form" id="formEditarCategoria" action="{{ path('administracion_categoria_editar') }}" method="post">
+                    <div class="row">
+                        <div class="col-lg-12" id="containerEditarCategoria">
+                            <div class="row">
+                                <div class="hpanel">
+                                    <div class="page-heading" style="padding: 10px;"> <i class="fa fa-pencil"></i> Categoría a Editar</div>
+                                    <div class="panel-body">
+                                        <div class="row" >
+                                            <div class="col-lg-10">
+                                                <div class="form-group">
+                                                    <label for="nombreCategoriaEditar">Nombre<span class="required">*</span></label>
+                                                    <input required="required" class="form-control" type="text" name="nombreCategoriaEditar" id="nombreCategoriaEditar">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2">
+                                                <div class="form-group">
+                                                    <label for="nivelCategoriaEditar">Nivel <span class="required">*</span></label>
+                                                    <select required="required" name="nivelCategoriaEditar" id="nivelCategoriaEditar" class="form-control">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" >
+                                            <div class="col-lg-10">
+                                                <div class="form-group">
+                                                    <label for="iconoCategoriaEditar">Icono<span class="required">*</span></label>
+                                                    <input required="required" class="form-control" data-trigger="editar" type="text" name="iconoCategoriaEditar" id="iconoCategoriaEditar">
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-2" style="padding-top: 27px;text-align: center;">
+                                                <i id="iconoContainerCategoriaEditar" style="font-size: 24px;"></i>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-10">
+                                                <div class="form-group">
+                                                    <label for="tiempoExpiracionEditar">Tiempo de expiración de publicaciones<span class="required">*</span></label>
+                                                    <input required="required" class="form-control" data-trigger="editar" type="text" name="tiempoExpiracionEditar" id="tiempoExpiracionEditar">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-lg-10">
+                                                <input required="required" class="form-control addcarac" type="text" name="nombreCaracteristicaAdicionarEditar" id="nombreCaracteristicaAdicionarEditar" placeholder="Agregar Caracteristica" disabled="true" >
+                                            </div>
+                                            <div class="col-md-2">
+                                                   <input type="button" id="nuevaCaracteristicaEditar" value="Adicionar" class="buttonDataTable addcarac" style="padding: 4px;" disabled="true" />
+                                            </div>
+                                        </div>
+                                        <div class="row" id="containerCaracteristicaEditar"></div>
+                                </div>
+                            </div>
+                            </div>
+
+                            <div class="row" id="rowPadre">
+                                <div class="hpanel" >
+                                    <div class="page-heading" style="padding: 10px;"> <i class="fa fa-archive"></i> Categoría Padre</div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label for="nombreCategoriaPadre">Nombre<span class="required">*</span></label>
+                                                    <select required="required" name="nombreCategoriaPadre" id="nombreCategoriaPadre" class="form-control">
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="nivelCategoriaPadre">Nivel<span class="required">*</span></label>
+                                                    <input disabled="true" required="required" class="form-control" type="text" name="nivelCategoriaPadre" id="nivelCategoriaPadre">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row" id="containerCaracteristicaPadreEditar"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row" hidden id="rowHija">
+                                <div class="hpanel">
+                                    <div class="page-heading" style="padding: 10px;"> <i class="fa fa-archive"></i> Categoría Hija</div>
+                                    <div class="panel-body">
+                                        <div class="row">
+                                            <div class="col-md-10">
+                                                <div class="form-group">
+                                                    <label for="nombreCategoriaHija">Nombre<span class="required">*</span></label>
+                                                    <select required="required" name="nombreCategoriaHija" id="nombreCategoriaHija" class="form-control">
+
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="form-group">
+                                                    <label for="nivelCategoriaHija">Nivel<span class="required">*</span></label>
+                                                    <input disabled="true" required="required" class="form-control" type="text" name="nivelCategoriaHija" id="nivelCategoriaHija">
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                         </div>
+                    </div>
+                    <input type="hidden" name="idCategoria" id="idCategoria" value="">
+                    <input type="hidden" name="idCategoriaPadre" id="idCategoriaPadre" value="">
+                    <input type="hidden" name="editarCategoria" id="editarCategoria" value="true">
+                    <input type="hidden" name="nivelAntesEditar" id="nivelAntesEditar" value="">
+                </form>
+
+             </div>
+
+            <div class="modal-footer">
+                <a id="btnSubmitCategoriaEditar" class="btn btn-rw btn-primary">Aceptar <img id="submitEditLoading" style="display: none;" class="img-responsive" src="spinner.gif"></a>
+                <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
+
+            </div>
+        </div><!-- /modal content -->
+    </div><!-- /modal dialog -->
+</div><!-- /modal holder -->
+<!-- End Register -->

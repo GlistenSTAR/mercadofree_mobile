@@ -1,0 +1,205 @@
+{% extends '::publicPanelUsuario.html.twig' %}
+
+{% block breadcrumbPanelUsuario %}
+    <li><a href="{{ path('public_panel_usuario_ventas') }}">Ventas</a></li>
+    <li>{{ pedido.codigo }}</li>
+{% endblock %}
+
+{% block menuPanelUsuario %}
+    {% include 'PublicBundle:Templates:menuPanelUsuario.html.twig' with {'page':'pedidos_vendedor'} %}
+{% endblock %}
+
+{% block headerCenterContent %}
+    <h4>Detalles del pedido <b>{{ pedido.codigo }}</b></h4>
+{% endblock %}
+
+{% block centerContent %}
+    <div class="col-xs-12">
+        <div class="content-box content-box-bordered" style="padding: 20px 10px;">
+            <div class="row">
+                <div class="col-xs-6" style="text-align: left">
+                    <p>Código: <b>{{ pedido.codigo }}</b></p>
+                    <p>Estado: <b>{{ pedido.estado.nombre }}</b></p>
+                </div>
+                <div class="col-xs-6" style="text-align: left">
+                    <p>Fecha: <b>{{ pedido.fecha|date('d/m/Y') }}</b></p>
+                    <p>Método de Pago: <b>{{ pedido.metodoPago!=null?pedido.metodoPago.nombre:'--' }}</b></p>
+                    {% if pedido.metodoPago!=null and (pedido.metodoPago.slug=='rapipago' or pedido.metodoPago.slug=='pago_facil') %}
+                        <a class="btn btn-primary btn-sm" href="#modalDetalleFactura" data-toggle="modal"><i class="fa fa-edit"></i> Ver Factura</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {#<div class="col-xs-12" >
+        <div class="heading mb30">
+            <h5>Información del comprador</h5>
+        </div>
+    </div>
+
+    <div class="col-xs-12">
+        <div class="content-box content-box-bordered" style="padding: 20px 10px;">
+            <div class="row">
+                <div class="col-xs-12" style="text-align: left">
+                    <p>Nombre: <b>{{ pedido.usuario.clienteid.nombre }}</b></p>
+                    <p>Apellidos: <b>{{ pedido.usuario.clienteid.apellidos }}</b></p>
+                    <p>Email: <b>{{ pedido.usuario.email }}</b></p>
+                </div>
+            </div>
+        </div>
+    </div>#}
+
+    {% if pedido.tipoEnvio != null and (pedido.tipoEnvio.slug=='envio-gratis' or pedido.tipoEnvio.slug=='envio-domicilio-vendedor') %}
+        <div class="col-xs-12" >
+            <div class="heading mb30">
+                <h5>Dirección de Envío</h5>
+            </div>
+        </div>
+
+        <div class="col-xs-12">
+            <div class="content-box content-box-bordered" style="padding: 20px 10px;">
+                <div class="row">
+                    <div class="col-xs-12" style="text-align: left">
+                        <p>{{ pedido.direccionEnvio.getFormatedDir('direccion-compra-envio') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    <div class="col-xs-12" >
+        <div class="heading mb30">
+            <h5>Productos</h5>
+        </div>
+    </div>
+
+    <div class="col-xs-12 mt10">
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th>Producto</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>Total</th>
+            </tr>
+            </thead><!-- /table header -->
+            <tbody id="tableBody">
+            {% if pedido.producto!=null %}
+                <tr>
+                    <td width="55%">
+                        <table>
+                            <tr>
+                                <td width="17%" style="padding-right: 5px"><img class="img-responsive" src="{{ asset(uploads_images_productos)~pedido.producto.getImagenDestacada }}"></td>
+                                <td>
+                                    <a href="#">{{ pedido.detalle != null ? pedido.detalle.nombre : pedido.producto.nombre }}</a>
+                                    <p>$ {{ pedido.detalle != null ? pedido.detalle.precio|number_format(2,',','.') : pedido.producto.precio|number_format(2,',','.') }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>$ {{ pedido.detalle != null ? pedido.detalle.precio|number_format(2,',','.') : pedido.producto.precio|number_format(2,',','.') }}</td>
+                    <td>{{ pedido.cant }}</td>
+                    <td>
+                        {% if pedido.detalle != null %}
+                            $ {{ (pedido.detalle.precio * pedido.cant)|number_format(2,',','.') }}
+                        {% else %}
+                            $ {{ (pedido.producto.precio * pedido.cant)|number_format(2,',','.') }}
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                {% for cesta in pedido.cestas %}
+                    <tr>
+                        <td width="55%">
+                            <table>
+                                <tr>
+                                    <td width="17%" style="padding-right: 5px"><img class="img-responsive" src="{{ asset(uploads_images_productos)~cesta.producto.getImagenDestacada }}"></td>
+                                    <td>
+                                        <a href="#">{{ cesta.producto.nombre }}</a>
+                                        <p>$ {{ cesta.producto.precio|number_format(2,',','.') }}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                        <td>$ {{ cesta.producto.precio|number_format(2,',','.') }}</td>
+                        <td>{{ cesta.cantidad }}</td>
+                        <td>
+                            $ {{ (cesta.producto.precio * cesta.cantidad)|number_format(2,',','.') }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+            <tr>
+                <td colspan="3"><b>Subtotal</b></td>
+                <td>$ {{ pedido.subtotal | number_format(2,',','.') }}</td>
+            </tr>
+            {% if pedido.tipoEnvio != null and pedido.costoEnvio != null and pedido.costoEnvio > 0 %}
+                <tr>
+                    <td colspan="3"><b>{{ pedido.tipoEnvio.nombre }}</b></td>
+                    <td>$ {{ pedido.costoEnvio|number_format(2,',','.') }}</td>
+                </tr>
+            {% endif %}
+            <tr>
+                <td colspan="3"><b>Total</b></td>
+                <td><b>$ {{ pedido.getTotal()|number_format(2,',','.') }}</b></td>
+            </tr>
+            </tbody><!-- /table body -->
+        </table><!-- /hover table -->
+
+    </div>
+                
+    <div class="col-xs-12" >
+        <div class="heading mb30">
+            <h5>Seguimiento</h5>
+        </div>
+    </div>
+                
+    <div class="col-xs-12 mt10">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Estado</th>
+                    <th class="text-center">Modificado por Administración</th>
+                </tr>
+            </thead><!-- /table header -->
+            <tbody id="tableBody">
+            {% if pedido.historicosEstadoPedido is not empty %}
+                {% for historicoEstadoPedido in pedido.historicosEstadoPedido %}
+                <tr>
+                    <td>{{ historicoEstadoPedido.fecha|date('d/m/Y H:i') }} </td>
+                    <td>{{ historicoEstadoPedido.estadoPedido.nombre }} </td>
+                    <td class="text-center">
+                        <span class="nav-label"><i class="fa {% if historicoEstadoPedido.modificadoPorAdmin %}fa-check{% else %}fa-times{% endif %}"></i></span>
+                    </td>
+                </tr>
+                {% endfor %}
+            {% endif %}
+            </tbody><!-- /table body -->
+        </table><!-- /hover table -->
+
+    </div>
+{% endblock %}
+
+{% block includes %}
+    <div class="row">
+        <div class="col-xs-12">
+            {% if pedido.factura!=null %}
+                {% include 'PublicBundle:PanelUsuario:modalDetalleFactura.html.twig' %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block hiddensPanelUsuario %}
+    <input type="hidden" id="usuarioid" value="{{ app.user.id }}">
+
+    <input type="hidden" id="urlModificarCampanna" value="{{ path('public_campanna_estado') }}">
+    <input type="hidden" id="urlAgregarProductos" value="{{ path('public_anuncio_obtener') }}">
+    <input type="hidden" id="urlMostrarProductos" value="{{ path('public_anuncio_nocampanna') }}">
+    <input type="hidden" value="{{ path('public_anuncio_pausado') }}" id="urlPausarProductos">
+    <input type="hidden" value="{{ path('public_anuncio_eliminar') }}" id="urlEliminarProductos">
+    <input type="hidden" name="img-route" id="img-route" value="{{ asset(uploads_images_productos) }}">
+
+{% endblock %}

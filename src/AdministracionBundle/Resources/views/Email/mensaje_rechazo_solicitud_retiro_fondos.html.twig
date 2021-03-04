@@ -1,0 +1,37 @@
+{% extends '::emails.html.twig' %}
+
+{%  block body %}
+    <tr>
+        <td valign="top">
+            <h2 class="h2" style="color:#444444;
+			display:block;
+			font-family:Open Sans;
+			font-size:30px;
+			font-weight: 400;
+			line-height:100%;
+			margin-top:2%;
+			margin-right:0;
+			margin-bottom:1%;
+			margin-left:0;
+			text-align:left;">Rechazo de Solicitud de Retiro de Fondos</h2>
+            <br />
+            <div class="textdark" style="color: #444444;
+			font-family: Open Sans;
+			font-size: 17px;
+			line-height: 150%;
+			text-align: left;">
+                Su solicitud de Retiro de Fondos ha sido rechazada:<br/><br/>
+                {% if motivo %}
+                    Motivo: {{ motivo }}<br/><br/>
+                {% endif %}
+                Usuario: {{ usuario.clienteid }}<br/>
+                Cuenta PayPal: {{ solicitudRetiro.emailPaypal }}<br/>
+                Fecha: {{ solicitudRetiro.fecha | date("d/m/Y H:i") }}<br/>
+                Monto: {{ solicitudRetiro.monto | number_format(2, '.', ',') }}<br/>
+                Estado de la solicitud: {{ solicitudRetiro.estadoSolicitudRetiro }}<br/>
+            </div>
+        </td>
+    </tr>
+
+{% endblock %}
+

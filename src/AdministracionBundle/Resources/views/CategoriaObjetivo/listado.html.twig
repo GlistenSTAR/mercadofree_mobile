@@ -1,0 +1,93 @@
+{% extends '::adminTemplate.html.twig' %}
+
+{% block mainMenu %}
+    {% include 'AdministracionBundle:Templates:mainMenu.html.twig' with {'page':'categorias-objetivos'} %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% include 'AdministracionBundle:Templates:breadcrumbs.html.twig' with {'items':[
+    {'raiz':false,'title':'Categorías de Objetivo','href':'#'},
+    {'raiz':true,'title':'Listado de Categorías de Objetivos'}
+    ]} %}
+{% endblock %}
+
+{% block titulo %}<i class="fa fa-tag"></i> Listado de Categorías de Objetivos{% endblock %}
+{% block subTitulo %}Edición de los categorías de objetivos de la Plataforma{% endblock %}
+{% block generalContent %}
+    <div class="content animate-panel">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="hpanel">
+                    {#<div class="panel-heading">
+                    <div class="panel-tools">
+                        <a class="showhide"><i class="fa fa-chevron-up"></i></a>
+                        <a class="closebox"><i class="fa fa-times"></i></a>
+                    </div>
+
+                </div>#}
+                    <div class="panel-body">
+                        <table id="example1" class="display table table-bordered">
+                            <thead>
+                            <tr>
+                                <th style="width:50px;"><input type="checkbox" id="selectAllCategoriaObjetivo"/></th>
+                                <th style="width:150px;">Nombre</th>
+
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                            <tfoot>
+                            <button type="button" id="editarCategoriaObjetivo" class="buttonDataTable btn btn-primary" disabled  style="margin-right: 5px;padding: 5px; margin-bottom: 10px;"><i class="fa fa-edit"></i> Editar</button>
+
+                            </tfoot>
+                        </table>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    <a id="modalEditarCategoriaObjetivoA"  class="" style="visibility: hidden" href="#modalEditarCategoriaObjetivo"  data-toggle="modal" ><i class="fa fa-edit"></i> DDD</a>
+    {% include 'AdministracionBundle:CategoriaObjetivo:modalEditar.html.twig'%}
+    <input type="hidden" value="{{ path('administracion_categoriaObjetivo_listar') }}" id="urlListar">
+    <input type="hidden" value="{{ path('administracion_categoriaObjetivo_editar') }}" id="urlEditar">
+
+
+{% endblock  %}
+
+{% block customScripts %}
+
+<!-- Vendor scripts -->
+
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery-ui.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.slimscroll.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/metisMenu.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/metisMenu.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/icheck.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/sparkline/index.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/index.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.dataTables.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/dataTables.bootstrap.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap.min.js') }}"></script>
+
+<!-- App scripts -->
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/homer.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/vue.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/vue-resource.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('bundles/administracion/js/administracionCategoriaObjetivo.js') }}"></script>
+
+    <script>
+        $('#fechaRegistroAdicionarUsuario').datepicker({
+            format: "dd/mm/yyyy",
+            autoclose: true
+        });
+
+
+
+    </script>
+{% endblock %}

@@ -1,0 +1,1 @@
+ALTER TABLE movimiento_cuenta ADD COLUMN payment_id INT NULL;

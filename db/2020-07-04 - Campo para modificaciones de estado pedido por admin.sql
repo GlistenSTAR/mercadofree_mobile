@@ -1,0 +1,1 @@
+ALTER TABLE historico_estado_pedido ADD COLUMN modificado_por_admin tinyint(1) NOT NULL DEFAULT false;

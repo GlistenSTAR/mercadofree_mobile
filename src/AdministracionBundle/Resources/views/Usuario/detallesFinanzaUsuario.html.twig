@@ -1,0 +1,85 @@
+{% extends '::adminTemplate.html.twig' %}
+
+{% block mainMenu %}
+    {% include 'AdministracionBundle:Templates:mainMenu.html.twig' with {'page':'usuarios'} %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    {% include 'AdministracionBundle:Templates:breadcrumbs.html.twig' with {'items':[
+    {'raiz':false,'title':'Usuario','href':'#'},
+    {'raiz':false,'title':'Detalles del Usuario','href':'#'},
+    {'raiz':true,'title':'Detalle movimiento cuenta'}
+    ]} %}
+{% endblock %}
+
+{% block titulo %}Detalles del Usuario{% endblock %}
+{% block subTitulo %}Detalles del movimiento de cuenta seleccionado.{% endblock %}
+{% block generalContent %}
+    <div class="content animate-panel">
+        <div class="row">
+            <div class="hpanel">
+                <div class="panel-body">
+                    <div class="row" >
+                        <div class="col-xs-12">
+                            <div class="content-box content-box-bordered" style="padding: 20px 10px;">
+                                <div class="row">
+                                    <div class="col-xs-6" style="text-align: left">
+                                        <p>Referencia: <b>{{ movimiento.referencia }}</b></p>
+                                        <p>Monto: <b>$ {{ movimiento.monto | number_format(2, '.', ',') }}</b></p>
+                                        <p>Concepto: <b>{{ movimiento.ConceptoMovimientoCuentaid.nombre }}</b></p>
+                                        <p>Tipo: <b>{{ movimiento.tipo }}</b></p>
+                                    </div>
+                                    <div class="col-xs-6" style="text-align: left">
+                                        <p>Fecha: <b>{{ movimiento.fecha.date | date("d-m-Y") }}</b></p>
+                                        <p>Hora: <b>{{ movimiento.fecha.date | date("H:i") }}</b></p>
+                                        <p>Referencia Externa: <b>{{ movimiento.refexterna }}</b></p>
+                                        {% if movimiento.pedidoid %}
+                                            {% set pedido = movimiento.pedidoid %}
+                                            <p>Pedido: {{ movimiento.pedidoid.codigo }}</p>
+                                            {#{% if pedido.usuario == usuario %}
+                                                <p>Pedido: <a href="{{ path('public_panel_usuario_compras_detalle',{'codPedido':movimiento.pedidoid.codigo}) }}">{{ movimiento.pedidoid.codigo }}</a></p>
+                                            {% else %}
+                                                <p>Pedido: <a href="{{ path('public_panel_usuario_ventas_detalle',{'codPedido':movimiento.pedidoid.codigo}) }}">{{ movimiento.pedidoid.codigo }}</a></p>
+                                            {% endif %}#}
+                                        {% endif %}
+                                        <p></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <input type="hidden" value="{{ path('administracion_usuario_listar') }}" id="urlListar">
+    <input type="hidden" value="{{usuario.id}}" id="idUsuario">
+
+{% endblock  %}
+
+{% block customScripts %}
+
+    <!-- Vendor scripts -->
+
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery-ui.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.slimscroll.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/metisMenu.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/metisMenu.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/icheck.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/sparkline/index.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/index.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/jquery.dataTables.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/dataTables.bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap.min.js') }}"></script>
+
+    <!-- App scripts -->
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/homer.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/vue.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/vue-resource.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/bootstrap-datepicker.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/administracion/js/administracionUsuario.js') }}"></script>
+
+{% endblock %}

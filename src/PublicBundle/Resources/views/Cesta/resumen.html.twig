@@ -1,0 +1,341 @@
+{% extends '::publicTemplate.html.twig' %}
+
+{% block breadcrumbs %}
+    <!-- Begin Page Header -->
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <!-- Breadcrumbs -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li><span class="ion-home breadcrumb-home"></span><a href="{{ path('public_homepage') }}">Inicio</a></li>
+                        {% if buyNow is defined and buyNow %}
+                            <li>Comprar producto</li>
+                        {% else %}
+                            <li><a href="{{ path('public_cesta_listar') }}">Carrito</a></li>
+                            <li>Resumen</li>
+                        {% endif %}
+                    </ol>
+                </div><!-- /column -->
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </div><!-- /page header -->
+{% endblock %}
+
+{% block generalContent %}
+    
+    
+    <!-- Begin Content -->
+    <div class="content-40mg">
+        <div class="container">
+            {% if buyNow is defined and buyNow %}
+                {% include 'PublicBundle:Templates:stepsBuyNow.html.twig' with {'step':4} %}
+            {% else %}
+                {% include 'PublicBundle:Templates:stepsCheckout.html.twig' with {'step':4} %}
+            {% endif %}
+            <div class="row mb30">
+                <div class="col-xs-12 white-bg-shadow">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="heading mt30">
+                                <h3>Resumen</h3>
+                            </div>
+                        </div>
+                    </div>
+                    {% if app.session.flashBag.has('danger') %}
+                    <div class="row">
+                        <div class="col-xs-12 col-md-10 col-md-offset-1">
+                            <div class="alert alert-danger">
+                                {% for msg in app.session.flashBag.get('danger') %}
+                                    {{ msg }}
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-sm-12">
+                            {% if not buyNow %}
+                                <h4>Revisa tus productos</h4>
+                            {% endif %}
+                            <div class="table-responsive no-margin">
+                                <table class="table cart-table table-striped">
+                                    <thead>
+                                    <tr>
+                                        <th>Producto</th>
+                                        <th>Precio</th>
+                                        <th>Cantidad</th>
+                                        <th class="total-title">Total</th>
+                                    </tr>
+                                    </thead><!-- /table header -->
+                                    <tbody>
+                                    {% if buyNow is defined and buyNow %}
+                                        <tr>
+                                            <td>
+                                                <table>
+                                                    <tr>
+                                                        <td style="width: 10%;">
+                                                            <img class="img-responsive" src="{{ asset(uploads_images_productos) }}{{ pedido.producto.getImagenDestacada() }}">
+                                                        </td>
+                                                        <td style="padding-left: 15px;" valign="top">
+                                                            <a href="{{ path('public_anuncio_detalles',{'slug':pedido.producto.slug}) }}" class="product-name">{{ pedido.producto.nombre }}</a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                            <td style="font-weight: normal;" class="cart-price">${{ pedido.producto.getPrecioOferta() }}</td>
+                                            <td>
+                                                <input type="text" disabled class="form-control cart-quantity" value="{{ pedido.cant }}">
+                                            </td>
+                                            <td style="font-weight: normal;" class="cart-total">
+                                                {% set subtotal=(pedido.cant*pedido.producto.getPrecioOferta()) %}
+                                                $ {{ subtotal }}
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        {% for cesta in cestas %}
+                                            <tr>
+                                                <td>
+                                                    <table>
+                                                        <tr>
+                                                            <td style="width: 10%;">
+                                                                <img class="img-responsive" src="{{ asset(uploads_images_productos) }}{{ cesta.producto.getImagenDestacada() }}">
+                                                            </td>
+                                                            <td style="padding-left: 15px;" valign="top">
+                                                                <a href="{{ path('public_anuncio_detalles',{'slug':cesta.producto.slug}) }}" class="product-name">{{ cesta.producto.nombre }}</a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                                <td style="font-weight: normal;" class="cart-price">${{ cesta.producto.getPrecioOferta() }}</td>
+                                                <td>
+                                                    <input type="text" disabled class="form-control cart-quantity" value="{{ cesta.cantidad }}">
+                                                </td>
+                                                <td style="font-weight: normal;" class="cart-total">
+                                                    {% set subtotal=(cesta.cantidad*cesta.producto.getPrecioOferta()) %}
+                                                    $ {{ subtotal }}
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <tr>
+                                        <td class="subtotal" colspan="3">Subtotal</td>
+                                        <td style="font-weight: normal;" class="cart-total">${{ pedido.subtotal|number_format(2) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="3">
+                                            <label>{{ pedido.tipoEnvio.nombre }}</label>
+                                        </td>
+                                        <td style="font-weight: normal;" class="cart-total">
+                                            ${{ pedido.costoEnvio|number_format(2) }}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="subtotal" colspan="3">Total</td>
+                                        <td class="cart-total">${{ (pedido.subtotal+pedido.costoEnvio)|number_format(2) }}</td>
+                                    </tr>
+                                    </tbody><!-- /table body -->
+                                </table><!-- /basic table -->
+                            </div>
+                        </div>
+                        {% if not buyNow %}
+                            <div class="col-xs-12 mt20">
+                                <a class="btn btn-primary" href="{{ path('public_cesta_listar') }}"><i class="fa fa-edit"></i> Modificar</a>
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+                    <div class="row mt30">
+                        <div class="col-xs-12">
+                            <h4>Revisa los datos del envío</h4>
+                            <!-- Shipping -->
+                            <div class="table-responsive no-margin">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th colspan="2">Enviar a</th>
+                                    </tr>
+                                    </thead><!-- /table header -->
+                                    <tbody>
+                                    <tr>
+                                        <td class="review-col">Nombre</td>
+                                        <td>{{ pedido.usuario.clienteid.nombre }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="review-col">Apellidos</td>
+                                        <td>{{ pedido.usuario.clienteid.apellidos!=null?pedido.usuario.clienteid.apellidos:'--' }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="review-col">Correo Electrónico</td>
+                                        <td>{{ pedido.usuario.email }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="review-col">Dirección</td>
+                                        <td>{{ pedido.direccionEnvio.getFormatedDir('direccion-compra-envio')|raw }}</td>
+                                    </tr>
+                                    </tbody><!-- /table body -->
+                                </table><!-- /basic table -->
+                            </div><!-- /responsive table -->
+                        </div>
+                        <div class="col-xs-12">
+                            {% if buyNow is defined and buyNow %}
+                                <a class="btn btn-primary" href="{{ path('public_cesta_envio') }}?buyNow={{ buyNow }}&idProducto={{ idProducto }}"><i class="fa fa-edit"></i> Modificar</a>
+                            {% else %}
+                                <a class="btn btn-primary" href="{{ path('public_cesta_envio') }}"><i class="fa fa-edit"></i> Modificar</a>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row mt30">
+                        <div class="col-xs-12">
+                            <h4>Revisa los datos del pago</h4>
+                            <!-- Shipping -->
+                            <div class="table-responsive no-margin">
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th colspan="2">Pagar con {{ pedido.metodoPago.nombre }}</th>
+                                    </tr>
+                                    </thead><!-- /table header -->
+                                    <tbody>
+                                    <tr>
+                                        <td colspan="2" class="review-col">
+                                            {% set efectivo=false %}
+                                            {% if pedido.metodoPago.slug=='pago_facil' or  pedido.metodoPago.slug=='rapipago'%}
+                                                {% set efectivo=true %}
+                                            {% endif %}
+                                            Pagarás <b>${{ pedido.getTotal()|number_format(2) }}</b> {% if efectivo %}en efectivo{% endif %} mediante <b>{{ pedido.metodoPago.nombre }}.</b>
+                                            {% if pedido.metodoPago.slug=='pago-saldo' %}
+                                                Tu saldo restante será: <b>${{ (usuario.saldo - pedido.getTotal()) | number_format(2) }}</b>
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    {% if efectivo %}
+                                        <tr>
+                                            <td colspan="2" class="review-col"><b>Datos para tu factura</b></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="review-col">Nombre</td>
+                                            <td>{{ pedido.factura.nombre }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="review-col">Apellidos</td>
+                                            <td>{{ pedido.factura.apellidos }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="review-col">DNI</td>
+                                            <td>{{ pedido.factura.dni }}</td>
+                                        </tr>
+                                    {% elseif pedido.metodoPago.slug=='transferencia_bancaria' %}
+                                        <tr>
+                                            <td colspan="2" class="review-col">
+                                                Deberás realizar una transferencia de <b>${{ pedido.getTotal()|number_format(2) }}</b> a la cuenta <b>{{ iban }}</b> lo más pronto posible
+                                                para no perder tu pedido. Asegúrate de especificar el numero del pedido en los detalles de la transferencia: <b>{{ pedido.codigo }}</b>
+                                            </td>
+                                        </tr>
+                                    {% elseif pedido.metodoPago.slug=='pago-entrega' %}
+                                        <tr>
+                                            <td colspan="2" class="review-col">Se te mostrarán los datos de contacto del vendedor al confirmar tu compra</td>
+                                        </tr>
+                                    {% elseif pedido.metodoPago.slug=='pago-paypal' %}
+                                        <tr>
+                                            <td colspan="2" class="review-col">Al confirmar tu pedido se realizara una solicitud de pago a tu cuenta PayPal</td>
+                                        </tr>
+                                    {% elseif pedido.metodoPago.slug=='pago-saldo' %}
+                                        <tr>
+                                            <td colspan="2" class="review-col">Al confirmar tu pedido se consumira el monto de tu saldo en cuenta MercadoFree</td>
+                                        </tr>
+                                    {% endif %}
+                                    </tbody><!-- /table body -->
+                                </table><!-- /basic table -->
+                            </div><!-- /responsive table -->
+                        </div>
+                        <div class="col-xs-12">
+                            {% if buyNow is defined and buyNow %}
+                                <a class="btn btn-primary" href="{{ path('public_cesta_metodo_pago') }}?buyNow={{ buyNow }}&idProducto={{ idProducto }}"><i class="fa fa-edit"></i> Modificar</a>
+                            {% else %}
+                                <a class="btn btn-primary" href="{{ path('public_cesta_metodo_pago') }}"><i class="fa fa-edit"></i> Modificar</a>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                    <div class="row mb30">
+                        <div class="col-sm-12 text-right mt10">
+                            {% if buyNow is defined and buyNow %}
+                                <a href="{{ path('public_cesta_confirmar_pedido') }}?buyNow={{ buyNow }}&idProducto={{ idProducto }}" class="btn btn-rw btn-primary btn-lg"><i class="ion-ios7-checkmark"></i> Confirmar Compra</a>
+                            {% else %}
+                                <a href="{{ path('public_cesta_confirmar_pedido') }}" class="btn btn-rw btn-primary btn-lg"><i class="ion-ios7-checkmark"></i> Confirmar Compra</a>
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div><!-- /container -->
+    </div><!-- /content -->
+    <!-- End Content -->
+
+{% endblock %}
+{% block javascripts %}
+    <!-- jQuery Files -->
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery-2.1.4.min.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/public/js/waitMe/waitMe.min.js') }}"></script>
+
+    <!-- Royal Preloader -->
+    <script type="text/javascript" src="{{ asset('bundles/public/js/royal_preloader.min.js') }}"></script>
+
+    <!-- Javascript Files -->
+    <script type="text/javascript" src="{{ asset('bundles/public/js/bootstrap.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.easing.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.mixitup.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/scrollReveal.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/owl.carousel.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.magnific-popup.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.snippet.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/jquery.fitvids.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/activate-snippet.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/skrollr.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/bootstrap-select.js') }}"></script>
+
+    <script type="text/javascript" src="{{ asset('bundles/public/js/main.js') }}"></script>
+
+    <!-- On Scroll Animations - scrollReveal.js -->
+    <script>
+        var config = {
+            easing: 'hustle',
+            mobile:  true,
+            delay:  'onload'
+        }
+        window.sr = new scrollReveal( config );
+
+        // Bootstrap Select
+        //$(".colecciones-home-select").selectpicker();
+    </script>
+
+
+    <!-- Slider Revolution Main -->
+    <script type="text/javascript">
+            function wait(container){
+                $(container).waitMe({
+                    effect: 'facebook',
+                    text: 'Por favor, espere...',
+                    bg: 'rgba(255,255,255,0.7)',
+                    color:'#000',
+                    sizeW:'',
+                    sizeH:'',
+                    source: 'img.svg',
+                    onClose: function() {}
+                });
+            }
+
+            function endWait(container){
+                $(container).waitMe('hide');
+            }
+
+    </script>
+
+
+{% endblock %}

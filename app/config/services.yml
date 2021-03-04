@@ -1,0 +1,58 @@
+# Learn more about services, parameters and containers at
+# https://symfony.com/doc/current/service_container.html
+parameters:
+    token_ttl: 86400
+
+services:
+   util:
+      class: AdministracionBundle\Services\UtilsService
+      arguments: [@service_container]
+
+   paypal:
+      class: AdministracionBundle\Services\PaypalService
+      arguments: [@service_container]
+
+   RegistroMivimento:
+      class: AdministracionBundle\Services\RegistroMovimientoService
+      arguments: [@doctrine.orm.entity_manager, @calculadoraDePrecios]
+
+   utilColeccion:
+      class: AdministracionBundle\Services\utilColeccionService
+      arguments: [@service_container]
+
+   utilPublic:
+        class: PublicBundle\Services\UtilsPublicService
+        arguments: [@service_container]
+
+   calculadoraDePrecios:
+        class: PublicBundle\Services\CalculadoraDePreciosService
+        arguments: [@service_container]
+
+   email:
+       class: AppBundle\Services\EmailService
+       arguments: ['@service_container']
+
+   notification:
+       class: AppBundle\Services\NotificacionService
+       arguments: ['@service_container']
+
+   public.pedido:
+       class: PublicBundle\Services\PublicPedidoService
+       autowire: true
+
+   public.listener.resetting:
+       class: PublicBundle\EventListener\ResettingListener
+       tags:
+         - { name: 'kernel.event_subscriber' }
+       arguments: ["@doctrine.orm.entity_manager", "@router", "%token_ttl%"]
+
+   public.resetting.controller:
+       class: PublicBundle\Controller\ResettingController
+       arguments: ["%token_ttl%"]
+       public: true
+
+   admin.util.token_generator.default:
+       class: AdministracionBundle\Util\TokenGenerator
+
+   admin.util.token_generator:
+       class: AdministracionBundle\Util\TokenGeneratorInterface

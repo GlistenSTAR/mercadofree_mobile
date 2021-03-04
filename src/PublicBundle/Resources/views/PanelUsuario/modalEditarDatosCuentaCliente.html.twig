@@ -1,0 +1,47 @@
+<div class="modal fade" id="modalEditarDatosCuentaCliente" tabindex="-1" role="dialog" aria-labelledby="loginLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="loginLabel"><i class="fa fa-plus-circle"></i> Adicionar dirección de venta</h4>
+            </div>
+            <div class="modal-body" id="containerDireccion">
+                <form action="{{ path('public_panel_usuario_editar_perfil') }}" id="formClienteCuenta" role="form" method="post">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <span id="dul" style="color: red" hidden>Deben coincidir las claves</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="emailC">Correo Electrónico <span class="required">*</span></label>
+                                <input required="required" class="form-control" type="text" name="emailC" id="emailC" value="{{ usuario.email!=null?usuario.email:"" }}">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Clave</label>
+                                <input class="form-control" type="text" name="passwordC" id="passwordC" value="">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+
+                            <div class="form-group">
+                                <label>Repetir Clave</label>
+                                <input class="form-control" type="text" name="passwordC2" id="passwordC2" value="">
+                            </div>
+                        </div>
+
+                        <input id="modificar" name="modificar" value="1" hidden>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <a id="btnSubmitEditarCuentaCliente"  class="btn btn-rw btn-primary">Aceptar <img id="submitEditLoading" style="display: none;" class="img-responsive" src=""></a>
+                <a class="btn btn-default" data-dismiss="modal">Cancelar</a>
+
+            </div>
+        </div><!-- /modal content -->
+    </div><!-- /modal dialog -->
+</div><!-- /modal holder -->

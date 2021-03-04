@@ -1,0 +1,79 @@
+{% extends '::publicTemplate.html.twig' %}
+
+{% block breadcrumbs %}
+    <!-- Begin Page Header -->
+    <div class="header">
+        <div class="container">
+            <div class="row">
+                <!-- Breadcrumbs -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb">
+                        <li><span class="ion-home breadcrumb-home"></span><a href="{{ path('public_homepage') }}">Inicio</a></li>
+                        <li>Registro</li>
+                    </ol>
+                </div><!-- /column -->
+            </div><!-- /row -->
+        </div><!-- /container -->
+    </div><!-- /page header -->
+{% endblock %}
+
+{% block generalContent %}
+    <!-- Begin Content -->
+    <div class="content-40mg">
+        <div class="container">
+
+            <div class="row mb30" style="text-align:center;">
+                <div class="col-xs-12 col-sm-6 col-sm-offset-3 white-bg-shadow">
+                    <div class="row">
+                        <!-- Begin Login -->
+                        <div class="col-xs-12" style="padding: 30px 70px;">
+                            <h4>Completa tus datos</h4>
+                            {#<p class="mt15" style="text-align:center;"><a href="{{ path('public_empresa_registrar') }}">Registrarme como empresa</a></p>#}
+                            <form id="formRegistro" role="form" action="{{ path('public_usuario_registrar') }}" method="post">
+                                <div class="form-group">
+                                    <label for="nombreRegistrarUsuario"></label>
+                                    <input class="form-control" required type="text" id="nombreRegistrarUsuario" name="nombreRegistrarUsuario" placeholder="Nombre">
+                                </div>
+                                <div class="form-group">
+                                    <label for="apellidosRegistrarUsuario"></label>
+                                    <input class="form-control" required type="text" id="apellidosRegistrarUsuario" name="apellidosRegistrarUsuario" placeholder="Apellidos">
+                                </div>
+                                <div class="form-group">
+                                    <label for="emailRegistrarUsuario"></label>
+                                    <input class="form-control" required type="email" id="emailRegistrarUsuario" name="emailRegistrarUsuario" placeholder="Correo Electrónico">
+                                </div>
+                                <div class="form-group">
+                                    <label for="passwordRegistrarUsuario"></label>
+                                    <input type="password" required class="form-control" id="passwordRegistrarUsuario" name="passwordRegistrarUsuario" placeholder="Clave">
+                                </div>
+                                <div class="form-group">
+                                    <label for="passwordRepeat"></label>
+                                    <input type="password" required class="form-control" id="passwordRepeat" name="passwordRepeat" placeholder="Repetir Clave">
+                                </div>
+                                <hr class="mb20 mt15">
+                                <p>
+                                    <small>Al registrarme, declaro que soy mayor de edad y acepto los <a href="#">Términos y condiciones</a> y las <a href="#">Políticas de privacidad</a> de MercadoFree</small>
+                                </p>
+                                <button type="button" id="registrarBtn" class="btn btn-primary full-btn">Registrarme</button>
+                            </form><!-- /form -->
+                        </div><!-- /column-->
+                        <!-- End Login -->
+                    </div>
+
+                </div>
+            </div>
+
+
+        <input type="hidden" id="validarExisteEmailPath" value="{{ path('public_usuario_registro_existe_email') }}">
+        </div><!-- /container -->
+    </div><!-- /content -->
+    <!-- End Content -->
+
+{% endblock %}
+
+{% block customScripts %}
+    <script type="text/javascript" src="{{ asset('bundles/public/js/Validators/validatorRegistro.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/hideShowPassword.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/public/js/hideShowPasswordTranslate.js') }}"></script>
+    <script src="{{ asset('bundles/public/js/publicRegistroUsuario.js') }}"></script>
+{% endblock %}

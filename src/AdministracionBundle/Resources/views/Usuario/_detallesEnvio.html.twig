@@ -1,0 +1,22 @@
+<div id="tipo_envios">
+    <h2>Tipo de envíos habilitados</h2>
+    {% if usuario.getTipoEnvios() %}
+        {% set tipoEnvios = usuario.getTipoEnvios() %}
+        {% for tipoEnvio in tipoEnvios %}
+            <p>
+                <label>* {{ tipoEnvio.nombre }} </label>
+            </p>
+        {% endfor %}
+    {% else %}
+        <label>El usuario no dispone de una tienda</label>
+    {% endif %}
+</div>
+
+<div id="garantía">
+    <h2>Garantía</h2>
+    {% if usuario.mostrarGarantia %}
+        <label>{{ usuario.getGarantia() }}</label>
+    {% else %}
+        <label>El usuario no ha fijado una garantía</label>
+    {% endif %}
+</div>

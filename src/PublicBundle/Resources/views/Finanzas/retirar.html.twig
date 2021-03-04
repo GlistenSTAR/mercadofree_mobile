@@ -1,0 +1,48 @@
+{% extends '::publicPanelUsuario.html.twig' %}
+
+{% block breadcrumbPanelUsuario %}
+    <li><a href="{{ path('public_finanzas_index') }}">Mis Finanzas</a></li>
+    <li>Retirar Fondos</li>
+{% endblock %}
+
+{% block menuPanelUsuario %}
+    {% include 'PublicBundle:Templates:menuPanelUsuario.html.twig' with {'page':'finanzas'} %}
+{% endblock %}
+
+{% block headerCenterContent %}
+    <h4>Retirar Fondos</h4>
+{% endblock %}
+
+{% block centerContent %}
+    <div class="row">
+        <div class="col-xs-12 col-md-10 col-md-offset-1" style="margin-bottom: 20px;">
+            <h4>Saldo disponible: $ {{ usuario.saldo | number_format(2, '.', ',') }}</h4>
+            <p>Define tu cuenta de PayPal y el monto
+            a retirar, para procesar tu pago.</p>
+        </div>
+        
+        <div class="col-xs-12 col-md-10 col-md-offset-1">
+            <form name="form" method="post">
+                {{ form_row(form._token) }}
+                <div style="margin-bottom: 20px" class="form-group">
+                    {{ form_label(form.email) }}
+                    {{ form_widget(form.email) }}
+                    <div class="text-danger"><b><small>{{ form_errors(form.email) }}</b></small></div>
+                </div>
+                <div style="margin-bottom: 20px" class="form-group">
+                    {{ form_label(form.monto) }}
+                    {{ form_widget(form.monto) }}
+                    <div class="text-danger"><b><small>{{ form_errors(form.monto, { 'attr': {'class': 'foo'} }) }}</b></small></div>
+                </div>
+                <div>
+                    <button class="btn btn-primary" type="submit" id="form_enviar" name="form[enviar]">Confirmar solicitud de Retiro</button>
+                    <a href="{{ path('public_finanzas_index') }}" class="btn btn-default" type="button" id="form_volver">Volver</a>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block customScriptsPanelUsuario %}
+    <script src="{{ asset('bundles/public/js/publicFinanzasRetirarFondos.js') }}"></script>
+{% endblock %}

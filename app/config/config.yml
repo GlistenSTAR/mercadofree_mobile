@@ -1,0 +1,105 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+    - { resource: "@AdministracionBundle/Resources/config/services.yml" }
+    - { resource: "@PublicBundle/Resources/config/services.yml" }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: en
+    uploads.images.productos: %kernel.root_dir%/../web/uploads/images/productos/
+    uploads.images.slider_home: %kernel.root_dir%/../web/uploads/images/slider_home/
+    uploads.images.tiendas: %kernel.root_dir%/../web/uploads/images/tiendas/
+    uploads.images.colecciones: %kernel.root_dir%/../web/uploads/images/colecciones/
+    uploads.images.temp: %kernel.root_dir%/../web/uploads/images/temp/
+    uploads.images.usuarios: %kernel.root_dir%/../web/uploads/images/usuarios/
+    directorio.imagenes.public: %kernel.root_dir%/../web/bundles/public/img/
+    paypal.currency: %paypal_currency%
+
+framework:
+    #esi: ~
+    #translator: { fallbacks: ['%locale%'] }
+    secret: '%secret%'
+    router:
+        resource: '%kernel.root_dir%/config/routing.yml'
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true }
+    #serializer: { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale: '%locale%'
+    trusted_hosts: ~
+    trusted_proxies: ~
+    session:
+        # handler_id set to null will use default session handler from php.ini
+        handler_id: ~
+    fragments: ~
+    http_method_override: true
+
+# Twig Configuration
+twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    globals:
+        uploads_images_productos: '%uploads_images_productos%'
+        uploads_images_slider_home: '%uploads_images_slider_home%'
+        uploads_images_tiendas: '%uploads_images_tiendas%'
+        uploads_images_colecciones: '%uploads_images_colecciones%'
+        uploads_images_temp: '%uploads_images_temp%'
+        uploads_images_usuarios: '%uploads_images_usuarios%'
+        directorio_imagenes_admin: '%directorio_imagenes_admin%'
+        directorio_imagenes_public: '%directorio_imagenes_public%'
+        directorio_styles_public: '%directorio_styles_public%'
+        site_url: '%site_url%'
+        help_url: '%help_url%'
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver: pdo_mysql
+        host: '%database_host%'
+        port: '%database_port%'
+        dbname: '%database_name%'
+        user: '%database_user%'
+        password: '%database_password%'
+        charset: UTF8
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yml
+        #     e.g. database_path: '%kernel.root_dir%/data/data.db3'
+        #   2. Uncomment database_path in parameters.yml.dist
+        #   3. Uncomment next line:
+        #path: '%database_path%'
+
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+
+# Swiftmailer Configuration
+swiftmailer:
+    transport: '%mailer_transport%'
+    host: '%mailer_host%'
+    username: '%mailer_user%'
+    password: '%mailer_password%'
+    spool: { type: memory }
+
+payum:
+    security:
+        token_storage:
+            AdministracionBundle\Entity\PaymentToken: { doctrine: orm }
+
+    storages:
+        AdministracionBundle\Entity\Payment: { doctrine: orm }
+            
+    gateways:
+        paypal_express_checkout:
+            factory: paypal_express_checkout            
+            username: edgardogonzalez017_api1.gmail.com
+            password: YDQQQSKMRE9GCRKP
+            signature: ARLrHyNxLlMGZkwsviQSqAfRdxTBANZc0q7fZgUv7z6w3n07xPZhwzhU
+            sandbox: false
+            

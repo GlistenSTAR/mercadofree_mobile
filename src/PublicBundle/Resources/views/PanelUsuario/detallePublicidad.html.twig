@@ -1,0 +1,147 @@
+{% extends '::publicPanelUsuario.html.twig' %}
+
+{% block breadcrumbPanelUsuario %}
+    <li><a href="{{ path('public_panel_usuario_publicidad') }}">Campañas de publicidad</a></li>
+    <li>{{ campanna.nombre }}</li>
+{% endblock %}
+
+{% block menuPanelUsuario %}
+    {% include 'PublicBundle:Templates:menuPanelUsuario.html.twig' with {'page':'publicidad'} %}
+{% endblock %}
+
+{% block headerCenterContent %}
+    <h4>Plan {{ campanna.nombre }} de Publicidad</h4>
+{% endblock %}
+
+{% block centerContent %}
+    <div class="col-xs-12">
+        <div class="content-box content-box-bordered" style="padding: 20px 10px;">
+            <div class="row" id="contCampannaEstado">
+                <div class="col-md-4 col-xs-12" style="text-align: left" id="primeraColumna">
+                    <p><span class="fa fa-dollar"></span> Inversión: <b id="inversion">$ {{ inversion }}</b></p>
+                    <p><span class="fa fa-users"></span> Visitas: <b>{{ visitas }}</b></p>
+                </div>
+                {% if campannaUsuario.estadoCampannaid.slug=='pausado' %}
+                    <div class="col-md-4 col-xs-12" id="estadoCamp">
+                        <p>Campaña Pausada</p>
+                        <a href="#" class="btn btn-success btn-sm estadoCampanna"><i class="fa fa-play"></i> Activar</a>
+                    </div>
+                {% else %}
+                    <div class="col-md-4 col-xs-12" id="estadoCamp">
+                        <p>Campaña Activa</p>
+                        <a href="#" class="btn btn-warning btn-sm estadoCampanna"><i class="fa fa-pause"></i> Pausar</a>
+                    </div>
+                {% endif %}
+                <div class="col-md-4 col-xs-12">
+                    <p>${{ campanna.presupuesto }} Inversión Máxima</p>
+                    <a class="btn btn-primary btn-sm" {{ campannaUsuarioCount==3?'disabled="disabled"':"" }}  href="{{ path('public_campanna_cambiar',{'idCampanna':campanna.id}) }}"><i class="fa fa-refresh"></i> Cambiar Plan</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12" >
+        <div class="heading mb30">
+            <h5>Productos</h5>
+        </div>
+    </div>
+
+    <div class="col-xs-12">
+        <a id="btnMostrarProductos" class="btn btn-primary btn-sm" data-toggle="modal" href="#modalBuscarProductoPublicidad"><i class="fa fa-plus-circle"></i> Adicionar Producto</a>
+        &nbsp;&nbsp;
+        <a id="btnPausar" disabled="disabled" class="btn btn-warning btn-sm" data-toggle="modal" href="#warningMessage-pausarAnuncio"><i class="fa fa-pause"></i> Pausar</a>
+        &nbsp;&nbsp;
+        <a id="btnEliminar" disabled="disabled" class="btn btn-danger btn-sm" data-toggle="modal" href="#dangerMessage-eliminarAnuncioPublicidad"><i class="fa fa-trash"></i> Eliminar</a>
+    </div>
+    <div class="col-xs-12 mt10">
+        {% if productos|length>0 %}
+        <table class="table table-hover">
+            <thead>
+            <tr>
+                <th></th>
+                <th>Anuncios</th>
+                <th>Visitas</th>
+                <th>Inversión</th>
+                <th>Estado</th>
+            </tr>
+            </thead><!-- /table header -->
+            <tbody id="tableBody">
+            {% for p in productos %}
+                <tr id="tr{{ p.id }}">
+                    <td><input type="checkbox" class="box" value="{{ p.id }}"></td>
+                    <td>
+                        <table>
+                            <tr>
+                                <td width="17%" style="padding-right: 5px"><img class="img-responsive" src="{{ asset(uploads_images_productos)~p.getImagenDestacada }}"></td>
+                                <td>
+                                    <a href="#">{{ p.nombre }}</a>
+                                    <p>$ {{ p.precio }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>{{ p.visitas|length }}</td>
+                    <td>$ {{ p.inversion==null?0: p.inversion }}</td>
+                    {% if p.activo=="1" %}
+                        <td id="td{{ p.id }}">
+                            <span class="label label-success">Activo</span>
+                            <p style="margin-top: 5px;text-align: center"><a style="color:red" href="#" class="pausar">Pausar</a></p>
+                        </td>
+                    {% else %}
+                        <td id="td{{ p.id }}">
+                            <span class="label label-warning">Pausado</span>
+                            <p style="margin-top: 5px;text-align: center"><a style="color:red" href="#" class="activar">Activar</a></p>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+            </tbody><!-- /table body -->
+        </table><!-- /hover table -->
+        {% else %}
+            <div class="alert alert-info-rw " role="alert" style="margin: 5px" >
+               No tiene productos asociados a esta campaña.
+            </div>
+        {% endif %}
+
+    </div>
+{% endblock %}
+
+{% block includes %}
+    <div class="row">
+        <div class="col-xs-12">
+            {% include 'PublicBundle:Templates:modalBuscarProductoPublicidad.html.twig' %}
+            {% include 'PublicBundle:Templates:warningMessage.html.twig' with {
+            'id':'pausarAnuncio',
+            'title':'¿Está seguro de pausar la publicidad de este anuncio?',
+            'message':'Si pone en pausa este anuncio, no se mostrará destacado en los listados y búsquedas, hasta que lo vuelva a activar'
+            } %}
+            {% include 'PublicBundle:Templates:dangerMessage.html.twig' with {
+            'id':'eliminarAnuncioPublicidad',
+            'title':'¿Está seguro de eliminar este anuncio de su campaña permanentemente?',
+            'message':'Si elimina el anuncio de esta campaña, se creará un pago pendiente con el presupuesto consumido por este solo producto en
+                            la campaña, por lo que el monto consumido por este producto, volverá a estar disponible en su campaña.',
+            'message2':'Podrá adicionar este producto nuevamente a la campaña o a otra en cuanto lo desee.'
+            } %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block hiddensPanelUsuario %}
+    <input type="hidden" id="campannaid" value="{{ campanna.id }}">
+    <input type="hidden" id="usuarioid" value="{{ app.user.id }}">
+
+    <input type="hidden" id="urlModificarCampanna" value="{{ path('public_campanna_estado') }}">
+    <input type="hidden" id="urlAgregarProductos" value="{{ path('public_anuncio_obtener') }}">
+    <input type="hidden" id="urlMostrarProductos" value="{{ path('public_anuncio_nocampanna') }}">
+
+
+    <input type="hidden" value="{{ path('public_anuncio_pausado') }}" id="urlPausarProductos">
+    <input type="hidden" value="{{ path('public_anuncio_eliminar') }}" id="urlEliminarProductos">
+    <input type="hidden" name="img-route" id="img-route" value="{{ asset(uploads_images_productos) }}">
+    <input type="hidden" id="urlProductoDetalles" value="{{ path('public_anuncio_detalles',{'slug':0}) }}">
+{% endblock %}
+
+{% block customScriptsPanelUsuario %}
+    <script src="{{ asset('bundles/public/js/publicPanelUsuarioDetallesPublicidad.js') }}"></script>
+{% endblock %}
+
