@@ -420,3 +420,19 @@ public_notificacion_set_leidas:
 public_notificacion_delete_all:
     path:     /notificaciones/selete-all/
     defaults: { _controller: PublicBundle:Notificacion:deleteAll }
+
+public_usuario_mobile_registrar:
+    path:     /mobile/registrar
+    defaults: { _controller: PublicBundle:MobileApi:registrar }
+
+public_usuario_mobile_login:
+    path:     /mobile/login
+    defaults: { _controller: PublicBundle:MobileApi:login }
+
+public_user_resetting_mobile_send_email:
+    path: /mobile/send-email
+    defaults: { _controller: PublicBundle:MobileApi:sendEmail }
+
+public_user_change_password:
+    path: /mobile/change_password
+    defaults: { _controller: PublicBundle:MobileApi:changePassword }
