@@ -16,10 +16,10 @@ $response = $kernel->handle($request);
 $response->send();
 $kernel->terminate($request, $response);
 
-Request::setTrustedProxies(
-    // trust *all* requests
-    ['127.0.0.1', $request->server->get('REMOTE_ADDR')],
+// Request::setTrustedProxies(
+//     // trust *all* requests
+//     ['127.0.0.1', $request->server->get('REMOTE_ADDR')],
 
-    // only trust X-Forwarded-Port/-Proto, not -Host
-    Request::HEADER_X_FORWARDED_AWS_ELB
-);
+//     // only trust X-Forwarded-Port/-Proto, not -Host
+//     Request::HEADER_X_FORWARDED_AWS_ELB
+// );
