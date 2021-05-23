@@ -1,79 +1,79 @@
-Plataforma de marketplace MercadoFree
+MercadoFree marketplace platform (Backend for pagofree)
 ========================
 
-Bienvenidos al repositorio de código de la plataforma marketplace MercadoFree. Esta plataforma está desarrollada sobre Symfony 2.8.52, utilizando casi todos los componentes principales de Symfony en su versión estándar (Symfony Standard Edition).
+Welcome to the code repository of the MercadoFree marketplace platform. This platform is built on Symfony 2.8.52, using almost all the main Symfony components in its standard version (Symfony Standard Edition).
 
-Instalación en local con Windows10
+Local installation with Windows 10
 --------------
 
-Para instalar la aplicación en local para su desarrollo, con sistema operativo Windows 10, se deberán seguir los siguientes pasos:
+To install the application locally for development, with Windows 10 operating system, the following steps must be followed:
 
-  * Instalar XAMPP 7.2.27 (No otra, solo esta, para obtener la versión PHP 7.2)
+  * Install XAMPP 7.2.27 (No other, just this one, to get PHP 7.2 version)
 
-  * Una vez instalado XAMPP y arrancado Apache y MySQL, abrir el terminal y posicionarse en el directorio C:\xampp\htdocs, y ejecutar el siguiente comando:
+  * Once XAMPP is installed and Apache and MySQL started, open the terminal and go to the C: \ xampp \ htdocs directory, and execute the following command:
 
   <pre>
   git clone https://github.com/necobm/mercadofree.git mercadofree
   </pre>
   
-  Esto nos descarga el repositorio y lo copia en el directorio C:\xampp\htdocs\mercadofree.
+  This downloads the repository and copies it to the C: \ xampp \ htdocs \ mercadofree directory.
   
-Acciones a realizar antes de instalar los vendors
+Actions to take before installing vendors
 --------------  
 
-Antes de instalar los vendors con composer hay que modificar las siguientes configuraciones en el fichero "C:\xampp\php\php.ini"
+Before installing the vendors with composer, you must modify the following settings in the file "C: \ xampp \ php \ php.ini"
 
 1- memory_limit = -1
 
-2- max_execution_time=120
+2- max_execution_time = 120
 
-Reiniciar el Apache mediante el Panel de Control de XAMPP
+Restart Apache using the XAMPP Control Panel
 
-Carga de la base de datos en local
+Loading the database locally
 --------------  
 
-Primeramente es necesario crear una base de datos para la aplicación. Para ello, entra a la base de datos mediante phpMyAdmin (http://localhost/phpmyadmin/) o desde tu cliente de base de datos preferido.
+First it is necessary to create a database for the application. To do this, enter the database through phpMyAdmin (http: // localhost / phpmyadmin /) or from your preferred database client.
 
-Una vez creada la base de datos y el usuario asociado a dicha base de datos, podrías cargar en dicha base de datos el script correspondiente a un backup reciente con todos los datos y estructura de tablas de MercadoFree, o dejarla en blanco para generar la estructura de tablas más adelante.
+Once the database and the user associated with said database have been created, you could load into said database the script corresponding to a recent backup with all the MercadoFree data and table structure, or leave it blank to generate the structure of tables later.
 
-Instalación de vendors con Composer
+Installing vendors with Composer
 --------------  
   
-El próximo paso sería instalar los vendors de Symfony necesarios para el proyecto, para ello nos posicionamos en el directorio C:\xampp\htdocs\mercadofree y ejecutamos el siguiente comando:
+The next step would be to install the symfony vendors necessary for the project, for this we position ourselves in the directory C: \ xampp \ htdocs \ mercadofree and execute the following command:
 
   <pre>
   composer install
-  </pre> 
+  </pre>
   
-  Esto nos descarga e instala todos los vendors, y al final, nos pedirá los siguientes parámetros de configuración, para el fichero parameters.yml:
+  This downloads and installs all the vendors, and at the end, it will ask us for the following configuration parameters, for the parameters.yml file:
   
   1- database_host: localhost
   
-  2- database_port: (Enter, para tomar valor por defecto)
+  2- database_port: (Enter, to take default value)
   
-  3- database_name: (Nombre de la base de datos que has creado en MySQL en los pasos anteriores)
+  3- database_name: (Name of the database that you have created in MySQL in the previous steps)
   
-  4- database_user: (Usuario que has creado en la base de datos, por defecto es root)
+  4- database_user: (User that you have created in the database, by default it is root)
   
-  5- database_password: (Contraseña del usuario creado en la base de datos, por defecto es null)
+  5- database_password: (Password of the user created in the database, by default it is null)
   
-  Todos los demás parámetros siguientes hasta "directorio_styles_public", oprimir Enter para tomar valores por defecto.
+  All other following parameters up to "public_styles_directory", press Enter to take default values.
  
   6- site_url: localhost
   
   7- help_url: localhost
   
-  Todos los demás parámetros siguientes, oprimir Enter para tomar valores por defecto.
+  All other parameters below, press Enter to take default values.
   
-Una vez terminada la instalación, si en el apartado anterior de configuración, no haz cargado un backup de la base de datos de MercadoFree, entonces es necesario generar la estructura de tablas, para ello, ejecutamos el siguiente comando en la terminal:
+Once the installation is finished, if in the previous configuration section, you have not loaded a backup of the MercadoFree database, then it is necessary to generate the table structure, for this, we execute the following command in the terminal:
 
 <pre>
-php app/console doctrine:schema:create
+php app / console doctrine: schema: create
 </pre>
 
-Una vez terminado, accedemos a la aplicación, mediante la siguiente URL en el navegador: http://localhost/mercadofree/web/app_dev.php
+Once finished, we access the application through the following URL in the browser: http: //localhost/mercadofree/web/app_dev.php
 
-Debería aparecer la página de inicio de la web.
+The web home page should appear.
 
 
 All libraries and bundles included in the Symfony Standard Edition are
